@@ -1,0 +1,89 @@
+.contenedor-navegador{
+    width: 25rem !important;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    z-index: 100;
+}
+.contenedor-navegador h1{
+    margin: 1rem 0.8rem;
+}
+.administrador-lista{
+    height: 100vh;
+}
+.administrador-lista li{
+    list-style: none;
+}
+.administrador-lista ul{
+    padding-left: 0;
+}
+.administrador-lista a{
+    text-decoration: none;
+    color: white;
+    width: 100%;
+    padding: 0.8rem;
+    display: block;
+    transition: all 0.1s ease-in;
+}
+.adm-txt{
+    padding: 0.8rem;
+    margin-top: 2rem;
+    font-size: 1.3rem;
+}
+.administrador-lista a:hover{
+    background-color: #DE4352;
+}
+/* ============= boton hamburguesa ===================== */
+
+.btn-cerrar-menu,
+.btn-abrir-menu {
+    opacity: 0;
+    visibility: hidden;
+    background-color: transparent;
+    border: 0;
+    margin-top: 5px;
+    color: white;
+    font-size: 1.5rem;
+    transition: all 0.3s ease-in;
+}
+.cont-btn-abrir{
+    display: flex;
+    justify-content: center;
+}
+.nav-list.visible {
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.2s ease-in;
+}
+.contenedor-navegador.visible{
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    visibility: visible;
+}
+.contenedor-navegador.visible .btn-abrir-menu{
+    opacity: 0;
+    visibility: hidden;
+}
+/* Boton Hamgurguesa */ 
+@media screen and (max-width: 992px) {
+    .btn-abrir-menu,
+    .btn-cerrar-menu {
+        opacity: 1;
+        visibility: visible;
+    }
+    .nav-list {
+        opacity: 0;
+        visibility: hidden;
+    }
+    .nav-list {
+        position: absolute;
+        width: 100%;
+        height: 100vh;
+    }
+    .contenedor-navegador{
+    opacity: 0;
+    visibility: hidden;
+    position: fixed !important;
+    }
+}

@@ -1,38 +1,49 @@
-.App {
-  text-align: center;
+@font-face {
+    font-family: 'fuente-1';
+    src: url('./fonts/DOMCO.otf') format('opentype');
+}
+@font-face {
+    font-family: 'fuente-2';
+    src: url('./fonts/DOMCO-2.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'fuente-3';
+    src: url('./fonts/DOMCO-03.otf') format('opentype');
+}
+@font-face {
+    font-family: 'fuente-4';
+    src: url('./fonts/Dooodleistabold.ttf') format('truetype');
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+h1{
+    font-family: 'fuente-1';
+}
+a,p,span{
+    font-family: 'fuente-4';
+    font-size: 1.7rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+
+/* Pantallas pequeñas (celulares) */
+@media screen and (max-width: 576px) {
+    a,p,span{
+        font-family: 'fuente-4';
+        font-size: 1.2rem;
+    }
+    h1{
+        font-size: 1.5rem !important;
+    }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Pantallas medianas (tabletas) */
+@media screen and (min-width: 577px) and (max-width: 992px) {
+    h1{
+        font-size: 1.5rem !important;
+    }
+    a,p,span{
+        font-family: 'fuente-4';
+        font-size: 1.5rem;
+    }
 }

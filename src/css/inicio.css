@@ -1,0 +1,35 @@
+.contenedor-inicio{
+    color: black;
+    width: 100%;
+    margin-top: 3rem;
+}
+.contenedor-inicio .tarjeta{
+    height: 13rem;
+    margin: 10px 5px;
+    border-radius: 0.8rem;
+    box-shadow: 0 3px 10px -2px rgba(0, 0, 0, 0.5);
+}
+.caja-cerrada{
+    background-color: #DE4352;
+}
+.caja-abierta{
+    background-color: #4F8D24;
+}
+.tarj-2{
+    background-color: #f4d743;
+    color: black !important;
+}
+.tarj-3{
+    background-color:#79BCBC;
+}
+.contenedor-inicio article h2{
+    font-family: 'fuente-1';
+}
+.contenedor-inicio article span{
+    font-family: 'fuente-1';
+}
+.contenedor-inicio article button{
+    font-family: 'fuente-4';
+    font-size: 1.3rem;
+}
+
