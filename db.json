@@ -1,0 +1,64 @@
+{
+  "producto": [
+    {
+      "nombre": "Pepsi-Cola",
+      "codigo": "12",
+      "tipoProducto": "Bebida",
+      "precioVenta": "800",
+      "imagen": "",
+      "marca": "Pepsi",
+      "id": "1"
+    },
+    {
+      "nombre": "Gaseosa Coca-Cola",
+      "codigo": "10",
+      "tipoProducto": "Bebida",
+      "precioVenta": "1800",
+      "imagen": "",
+      "marca": "Coca-Cola",
+      "id": "2"
+    },
+    {
+      "nombre": "Pan Frances",
+      "codigo": "5",
+      "tipoProducto": "Panaderia",
+      "precioVenta": "500",
+      "imagen": "",
+      "marca": "Villeco",
+      "id": "3"
+    },
+    {
+      "nombre": "PUTO",
+      "codigo": 99,
+      "marca": "PIJA",
+      "tipoProducto": "Snacks",
+      "precioVenta": 9999,
+      "imagen": "",
+      "id": "E_ipmr-"
+    },
+    {
+      "nombre": "PUTO",
+      "codigo": 99,
+      "marca": "PIJA",
+      "tipoProducto": "Snacks",
+      "precioVenta": 9999,
+      "imagen": "",
+      "id": "XS5ClbW"
+    },
+    {
+      "nombre": "PUTO",
+      "codigo": 99,
+      "marca": "PIJA",
+      "tipoProducto": "Snacks",
+      "precioVenta": 9999,
+      "imagen": "",
+      "id": "Tyk9r03"
+    }
+  ],
+  "pedido":[
+    {
+      "proveedor":"discomef",
+      "id":"3"
+    }
+  ]
+}

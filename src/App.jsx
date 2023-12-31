@@ -16,6 +16,7 @@ import DetalleComprobante from './components/Venta/DetalleComprobante';
 
 
 function App() {
+
   return (
     <div className='d-flex'>
       <Router>

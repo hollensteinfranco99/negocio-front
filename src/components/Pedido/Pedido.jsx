@@ -1,6 +1,5 @@
 import React from 'react';
 import '../../css/consulta.css';
-import CompraPedido from './CompraPedido';
 import { useNavigate } from 'react-router-dom';
 
 const Pedido = () => {
@@ -44,7 +43,9 @@ const Pedido = () => {
                                 <th>0001-00043</th>
                                 <th>$800.00</th>
                                 <th>Finalizado</th>
-                                <th className='text-end'><button className='btn btn-warning'>Ver</button></th>                                <th><button disabled className='btn btn-danger'>Cancelar</button></th>
+                                <th className='text-end'><button className='btn btn-warning'>Ver</button></th>
+                                <th><button disabled className='btn btn-danger'>Cancelar</button></th>
+
                             </tr>
                             <tr>
                                 <th>20/10/2023</th>
