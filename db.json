@@ -3,10 +3,10 @@
     {
       "nombre": "Pepsi-Cola",
       "codigo": "12",
-      "tipoProducto": "Bebida",
+      "marca": "Pepsi",
+      "tipoProducto": "Panaderia",
       "precioVenta": "800",
       "imagen": "",
-      "marca": "Pepsi",
       "id": "1"
     },
     {
@@ -26,6 +26,24 @@
       "precioVenta": 9999,
       "imagen": "",
       "id": "E_ipmr-"
+    },
+    {
+      "nombre": "fran",
+      "codigo": 33,
+      "marca": "lacoste",
+      "tipoProducto": "Papeleria",
+      "precioVenta": 12,
+      "imagen": "",
+      "id": "EvvbJC9"
+    },
+    {
+      "nombre": "franco",
+      "codigo": 44,
+      "marca": "hollenstein",
+      "tipoProducto": "ComidaNoPerecedera",
+      "precioVenta": 99,
+      "imagen": "",
+      "id": "zI5tQah"
     }
   ],
   "pedido": [

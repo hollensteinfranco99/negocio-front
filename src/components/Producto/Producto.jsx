@@ -8,7 +8,8 @@ const Producto = () => {
     const [productos, setProductos] = useState([]);
     const [searchInput, setSearchInput] = useState('');
     const [showModal, setShowModal] = useState(false);
-
+    const [productoEditar, setProductoEditar] = useState(null);
+    const [agregarOeditar,setAgregarOeditar] = useState('');
     useEffect(() => {
             consultarProducto();
     }, []);
@@ -30,6 +31,32 @@ const Producto = () => {
             console.log(error);
         }
     }
+
+
+
+    const obtenerPorIdEditar = async (id) =>{
+        try {
+            const urlEditar =`${URL}/producto/${id}`;
+
+            const res = await fetch(urlEditar);
+
+            if (res.status === 200) {
+                const producto = await res.json();
+                setProductoEditar(() => {
+                    setAgregarOeditar('editar');
+                    setShowModal(true);
+                    return producto;
+                });            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+
+
+
+
     const eliminar = (id) =>{
         Swal.fire({
             title: "¿Estas seguro de eliminar el producto?",
@@ -74,7 +101,10 @@ const Producto = () => {
         consultarProducto();
     };
     const handleInputChange = (event) => {setSearchInput(event.target.value)};
-    const handleShow = () => setShowModal(true);
+    const abrirAgregar = () => {
+        setAgregarOeditar('agregar');
+        setShowModal(true);
+    };
     const handleClose = () => setShowModal(false);
 
     return (
@@ -90,7 +120,7 @@ const Producto = () => {
                             <button type='submit' className='btn btn-dark'>Buscar</button>
                         </div>
                     </form>
-                    <button className='btn btn-success my-1' onClick={handleShow}>Agregar</button>
+                    <button className='btn btn-success my-1' onClick={abrirAgregar}>Agregar</button>
                 </section>
                 <section className='my-5 contenedor-tabla'>
                     <table className="table table-striped table-hover">
@@ -110,7 +140,8 @@ const Producto = () => {
                                     <th>{prod.codigo}</th>
                                     <th>{prod.nombre}</th>
                                     <th>${parseFloat(prod.precioVenta).toFixed(2)}</th>
-                                    <th className='text-end'><button className='btn btn-warning'>Editar</button></th>
+                                    <th className='text-end'>
+                                    <button onClick={()=>{obtenerPorIdEditar(prod.id)}} className='btn btn-warning'>Editar</button></th>
                                     <th><button onClick={()=>{eliminar(prod.id)}} className='btn btn-danger'>Eliminar</button></th>
                                 </tr>
                                 })
@@ -121,7 +152,13 @@ const Producto = () => {
                 </section>
             </div>
 
-            <ModalProducto consultarProducto={consultarProducto} showModal={showModal} handleClose={handleClose}></ModalProducto>
+            <ModalProducto
+            productoEditar={productoEditar} 
+            agregarOeditar={agregarOeditar}
+            consultarProducto={consultarProducto} 
+            showModal={showModal} 
+            handleClose={handleClose}>
+            </ModalProducto>
         </section>
     );
 };

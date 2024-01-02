@@ -14,11 +14,26 @@ h2{
     width: 50%;
     height: 12rem;
     overflow: hidden;
+    position: relative;
 }
 .cont-img img{
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+.btn-img-eliminar{
+    background-color: #000;
+    color: white;
+    border: none;
+    position: absolute;
+    right: 0.2rem;
+    top: 0.2rem;
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Estilos para pantallas pequeñas (hasta 767px) */

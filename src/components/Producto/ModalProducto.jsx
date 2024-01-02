@@ -1,74 +1,128 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import imagen from '../../img/imagenNoDisponible.png';
-import { Modal } from 'react-bootstrap';
-import { Alert } from 'react-bootstrap';
-import '../../css/consulta.css';
+import { Modal,Alert } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 
 const ModalProducto = (props) => {
     const URL = process.env.REACT_APP_API_URL;
     const [tipoProducto, setTipoProducto] = useState('');
-    const [codigo, setCodigo] = useState(0);
+    const [codigo, setCodigo] = useState('');
     const [nombre, setNombre] = useState('');
     const [marca, setMarca] = useState('');
-    const [precioVenta, setPrecioVenta] = useState(0);
+    const [precioVenta, setPrecioVenta] = useState('');
     const [imageSrc, setImageSrc] = useState('');
     const [error, setError] = useState(false);
-    const myFormRef = React.createRef();
+    const btnImage = useRef(null);
+    const inputImgRef = useRef(null);
+    const myFormRef = useRef(null);
+
+    useEffect(()=>{
+        if(props.agregarOeditar === 'editar'){
+            cargarDatos();
+        }else{
+            limpiarForm();
+        }
+    },[props.showModal]);
 
 
+    const cargarDatos = () =>{
 
+        setCodigo(()=> props.productoEditar.codigo);
+        setNombre(()=> props.productoEditar.nombre);
+        setMarca(()=> props.productoEditar.marca);
+        setTipoProducto(()=> props.productoEditar.tipoProducto);
+        setPrecioVenta(()=> props.productoEditar.precioVenta);
+        setImageSrc(()=> props.productoEditar.imagen);
+    }
+    const borrarImagen = (e) =>{
+        e.preventDefault();
+        setImageSrc('');
+        setTimeout(() => {
+            btnImage.current.classList.add('d-none');
+        }, 0);
+        inputImgRef.current.value = '';
+    }
     const obtenerImagen = (event) => {
         const file = event.target.files[0];
 
         if (file) {
-                const reader = new FileReader();
-                reader.onload = () => {
-                    setImageSrc(reader.result);
-                };
-                reader.readAsDataURL(file);
+            const reader = new FileReader();
+            reader.onload = () => {
+                setImageSrc(reader.result);
+                setTimeout(() => {
+                    btnImage.current.classList.remove('d-none');
+                }, 0);
+            };
+            reader.readAsDataURL(file);
         } else {
-            setImageSrc('');
+            setImageSrc(imagen);
         }
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // generar numero de codigo
+        // generar número de código
 
-        // validar campos 
+        // validar campos
         if (nombre.trim() === '' || marca.trim() === '' || precioVenta <= 0 || precioVenta >= 999999) {
-            // alert error
+            // alerta de error
             setError(true);
             return;
         } else {
             setError(false);
             // enviar datos a la API
-            const nuevoProducto = {
+
+            const productoData = {
                 nombre: nombre,
                 codigo: codigo,
                 marca: marca,
                 tipoProducto: tipoProducto,
                 precioVenta: precioVenta,
                 imagen: imageSrc
-            }
-            try {
-                const datosEnviar = {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(nuevoProducto)
-                }
-                const respuesta = await fetch( `${URL}/producto`, datosEnviar);
+            };
 
-                if(respuesta.status === 201){
-                    Swal.fire({
-                        title: "Producto agregado",
-                        text: "Se registro un nuevo producto",
-                        icon: "success"
+            try {
+                let respuesta;
+
+                if (props.agregarOeditar === 'agregar') {
+                    // AGREGAR
+                    respuesta = await fetch(`${URL}/producto`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(productoData)
                     });
-                    props.consultarProductos();
-                    limpiarForm();
+
+                    if (respuesta.status === 201) {
+                        Swal.fire({
+                            title: "Producto agregado",
+                            text: "Se registró un nuevo producto",
+                            icon: "success"
+                        });
+                        props.consultarProducto();
+                        limpiarForm();
+                    }
+                } else {
+                    // EDITAR
+                    respuesta = await fetch(`${URL}/producto/${props.productoEditar.id}`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(productoData)
+                    });
+
+                    if (respuesta.status === 200) {
+                        Swal.fire({
+                            title: "Producto modificado",
+                            text: "Se realizó correctamente su solicitud",
+                            icon: "success"
+                        });
+                        props.handleClose();
+                        props.consultarProducto();
+                    }
                 }
             } catch (error) {
                 console.log(error);
@@ -79,20 +133,22 @@ const ModalProducto = (props) => {
                 });
             }
         }
-    }
-    const limpiarForm = () =>{
-        myFormRef.current.reset();
-        setTipoProducto('');
+    };
+    const limpiarForm = () => {
+        myFormRef.current?.reset();
+
         setCodigo(0);
         setNombre('');
         setMarca('');
+        setTipoProducto('');
         setPrecioVenta(0);
         setImageSrc('');
-    }
+    };
+
     const verificarPrecio = (e) => {
         const precioInput = e.target.value;
         const formatoNumero = /^\d+(\.\d{0,2})?$/;
-    
+
         if (!formatoNumero.test(precioInput) || parseFloat(precioInput) <= 0 || parseFloat(precioInput) >= 999999) {
             e.target.classList.add("is-invalid");
         } else {
@@ -103,28 +159,46 @@ const ModalProducto = (props) => {
 
     return (
         <div>
-            <Modal show={props.showModal} onHide={()=>{props.handleClose();limpiarForm();}}>
+            <Modal show={props.showModal} onHide={() => { props.handleClose(); }}>
                 <Modal.Header closeButton>
-                    <h2>Agregar Producto</h2>
+                    {
+                        props.agregarOeditar === 'agregar' ? <h2>Agregar Producto</h2> :
+                            <h2>Editar Producto</h2>
+                    }
                 </Modal.Header>
                 <Modal.Body className='p-4'>
                     <form ref={myFormRef} onSubmit={handleSubmit}>
                         <div className='form-group'>
                             <label className='mt-1'>Codigo</label>
-                            <input value={codigo} onChange={(e) => { setCodigo(parseInt(e.target.value)) }} className='mt-2 form-control' type='number' />
+                            <input
+                                value={codigo}
+                                onChange={(e) => { setCodigo(parseInt(e.target.value)) }}
+                                className='mt-2 form-control'
+                                type='number' />
                         </div>
                         <div className='form-group'>
                             <label className='mt-1'>Nombre del producto *</label>
-                            <input value={nombre} onChange={(e) => { setNombre(e.target.value) }} className='mt-2 form-control' type='text' placeholder='Ingrese el nombre' />
+                            <input
+                                value={nombre}
+                                onChange={(e) => { setNombre(e.target.value) }}
+                                className='mt-2 form-control'
+                                type='text'
+                                placeholder='Ingrese el nombre' />
                         </div>
                         <article className='row'>
                             <div className='form-group col-6'>
                                 <label className='mt-1'>Marca *</label>
-                                <input value={marca} onChange={(e) => { setMarca(e.target.value) }} className='mt-2 form-control' type='text' placeholder='Ingrese la marca' />
+                                <input
+                                    value={marca}
+                                    onChange={(e) => { setMarca(e.target.value) }}
+                                    className='mt-2 form-control'
+                                    type='text'
+                                    placeholder='Ingrese la marca' />
                             </div>
                             <div className='form-group col-6'>
                                 <label htmlFor="selectOption" className='mt-1'>Tipo de producto *</label>
-                                <select className='form-select mt-2' id="selectOption" value={tipoProducto} onChange={(e) => { setTipoProducto(e.target.value) }}>
+                                <select className='form-select mt-2' id="selectOption"
+                                value={tipoProducto} onChange={(e) => { setTipoProducto(e.target.value) }}>
                                     <option value="Otros">Otros</option>
                                     <option value="Bebidas">Bebidas</option>
                                     <option value="Snacks">Snacks</option>
@@ -148,8 +222,11 @@ const ModalProducto = (props) => {
                         </article>
                         <div className='form-group'>
                             <label className='mt-1'>Añadir imagen</label>
-                            <input onChange={obtenerImagen} className='mt-2 form-control' type="file" accept="image/*" />
+                            <input ref={inputImgRef} onChange={obtenerImagen} className='mt-2 form-control' type="file" accept="image/*" />
                             <div className='cont-img mt-3'>
+                                <button ref={btnImage} onClick={(e)=>borrarImagen(e)} className={`btn-img-eliminar ${!imageSrc && 'd-none'}`}>
+                                <FontAwesomeIcon className='fa-xs' icon={faXmark} />
+                                </button>
                                 <img src={imageSrc || imagen} alt="imagen-producto" />
                             </div>
                         </div>
