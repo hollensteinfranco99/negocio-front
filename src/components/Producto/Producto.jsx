@@ -1,17 +1,25 @@
 import React, {useEffect, useState } from 'react';
 import '../../css/consulta.css';
 import ModalProducto from './ModalProducto';
+import Swal from 'sweetalert2';
 
 const Producto = () => {
     const [productos, setProductos] = useState([]);
-
+    const [searchInput, setSearchInput] = useState('');
+    const [showModal, setShowModal] = useState(false);
+    
     useEffect(() => {
         consultarProducto();
-    }, []);
+    }, [productos]);
 
     const consultarProducto = async () => {
         try {
-            const res = await fetch('http://localhost:3004/producto');
+            const url = searchInput
+            ? `http://localhost:3004/producto?nombre_like=${searchInput}`
+                : 'http://localhost:3004/producto';
+
+            const res = await fetch(url);
+
             if (res.status === 200) {
                 const listarProd = await res.json();
                 setProductos(listarProd);
@@ -20,10 +28,11 @@ const Producto = () => {
             console.log(error);
         }
     }
-
-
-    const [showModal, setShowModal] = useState(false);
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        consultarProducto();
+    };
+    const handleInputChange = (event) => {setSearchInput(event.target.value)};
     const handleShow = () => setShowModal(true);
     const handleClose = () => setShowModal(false);
 
@@ -34,9 +43,9 @@ const Producto = () => {
             </div>
             <div className='contenedor-buscar'>
                 <section className=' mt-5 d-flex justify-content-center align-items-center'>
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className='form-group d-flex me-1'>
-                            <input className='form-control me-1' type="search" placeholder='Buscar' />
+                            <input onChange={handleInputChange} className='form-control me-1' type="search" placeholder='Buscar' />
                             <button type='submit' className='btn btn-dark'>Buscar</button>
                         </div>
                     </form>
@@ -54,20 +63,18 @@ const Producto = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th>1</th>
-                                <th>Pepsi</th>
-                                <th>$800.00</th>
-                                <th className='text-end'><button className='btn btn-warning'>Editar</button></th>
-                                <th><button className='btn btn-danger'>Eliminar</button></th>
-                            </tr>
-                            <tr>
-                                <th>2</th>
-                                <th>Coca-cola</th>
-                                <th>$1800.00</th>
-                                <th className='text-end'><button className='btn btn-warning'>Editar</button></th>
-                                <th><button className='btn btn-danger'>Eliminar</button></th>
-                            </tr>
+                            {
+                                productos.map((prod, index)=>{
+                                    return <tr key={index}>
+                                    <th>{prod.codigo}</th>
+                                    <th>{prod.nombre}</th>
+                                    <th>${parseFloat(prod.precioVenta).toFixed(2)}</th>
+                                    <th className='text-end'><button className='btn btn-warning'>Editar</button></th>
+                                    <th><button className='btn btn-danger'>Eliminar</button></th>
+                                </tr>
+                                })
+                            }
+                            
                         </tbody>
                     </table>
                 </section>

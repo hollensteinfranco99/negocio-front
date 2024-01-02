@@ -53,12 +53,30 @@
       "precioVenta": 9999,
       "imagen": "",
       "id": "Tyk9r03"
+    },
+    {
+      "nombre": "CHINCHULIN",
+      "codigo": 20,
+      "marca": "LA MASABROSA",
+      "tipoProducto": "Cigarrillos",
+      "precioVenta": 12.3,
+      "imagen": "",
+      "id": "TlKnkiG"
+    },
+    {
+      "nombre": "3das",
+      "codigo": 34123,
+      "marca": "312",
+      "tipoProducto": "Panaderia",
+      "precioVenta": 312,
+      "imagen": "",
+      "id": "o1VGmau"
     }
   ],
-  "pedido":[
+  "pedido": [
     {
-      "proveedor":"discomef",
-      "id":"3"
+      "proveedor": "discomef",
+      "id": "3"
     }
   ]
 }

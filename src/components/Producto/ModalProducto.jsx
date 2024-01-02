@@ -35,7 +35,7 @@ const ModalProducto = (props) => {
         // generar numero de codigo
 
         // validar campos 
-        if (!imageSrc && nombre.trim() === '' || marca.trim() === '' || precioVenta <= 0 || precioVenta >= 999999) {
+        if (nombre.trim() === '' || marca.trim() === '' || precioVenta <= 0 || precioVenta >= 999999) {
             // alert error
             setError(true);
             return;
@@ -64,8 +64,8 @@ const ModalProducto = (props) => {
 
                 if(respuesta.status === 201){
                     Swal.fire({
-                        title: "Good job!",
-                        text: "Se guardo correctamente",
+                        title: "Producto agregado",
+                        text: "Se registro un nuevo producto",
                         icon: "success"
                     });
                 }
@@ -85,12 +85,16 @@ const ModalProducto = (props) => {
 
     }
     const verificarPrecio = (e) => {
-        if (precioVenta <= 0 || precioVenta >= 999999) {
+        const precioInput = e.target.value;
+        const formatoNumero = /^\d+(\.\d{0,2})?$/;
+    
+        if (!formatoNumero.test(precioInput) || parseFloat(precioInput) <= 0 || parseFloat(precioInput) >= 999999) {
             e.target.classList.add("is-invalid");
         } else {
             e.target.classList.remove("is-invalid");
+            setPrecioVenta(parseFloat(precioInput));
         }
-    }
+    };
 
     return (
         <div>
@@ -131,7 +135,7 @@ const ModalProducto = (props) => {
                         <article className='row'>
                             <div className='form-group col-6'>
                                 <label className='mt-1'>Precio venta *</label>
-                                <input onBlur={verificarPrecio} onChange={(e) => { setPrecioVenta(parseFloat(e.target.value)) }} className='mt-2 form-control' type='number' placeholder='0.00' />
+                                <input onBlur={verificarPrecio} onChange={(e) => { setPrecioVenta(parseFloat(e.target.value)) }} className='mt-2 form-control' type='text' placeholder='0.00' />
                                 <div className='invalid-feedback'>
                                     Ingresar un numero mayor a "0" y menor a "999999"
                                 </div>
