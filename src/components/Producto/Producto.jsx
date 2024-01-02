@@ -4,19 +4,21 @@ import ModalProducto from './ModalProducto';
 import Swal from 'sweetalert2';
 
 const Producto = () => {
+    const URL = process.env.REACT_APP_API_URL;
     const [productos, setProductos] = useState([]);
     const [searchInput, setSearchInput] = useState('');
     const [showModal, setShowModal] = useState(false);
-    
-    useEffect(() => {
-        consultarProducto();
-    }, [productos]);
 
+    useEffect(() => {
+            consultarProducto();
+    }, []);
+
+    
     const consultarProducto = async () => {
         try {
             const url = searchInput
-            ? `http://localhost:3004/producto?nombre_like=${searchInput}`
-                : 'http://localhost:3004/producto';
+            ? `${URL}/producto?nombre_like=${searchInput}`
+                : `${URL}/producto`;
 
             const res = await fetch(url);
 
@@ -27,6 +29,45 @@ const Producto = () => {
         } catch (error) {
             console.log(error);
         }
+    }
+    const eliminar = (id) =>{
+        Swal.fire({
+            title: "¿Estas seguro de eliminar el producto?",
+            text: "Se eliminara de forma permanente",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#14A44D",
+            cancelButtonColor: "#DC4C64",
+            confirmButtonText: "Si, estoy seguro",
+            cancelButtonText: "Cancelar"
+        }).then(async (result) =>{
+            if(result.isConfirmed) {
+                // Eliminar producto
+                try {
+                    const urlEliminar = `${URL}/producto/${id}`;
+                    console.log(id);
+                    const respuesta = await fetch(urlEliminar,{
+                        method:'DELETE',
+                        headers:{'Content-Type':'application/json'},
+                    });
+                    if(respuesta.status === 200){
+                        Swal.fire(
+                            'Eliminado',
+                            'El producto ha sido eliminado',
+                            'success'
+                        )
+                        consultarProducto();
+                    }
+                } catch (error) {
+                    console.log(error);
+                    Swal.fire({
+                        title: "Error al completar su solicitud",
+                        text: "Por favor, vuelva a intentarlo en unos minutos",
+                        icon: "error"
+                    });
+                }
+            }
+        });
     }
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -70,7 +111,7 @@ const Producto = () => {
                                     <th>{prod.nombre}</th>
                                     <th>${parseFloat(prod.precioVenta).toFixed(2)}</th>
                                     <th className='text-end'><button className='btn btn-warning'>Editar</button></th>
-                                    <th><button className='btn btn-danger'>Eliminar</button></th>
+                                    <th><button onClick={()=>{eliminar(prod.id)}} className='btn btn-danger'>Eliminar</button></th>
                                 </tr>
                                 })
                             }
@@ -80,7 +121,7 @@ const Producto = () => {
                 </section>
             </div>
 
-            <ModalProducto showModal={showModal} handleClose={handleClose}></ModalProducto>
+            <ModalProducto consultarProducto={consultarProducto} showModal={showModal} handleClose={handleClose}></ModalProducto>
         </section>
     );
 };

@@ -6,7 +6,7 @@ import '../../css/consulta.css';
 import Swal from 'sweetalert2';
 
 const ModalProducto = (props) => {
-
+    const URL = process.env.REACT_APP_API_URL;
     const [tipoProducto, setTipoProducto] = useState('');
     const [codigo, setCodigo] = useState(0);
     const [nombre, setNombre] = useState('');
@@ -14,6 +14,7 @@ const ModalProducto = (props) => {
     const [precioVenta, setPrecioVenta] = useState(0);
     const [imageSrc, setImageSrc] = useState('');
     const [error, setError] = useState(false);
+    const myFormRef = React.createRef();
 
 
 
@@ -50,7 +51,6 @@ const ModalProducto = (props) => {
                 precioVenta: precioVenta,
                 imagen: imageSrc
             }
-
             try {
                 const datosEnviar = {
                     method: "POST",
@@ -59,8 +59,7 @@ const ModalProducto = (props) => {
                     },
                     body: JSON.stringify(nuevoProducto)
                 }
-
-                const respuesta = await fetch('http://localhost:3004/producto', datosEnviar);
+                const respuesta = await fetch( `${URL}/producto`, datosEnviar);
 
                 if(respuesta.status === 201){
                     Swal.fire({
@@ -68,6 +67,8 @@ const ModalProducto = (props) => {
                         text: "Se registro un nuevo producto",
                         icon: "success"
                     });
+                    props.consultarProductos();
+                    limpiarForm();
                 }
             } catch (error) {
                 console.log(error);
@@ -77,12 +78,16 @@ const ModalProducto = (props) => {
                     icon: "error"
                 });
             }
-
-
-            // mensaje de exito
-            // limpiar formulario
         }
-
+    }
+    const limpiarForm = () =>{
+        myFormRef.current.reset();
+        setTipoProducto('');
+        setCodigo(0);
+        setNombre('');
+        setMarca('');
+        setPrecioVenta(0);
+        setImageSrc('');
     }
     const verificarPrecio = (e) => {
         const precioInput = e.target.value;
@@ -98,24 +103,24 @@ const ModalProducto = (props) => {
 
     return (
         <div>
-            <Modal show={props.showModal} onHide={props.handleClose}>
+            <Modal show={props.showModal} onHide={()=>{props.handleClose();limpiarForm();}}>
                 <Modal.Header closeButton>
                     <h2>Agregar Producto</h2>
                 </Modal.Header>
                 <Modal.Body className='p-4'>
-                    <form onSubmit={handleSubmit}>
+                    <form ref={myFormRef} onSubmit={handleSubmit}>
                         <div className='form-group'>
                             <label className='mt-1'>Codigo</label>
-                            <input onChange={(e) => { setCodigo(parseInt(e.target.value)) }} className='mt-2 form-control' type='number' />
+                            <input value={codigo} onChange={(e) => { setCodigo(parseInt(e.target.value)) }} className='mt-2 form-control' type='number' />
                         </div>
                         <div className='form-group'>
                             <label className='mt-1'>Nombre del producto *</label>
-                            <input onChange={(e) => { setNombre(e.target.value) }} className='mt-2 form-control' type='text' placeholder='Ingrese el nombre' />
+                            <input value={nombre} onChange={(e) => { setNombre(e.target.value) }} className='mt-2 form-control' type='text' placeholder='Ingrese el nombre' />
                         </div>
                         <article className='row'>
                             <div className='form-group col-6'>
                                 <label className='mt-1'>Marca *</label>
-                                <input onChange={(e) => { setMarca(e.target.value) }} className='mt-2 form-control' type='text' placeholder='Ingrese la marca' />
+                                <input value={marca} onChange={(e) => { setMarca(e.target.value) }} className='mt-2 form-control' type='text' placeholder='Ingrese la marca' />
                             </div>
                             <div className='form-group col-6'>
                                 <label htmlFor="selectOption" className='mt-1'>Tipo de producto *</label>
@@ -135,7 +140,7 @@ const ModalProducto = (props) => {
                         <article className='row'>
                             <div className='form-group col-6'>
                                 <label className='mt-1'>Precio venta *</label>
-                                <input onBlur={verificarPrecio} onChange={(e) => { setPrecioVenta(parseFloat(e.target.value)) }} className='mt-2 form-control' type='text' placeholder='0.00' />
+                                <input value={precioVenta} onBlur={verificarPrecio} onChange={(e) => { setPrecioVenta(parseFloat(e.target.value)) }} className='mt-2 form-control' type='text' placeholder='0.00' />
                                 <div className='invalid-feedback'>
                                     Ingresar un numero mayor a "0" y menor a "999999"
                                 </div>
