@@ -37,8 +37,8 @@ const Inicio = () => {
                                 <h2>{estadoCaja === false ? "Caja Cerrada" : "Caja abierta"}</h2>
                             </div>
                             <div className='mt-auto d-flex justify-content-center align-items-center'>
-                                <span className='me-2'>Total: </span>
-                                <span>{estadoCaja === false ? "$0.00" : "$100.00"}</span>
+                                <p className='me-2'>Total: </p>
+                                <p>{estadoCaja === false ? "$0.00" : "$100.00"}</p>
                             </div>
                             <div className='mt-auto mb-2 d-flex justify-content-center'>
                                 <button onClick={()=>{mostrarModal()}} className='btn btn-dark'>{estadoCaja == false ? "Abrir caja" : "Cerrar caja"}</button>
@@ -66,8 +66,8 @@ const Inicio = () => {
                                 <h2>Ventas del mes</h2>
                             </div>
                             <div className='mt-auto d-flex justify-content-center align-items-center'>
-                                <span className='me-2'>Total: </span>
-                                <span>$250.00</span>
+                                <p className='me-2'>Total: </p>
+                                <p>$250.00</p>
                             </div>
                         </div>
                     </article>

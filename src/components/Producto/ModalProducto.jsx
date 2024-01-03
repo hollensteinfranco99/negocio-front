@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import imagen from '../../img/imagenNoDisponible.png';
-import { Modal,Alert } from 'react-bootstrap';
+import {campoRequerido, rangoPrecio } from '../../common/helpers'
+import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import Swal from 'sweetalert2';
+import { Modal,Alert } from 'react-bootstrap';
 
 const ModalProducto = (props) => {
     const URL = process.env.REACT_APP_API_URL;
@@ -65,8 +66,15 @@ const ModalProducto = (props) => {
         // generar número de código
 
         // validar campos
-        if (nombre.trim() === '' || marca.trim() === '' || precioVenta <= 0 || precioVenta >= 999999) {
+        console.log(campoRequerido(nombre));
+        console.log(campoRequerido(marca));
+        console.log(rangoPrecio(precioVenta));
+
+        if(campoRequerido(nombre) === false || campoRequerido(marca) === false ||
+        rangoPrecio(precioVenta) === false){
             // alerta de error
+            console.log("error");
+
             setError(true);
             return;
         } else {
@@ -118,7 +126,8 @@ const ModalProducto = (props) => {
                         Swal.fire({
                             title: "Producto modificado",
                             text: "Se realizó correctamente su solicitud",
-                            icon: "success"
+                            icon: "success",
+                            confirmButtonColor: "#14A44D",
                         });
                         props.handleClose();
                         props.consultarProducto();
@@ -129,7 +138,8 @@ const ModalProducto = (props) => {
                 Swal.fire({
                     title: "Error al completar su solicitud",
                     text: "Por favor, vuelva a intentarlo en unos minutos",
-                    icon: "error"
+                    icon: "error",
+                    confirmButtonColor: "#14A44D",
                 });
             }
         }
@@ -137,14 +147,13 @@ const ModalProducto = (props) => {
     const limpiarForm = () => {
         myFormRef.current?.reset();
 
-        setCodigo(0);
+        setCodigo('0');
         setNombre('');
         setMarca('');
         setTipoProducto('');
         setPrecioVenta(0);
         setImageSrc('');
     };
-
     const verificarPrecio = (e) => {
         const precioInput = e.target.value;
         const formatoNumero = /^\d+(\.\d{0,2})?$/;
@@ -172,7 +181,7 @@ const ModalProducto = (props) => {
                             <label className='mt-1'>Codigo</label>
                             <input
                                 value={codigo}
-                                onChange={(e) => { setCodigo(parseInt(e.target.value)) }}
+                                onChange={(e) => { setCodigo(e.target.value) }}
                                 className='mt-2 form-control'
                                 type='number' />
                         </div>
@@ -214,7 +223,7 @@ const ModalProducto = (props) => {
                         <article className='row'>
                             <div className='form-group col-6'>
                                 <label className='mt-1'>Precio venta *</label>
-                                <input value={precioVenta} onBlur={verificarPrecio} onChange={(e) => { setPrecioVenta(parseFloat(e.target.value)) }} className='mt-2 form-control' type='text' placeholder='0.00' />
+                                <input value={precioVenta} onBlur={verificarPrecio} onChange={(e) => { setPrecioVenta(e.target.value) }} className='mt-2 form-control' type='text' placeholder='0.00' />
                                 <div className='invalid-feedback'>
                                     Ingresar un numero mayor a "0" y menor a "999999"
                                 </div>

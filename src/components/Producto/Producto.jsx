@@ -6,7 +6,6 @@ import Swal from 'sweetalert2';
 const Producto = () => {
     const URL = process.env.REACT_APP_API_URL;
     const [productos, setProductos] = useState([]);
-    const [searchInput, setSearchInput] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [productoEditar, setProductoEditar] = useState(null);
     const [agregarOeditar,setAgregarOeditar] = useState('');
@@ -15,10 +14,10 @@ const Producto = () => {
     }, []);
 
     
-    const consultarProducto = async () => {
+    const consultarProducto = async (searchInput) => {
         try {
             const url = searchInput
-            ? `${URL}/producto?nombre_like=${searchInput}`
+            ? `${URL}/producto?${isNaN(searchInput) ? 'nombre_like' : 'codigo_like'}=${searchInput}`
                 : `${URL}/producto`;
 
             const res = await fetch(url);
@@ -31,8 +30,6 @@ const Producto = () => {
             console.log(error);
         }
     }
-
-
 
     const obtenerPorIdEditar = async (id) =>{
         try {
@@ -51,9 +48,6 @@ const Producto = () => {
             console.log(error);
         }
     }
-
-
-
 
 
 
@@ -78,11 +72,12 @@ const Producto = () => {
                         headers:{'Content-Type':'application/json'},
                     });
                     if(respuesta.status === 200){
-                        Swal.fire(
-                            'Eliminado',
-                            'El producto ha sido eliminado',
-                            'success'
-                        )
+                        Swal.fire({
+                            title: 'Eliminado',
+                            text:'El producto ha sido eliminado',
+                            icon: 'success',
+                            confirmButtonColor: "#14A44D",
+                    })
                         consultarProducto();
                     }
                 } catch (error) {
@@ -96,11 +91,10 @@ const Producto = () => {
             }
         });
     }
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        consultarProducto();
+    const handleInputChange = (event) => {
+        event.preventDefault();
+        consultarProducto(event.target.value);
     };
-    const handleInputChange = (event) => {setSearchInput(event.target.value)};
     const abrirAgregar = () => {
         setAgregarOeditar('agregar');
         setShowModal(true);
@@ -114,10 +108,10 @@ const Producto = () => {
             </div>
             <div className='contenedor-buscar'>
                 <section className=' mt-5 d-flex justify-content-center align-items-center'>
-                    <form onSubmit={handleSubmit}>
+                    <form>
                         <div className='form-group d-flex me-1'>
-                            <input onChange={handleInputChange} className='form-control me-1' type="search" placeholder='Buscar' />
-                            <button type='submit' className='btn btn-dark'>Buscar</button>
+                            <input onChange={handleInputChange}
+                            className='form-control me-1' type="search" placeholder='Buscar' />
                         </div>
                     </form>
                     <button className='btn btn-success my-1' onClick={abrirAgregar}>Agregar</button>

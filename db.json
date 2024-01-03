@@ -19,15 +19,6 @@
       "id": "2"
     },
     {
-      "nombre": "PUTO",
-      "codigo": 99,
-      "marca": "PIJA",
-      "tipoProducto": "Snacks",
-      "precioVenta": 9999,
-      "imagen": "",
-      "id": "E_ipmr-"
-    },
-    {
       "nombre": "fran",
       "codigo": 33,
       "marca": "lacoste",
@@ -37,19 +28,64 @@
       "id": "EvvbJC9"
     },
     {
-      "nombre": "franco",
-      "codigo": 44,
-      "marca": "hollenstein",
-      "tipoProducto": "ComidaNoPerecedera",
-      "precioVenta": 99,
+      "nombre": "1",
+      "codigo": "033",
+      "marca": "3",
+      "tipoProducto": "Snacks",
+      "precioVenta": 12,
       "imagen": "",
-      "id": "zI5tQah"
+      "id": "MSEc2um"
     }
   ],
-  "pedido": [
+  "movimiento": [
     {
-      "proveedor": "discomef",
-      "id": "3"
+      "descripcion": "PagoServicio",
+      "monto": 1223,
+      "fechaRegistro": "03/01/24 01:13",
+      "tipoMovimiento": "EGRESO",
+      "id": 1
+    },
+    {
+      "descripcion": "CompraMercaderia",
+      "monto": 4512,
+      "fechaRegistro": "03/01/24 01:13",
+      "tipoMovimiento": "EGRESO",
+      "id": 2
+    },
+    {
+      "descripcion": "PagoSalario",
+      "monto": 5442,
+      "fechaRegistro": "03/01/24 01:13",
+      "tipoMovimiento": "EGRESO",
+      "id": 3
+    },
+    {
+      "descripcion": "Venta",
+      "monto": 12424,
+      "fechaRegistro": "03/01/24 01:14",
+      "tipoMovimiento": "INGRESO",
+      "id": 4
+    },
+    {
+      "descripcion": "Venta",
+      "monto": 31231,
+      "fechaRegistro": "03/01/24 01:14",
+      "tipoMovimiento": "INGRESO",
+      "id": 5
+    },
+    {
+      "descripcion": "fas",
+      "monto": 33,
+      "fechaRegistro": "03/01/24 01:54",
+      "tipoMovimiento": "INGRESO",
+      "id": 6
+    },
+    {
+      "descripcion": "dasda",
+      "monto": 111,
+      "fechaRegistro": "03/01/24 01:54",
+      "tipoMovimiento": "EGRESO",
+      "id": 7
     }
   ]
 }

@@ -33,7 +33,7 @@ const Navegador = () => {
                 </article>
                 <article className='administrador-lista'>
                     <ul aria-label='Administrador'>
-                        <li className='adm-txt'><span>Administrador</span></li>
+                        <li className='adm-txt'><h3>Administrador</h3></li>
                         <hr />
                         <li><Link onClick={()=> desplegarMenu()} to="/"> Inicio</Link></li>
                         <li><Link onClick={()=> desplegarMenu()} to="/producto"> Productos</Link></li>
