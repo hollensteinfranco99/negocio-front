@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import imagen from '../../img/imagenNoDisponible.png';
-import {campoRequerido, rangoPrecio } from '../../common/helpers'
+import { campoRequerido, rangoPrecio } from '../../common/helpers'
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { Modal,Alert } from 'react-bootstrap';
+import { Modal, Alert } from 'react-bootstrap';
 
 const ModalProducto = (props) => {
     const URL = process.env.REACT_APP_API_URL;
@@ -19,25 +19,39 @@ const ModalProducto = (props) => {
     const inputImgRef = useRef(null);
     const myFormRef = useRef(null);
 
-    useEffect(()=>{
-        if(props.agregarOeditar === 'editar'){
+    useEffect(() => {
+        generarCodigoUnico();
+        if (props.agregarOeditar === 'editar') {
             cargarDatos();
-        }else{
+        } else {
             limpiarForm();
         }
-    },[props.showModal]);
+    }, [props.showModal]);
 
+    const generarCodigoUnico = () => {
+        const ultimoProd = props.productosLista[props.productosLista.length - 1];
 
-    const cargarDatos = () =>{
+        if (ultimoProd) {
+            // Si hay productos en la lista, obtener el último código y agregar +1
+            const ultimoCodigo = parseInt(ultimoProd.codigo, 10);
+            const nuevoCodigo = (ultimoCodigo + 1).toString().padStart(7, '0');
+            setCodigo(nuevoCodigo);
+        } else {
+            // Si la lista está vacía, generar el primer código
+            setCodigo('0000001');
+        }
+    };
 
-        setCodigo(()=> props.productoEditar.codigo);
-        setNombre(()=> props.productoEditar.nombre);
-        setMarca(()=> props.productoEditar.marca);
-        setTipoProducto(()=> props.productoEditar.tipoProducto);
-        setPrecioVenta(()=> props.productoEditar.precioVenta);
-        setImageSrc(()=> props.productoEditar.imagen);
+    const cargarDatos = () => {
+
+        setCodigo(() => props.productoEditar.codigo);
+        setNombre(() => props.productoEditar.nombre);
+        setMarca(() => props.productoEditar.marca);
+        setTipoProducto(() => props.productoEditar.tipoProducto);
+        setPrecioVenta(() => props.productoEditar.precioVenta);
+        setImageSrc(() => props.productoEditar.imagen);
     }
-    const borrarImagen = (e) =>{
+    const borrarImagen = (e) => {
         e.preventDefault();
         setImageSrc('');
         setTimeout(() => {
@@ -66,12 +80,9 @@ const ModalProducto = (props) => {
         // generar número de código
 
         // validar campos
-        console.log(campoRequerido(nombre));
-        console.log(campoRequerido(marca));
-        console.log(rangoPrecio(precioVenta));
 
-        if(campoRequerido(nombre) === false || campoRequerido(marca) === false ||
-        rangoPrecio(precioVenta) === false){
+        if (campoRequerido(nombre) === false || campoRequerido(marca) === false ||
+            rangoPrecio(precioVenta) === false) {
             // alerta de error
             console.log("error");
 
@@ -111,6 +122,7 @@ const ModalProducto = (props) => {
                         });
                         props.consultarProducto();
                         limpiarForm();
+                        props.handleClose();
                     }
                 } else {
                     // EDITAR
@@ -147,7 +159,6 @@ const ModalProducto = (props) => {
     const limpiarForm = () => {
         myFormRef.current?.reset();
 
-        setCodigo('0');
         setNombre('');
         setMarca('');
         setTipoProducto('');
@@ -181,7 +192,7 @@ const ModalProducto = (props) => {
                             <label className='mt-1'>Codigo</label>
                             <input
                                 value={codigo}
-                                onChange={(e) => { setCodigo(e.target.value) }}
+                                disabled
                                 className='mt-2 form-control'
                                 type='number' />
                         </div>
@@ -207,7 +218,7 @@ const ModalProducto = (props) => {
                             <div className='form-group col-6'>
                                 <label htmlFor="selectOption" className='mt-1'>Tipo de producto *</label>
                                 <select className='form-select mt-2' id="selectOption"
-                                value={tipoProducto} onChange={(e) => { setTipoProducto(e.target.value) }}>
+                                    value={tipoProducto} onChange={(e) => { setTipoProducto(e.target.value) }}>
                                     <option value="Otros">Otros</option>
                                     <option value="Bebidas">Bebidas</option>
                                     <option value="Snacks">Snacks</option>
@@ -233,8 +244,8 @@ const ModalProducto = (props) => {
                             <label className='mt-1'>Añadir imagen</label>
                             <input ref={inputImgRef} onChange={obtenerImagen} className='mt-2 form-control' type="file" accept="image/*" />
                             <div className='cont-img mt-3'>
-                                <button ref={btnImage} onClick={(e)=>borrarImagen(e)} className={`btn-img-eliminar ${!imageSrc && 'd-none'}`}>
-                                <FontAwesomeIcon className='fa-xs' icon={faXmark} />
+                                <button ref={btnImage} onClick={(e) => borrarImagen(e)} className={`btn-img-eliminar ${!imageSrc && 'd-none'}`}>
+                                    <FontAwesomeIcon className='fa-xs' icon={faXmark} />
                                 </button>
                                 <img src={imageSrc || imagen} alt="imagen-producto" />
                             </div>

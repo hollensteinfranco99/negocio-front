@@ -30,7 +30,6 @@ const Producto = () => {
             console.log(error);
         }
     }
-
     const obtenerPorIdEditar = async (id) =>{
         try {
             const urlEditar =`${URL}/producto/${id}`;
@@ -48,9 +47,6 @@ const Producto = () => {
             console.log(error);
         }
     }
-
-
-
     const eliminar = (id) =>{
         Swal.fire({
             title: "¿Estas seguro de eliminar el producto?",
@@ -133,7 +129,7 @@ const Producto = () => {
                                     return <tr key={index}>
                                     <th>{prod.codigo}</th>
                                     <th>{prod.nombre}</th>
-                                    <th>${parseFloat(prod.precioVenta).toFixed(2)}</th>
+                                    <th>{new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(parseFloat(prod.precioVenta))}</th>
                                     <th className='text-end'>
                                     <button onClick={()=>{obtenerPorIdEditar(prod.id)}} className='btn btn-warning'>Editar</button></th>
                                     <th><button onClick={()=>{eliminar(prod.id)}} className='btn btn-danger'>Eliminar</button></th>
@@ -150,8 +146,10 @@ const Producto = () => {
             productoEditar={productoEditar} 
             agregarOeditar={agregarOeditar}
             consultarProducto={consultarProducto} 
+            productosLista= {productos}
             showModal={showModal} 
             handleClose={handleClose}>
+
             </ModalProducto>
         </section>
     );

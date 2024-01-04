@@ -32,9 +32,6 @@ const Movimiento = () => {
             } else {
                 url = `${URL}/movimiento?descripcion_like=${searchInput}`;
             }
-
-
-
             const res = await fetch(url);
 
             if (res.status === 200) {

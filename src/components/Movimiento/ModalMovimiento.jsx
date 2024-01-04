@@ -100,7 +100,7 @@ const ModalMovimiento = (props) => {
             const movimientoData = {
                 descripcion: desc,
                 monto: monto,
-                fechaRegistro: moment().format('DD/MM/YY hh:mm'),
+                fechaRegistro: moment().format('DD/MM/YY HH:mm'),
                 tipoMovimiento: tipoMovimiento
             };
 

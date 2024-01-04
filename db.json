@@ -35,6 +35,114 @@
       "precioVenta": 12,
       "imagen": "",
       "id": "MSEc2um"
+    },
+    {
+      "nombre": "f",
+      "codigo": "0000034",
+      "marca": "f",
+      "tipoProducto": "Snacks",
+      "precioVenta": 312,
+      "imagen": "",
+      "id": "qfS35H5"
+    },
+    {
+      "nombre": "312dsa",
+      "codigo": "0000035",
+      "marca": "dsa",
+      "tipoProducto": "Panaderia",
+      "precioVenta": 312,
+      "imagen": "",
+      "id": "feB4H6A"
+    },
+    {
+      "nombre": "321",
+      "codigo": "0000036",
+      "marca": "edasd",
+      "tipoProducto": "Panaderia",
+      "precioVenta": 312,
+      "imagen": "",
+      "id": "flQqe4s"
+    },
+    {
+      "nombre": "312",
+      "codigo": "0000037",
+      "marca": "312",
+      "tipoProducto": "Bebidas",
+      "precioVenta": 312,
+      "imagen": "",
+      "id": "hu8fFtI"
+    },
+    {
+      "nombre": "fsa",
+      "codigo": "0000038",
+      "marca": "fsa",
+      "tipoProducto": "Snacks",
+      "precioVenta": 321,
+      "imagen": "",
+      "id": "0IRWpUh"
+    },
+    {
+      "nombre": "432",
+      "codigo": "0000039",
+      "marca": "rwq",
+      "tipoProducto": "Bebidas",
+      "precioVenta": 312,
+      "imagen": "",
+      "id": "MwigdIj"
+    },
+    {
+      "nombre": "dfas",
+      "codigo": "0000040",
+      "marca": "231",
+      "tipoProducto": "Bebidas",
+      "precioVenta": 31,
+      "imagen": "",
+      "id": "tAF2PAI"
+    },
+    {
+      "nombre": "312",
+      "codigo": "0000041",
+      "marca": "dw",
+      "tipoProducto": "Snacks",
+      "precioVenta": 312,
+      "imagen": "",
+      "id": "5nXz0Ld"
+    },
+    {
+      "nombre": "74",
+      "codigo": "0000042",
+      "marca": "765",
+      "tipoProducto": "Snacks",
+      "precioVenta": 75,
+      "imagen": "",
+      "id": "IbvFpBp"
+    },
+    {
+      "nombre": "edw",
+      "codigo": "0000043",
+      "marca": "1312",
+      "tipoProducto": "Snacks",
+      "precioVenta": 312,
+      "imagen": "",
+      "id": "X-rR9u_"
+    },
+    {
+      "nombre": "312",
+      "codigo": "0000043",
+      "marca": "rewa",
+      "tipoProducto": "",
+      "precioVenta": 312,
+      "imagen": "",
+      "id": "C4fdDi7"
+    },
+    {
+      "nombre": "dsa",
+      "codigo": "0000044",
+      "marca": "123",
+      "tipoProducto": "",
+      "precioVenta": 123,
+      "imagen": "",
+      "id": "KG111LS"
     }
   ],
   "movimiento": [
@@ -76,16 +184,51 @@
     {
       "descripcion": "fas",
       "monto": 33,
-      "fechaRegistro": "03/01/24 01:54",
-      "tipoMovimiento": "INGRESO",
+      "fechaRegistro": "03/01/24 08:07",
+      "tipoMovimiento": "EGRESO",
       "id": 6
     },
     {
       "descripcion": "dasda",
       "monto": 111,
-      "fechaRegistro": "03/01/24 01:54",
-      "tipoMovimiento": "EGRESO",
+      "fechaRegistro": "03/01/24 08:07",
+      "tipoMovimiento": "INGRESO",
       "id": 7
+    }
+  ],
+  "caja": [
+    {
+      "fecha_apertura": "04/01/24 00:41",
+      "fecha_cierre": "04/01/24 00:42",
+      "monto_cierre": "3444",
+      "monto_apertura": "400",
+      "monto_total": "400",
+      "diferencia": 3044,
+      "nro_caja": "0000001",
+      "estado_caja": "CERRADA",
+      "id": 1
+    },
+    {
+      "fecha_apertura": "04/01/24 00:42",
+      "fecha_cierre": "04/01/24 00:42",
+      "monto_cierre": "15",
+      "monto_apertura": "456",
+      "monto_total": "456",
+      "diferencia": -441,
+      "nro_caja": "0000002",
+      "estado_caja": "CERRADA",
+      "id": 2
+    },
+    {
+      "fecha_apertura": "04/01/24 00:42",
+      "fecha_cierre": "04/01/24 00:42",
+      "monto_cierre": "78",
+      "monto_apertura": "66",
+      "monto_total": "66",
+      "diferencia": 12,
+      "nro_caja": "0000003",
+      "estado_caja": "CERRADA",
+      "id": 3
     }
   ]
 }
