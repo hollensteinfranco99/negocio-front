@@ -140,45 +140,6 @@ const Movimiento = (props) => {
             console.log(error);
         }
     }
-    const eliminar = (id) => {
-        Swal.fire({
-            title: "¿Estas seguro de eliminar el movimiento?",
-            text: "Se eliminara de forma permanente",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#14A44D",
-            cancelButtonColor: "#DC4C64",
-            confirmButtonText: "Si, estoy seguro",
-            cancelButtonText: "Cancelar"
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                // Eliminar movimiento
-                try {
-                    const urlEliminar = `${URL}/movimiento/${id}`;
-                    const respuesta = await fetch(urlEliminar, {
-                        method: 'DELETE',
-                        headers: { 'Content-Type': 'application/json' },
-                    });
-                    if (respuesta.status === 200) {
-                        Swal.fire({
-                            title: 'Eliminado',
-                            text: 'El movimiento ha sido eliminado',
-                            icon: 'success',
-                            confirmButtonColor: "#14A44D",
-                        })
-                        consultarMovimientos();
-                    }
-                } catch (error) {
-                    console.log(error);
-                    Swal.fire({
-                        title: "Error al completar su solicitud",
-                        text: "Por favor, vuelva a intentarlo en unos minutos",
-                        icon: "error"
-                    });
-                }
-            }
-        });
-    }
     const handleClose = () => setShowModal(false);
 
     return (

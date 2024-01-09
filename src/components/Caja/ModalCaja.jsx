@@ -15,9 +15,6 @@ const ModalCaja = (props) => {
     const [diferencia, setDiferencia] = useState('');
     const [diferenciaTxt, setDiferenciaTxt] = useState('');
 
-    useEffect(() => {
-        cargarDetalle();
-    }, [props.showModal && props.verDetalle === true]);
 
     useEffect(() => {
         cargarDatos();
@@ -35,26 +32,6 @@ const ModalCaja = (props) => {
             }
         } catch (error) {
             console.log(error);
-        }
-    }
-    const cargarDetalle = () => {
-        if (props.cajaDetalle) {
-            setNroCaja(props.cajaDetalle.nro_caja || '');
-            setDiferencia(props.cajaDetalle.diferencia || '');
-            setEstadoCaja(props.cajaDetalle.estado_caja || '');
-            setMontoApertura(props.cajaDetalle.monto_apertura || '');
-            setMontoCierre(props.cajaDetalle.monto_cierre || '');
-            setMontoTotal(props.cajaDetalle.monto_total || '');
-
-            setFechaApertura(moment(props.cajaDetalle.fecha_apertura, "DD/MM/YY HH:mm").format("YYYY-MM-DD") || '');
-            setFechaCierre(moment(props.cajaDetalle.fecha_cierre, "DD/MM/YY HH:mm").format("YYYY-MM-DD") || '');
-
-            const etiquetaResultado = props.cajaDetalle.diferencia > 0
-                ? 'SOBRANTE'
-                : props.cajaDetalle.diferencia < 0
-                    ? 'FALTANTE'
-                    : 'COINCIDE';
-            setDiferenciaTxt(etiquetaResultado);
         }
     }
     const cargarDatos = () => {
@@ -80,7 +57,6 @@ const ModalCaja = (props) => {
                     : 'COINCIDE';
 
             setDiferencia(resultado_diferencia);
-            setDiferenciaTxt(etiquetaResultado);
         }
         if (props.cajaEditar) {
             setEstadoCaja(props.abrirCajaState === 'cerrar' ? "ABIERTA" : "CERRADA");
@@ -217,50 +193,17 @@ const ModalCaja = (props) => {
                             <label className='mt-1'>Numero de caja</label>
                             <input value={nro_caja} className='mt-2 form-control' type='number' disabled placeholder='1' />
                         </div>
-                        {props.verDetalle === true ?
-                            <article className='row'>
-                                <div className='form-group col-lg-6 col-md-6 col-12'>
-                                    <label className='mt-1'>Fecha de apertura</label>
-                                    <input value={fecha_apertura} className='mt-2 form-control' disabled type='date' placeholder='0.00' />
-                                </div>
-                                <div className='form-group col-lg-6 col-md-6 col-12'>
-                                    <label className='mt-1'>Fecha de cierre</label>
-                                    <input value={fecha_cierre} className='mt-2 form-control' disabled type='date' placeholder='0.00' />
-                                </div>
-                            </article> : null
-                        }
                         <article className='row'>
                             <div className='form-group col-lg-6 col-md-6 col-12'>
                                 <label className='mt-1'>Monto de apertura</label>
-                                <input value={monto_apertura} onChange={(e) => setMontoApertura(e.target.value)} className='mt-2 form-control' disabled={props.abrirCajaState === 'abrir' ||
-                                    props.verDetalle === false ? false : true} type='number' placeholder='0.00' />
+                                <input value={monto_apertura} onChange={(e) => setMontoApertura(e.target.value)} className='mt-2 form-control' disabled={props.abrirCajaState === 'abrir' ? false : true} type='number' placeholder='0.00' />
                             </div>
                             <div className='form-group col-lg-6 col-md-6 col-12'>
                                 <label className='mt-1'>Monto de cierre</label>
-                                <input value={monto_cierre} onChange={(e) => setMontoCierre(e.target.value)} className='mt-2 form-control' disabled={props.abrirCajaState === 'abrir' ||
-                                    props.verDetalle === true ? true : false} type='number' placeholder='0.00' />
+                                <input value={monto_cierre} onChange={(e) => setMontoCierre(e.target.value)} className='mt-2 form-control' disabled={props.abrirCajaState === 'abrir' ? true : false} type='number' placeholder='0.00' />
                             </div>
+                            <button onClick={handleSubmit} type="submit" className='mt-4 btn btn-success'>Guardar</button>
                         </article>
-                        {!props.verDetalle ? null : <article className='row'>
-                            <div className='form-group col-lg-6 col-md-6 col-12'>
-                                <label className='mt-1'>Monto Total Registrado</label>
-                                <input value={monto_total} disabled className='mt-2 form-control' type='number' placeholder='0.00' />
-                            </div>
-                            <div className='form-group col-lg-6 col-md-6 col-12'>
-                                <label className='mt-1'>Diferencia</label>
-                                <input value={diferencia} disabled className='mt-2 form-control' type='number' placeholder='0.00' />
-                            </div>
-                            <div className='form-group col-lg-6 col-md-6 col-12'>
-                                <label className='mt-1'>Diferencia</label>
-                                <input value={diferenciaTxt} disabled className='mt-2 form-control' type='text' />
-                            </div>
-                            <div className='form-group col-lg-6 col-md-6 col-12'>
-                                <label className='mt-1'>Estado Caja</label>
-                                <input value={estado_caja} disabled className='mt-2 form-control' type='text' />
-                            </div>
-                        </article>}
-
-                        {props.verDetalle ? null : <button onClick={handleSubmit} type="submit" className='mt-4 btn btn-success'>Guardar</button>}
                     </form>
                 </Modal.Body>
             </Modal>

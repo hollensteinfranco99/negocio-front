@@ -14,6 +14,7 @@ import VentaRealizada from './components/Venta/VentaRealizada';
 import DetalleComprobante from './components/Venta/DetalleComprobante';
 import ListaProductoModal from './components/Producto/ListaProductoModal';
 import ListaPedidosModal from './components/Pedido/ListaPedidosModal';
+import CajaMovimientos from './components/Caja/CajaMovimientos';
 
 
 
@@ -29,6 +30,8 @@ function App() {
       <Routes>
       <Route exact path='/' element={<Inicio></Inicio>}></Route>
       <Route exact path='/caja' element={<Caja></Caja>}></Route>
+      <Route exact path='/historial-caja/:id' element={<CajaMovimientos></CajaMovimientos>}></Route>
+
       <Route exact path='/pedido' element={<Pedido></Pedido>}></Route>
       <Route exact path='/lista-pedidos' element={<ListaPedidosModal></ListaPedidosModal>}></Route>
       <Route exact path='/producto' element={<Producto></Producto>}></Route>

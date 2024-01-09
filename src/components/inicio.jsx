@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import ModalCaja from './Caja/ModalCaja';
-import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import '../css/inicio.css';
 

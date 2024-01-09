@@ -288,6 +288,17 @@
       "nro_caja": "0000005",
       "estado_caja": "CERRADA",
       "id": 5
+    },
+    {
+      "fecha_apertura": "08/01/24 22:44",
+      "fecha_cierre": "08/01/24 22:44",
+      "monto_cierre": 0,
+      "monto_apertura": 0,
+      "monto_total": 0,
+      "diferencia": 0,
+      "nro_caja": "0000006",
+      "estado_caja": "CERRADA",
+      "id": 6
     }
   ],
   "compra-pedido": [

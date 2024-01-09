@@ -38,6 +38,10 @@ h2{
     justify-content: center;
     align-items: center;
 }
+.btn-volver{
+    background: transparent;
+    border: none;
+}
 /* movimiento */
 .ingreso{
     background-color: #14A44D !important;

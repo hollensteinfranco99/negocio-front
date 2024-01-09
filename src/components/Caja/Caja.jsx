@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import ModalCaja from './ModalCaja';
 import '../../css/consulta.css';
+import { useNavigate } from 'react-router-dom';
 
 const Caja = () => {
     const URL = process.env.REACT_APP_API_URL;
@@ -8,16 +8,14 @@ const Caja = () => {
     const fechaDesdeRef = useRef(null);
     const fechaHastaRef = useRef(null);
     // ==================
-    const [showModal, setShowModal] = useState(false);
-    const [verDetalle, setVerDetalle] = useState(false);
-    const [cajaDetalle,setCajaDetalle] = useState(null);
     const [cajas, setCajas] = useState([]);
+    const navigate = useNavigate();
+
     useEffect(() => {
         consultarCajas();
     }, []);
 
 
-    const handleClose = () => setShowModal(false);
     const handleSubmit = (e) => {
         e.preventDefault();
         consultarCajas(fechaDesdeRef.current.value, fechaHastaRef.current.value);
@@ -42,21 +40,8 @@ const Caja = () => {
             console.log(error);
         }
     }
-    const obtenerCajaPorId = async (id) =>{
-        try {
-            const urlId = `${URL}/caja/${id}`;
-
-            const res = await fetch(urlId);
-
-            if (res.status === 200) {
-                const cajaObtenida = await res.json();
-                setCajaDetalle(cajaObtenida);
-                setShowModal(true)
-                setVerDetalle(true);
-            }
-        } catch (error) {
-            console.log(error);
-        }
+    const abrirDetalle = async (id) => {
+        navigate('/historial-caja/' + id);
     }
     return (
         <section className='w-100 mt-3'>
@@ -68,14 +53,14 @@ const Caja = () => {
                     <form onSubmit={handleSubmit}>
                         <div className='form-group d-flex justify-content-end align-items-end'>
 
-                            <article className='d-flex'>
-                                <div className='d-flex'>
+                            <article className='d-flex flex-wrap justify-content-around'>
+                                <div>
                                     <div className="form-group me-1 mt-3">
                                         <label>Fecha desde: </label>
                                         <input ref={fechaDesdeRef} className='form-control' type='date' />
                                     </div>
                                 </div>
-                                <div className='d-flex'>
+                                <div>
                                     <div className="form-group me-1 mt-3">
                                         <label>Fecha hasta: </label>
                                         <input ref={fechaHastaRef} className='form-control' type='date' />
@@ -110,7 +95,7 @@ const Caja = () => {
                                             {new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(caj.monto_total)}
                                         </td>
                                         <td>{caj.estado_caja}</td>
-                                        <td><button onClick={()=>obtenerCajaPorId(caj.id)} className='btn btn-warning'>Ver</button></td>
+                                        <td><button onClick={() => abrirDetalle(caj.id)} className='btn btn-warning'>Ver</button></td>
                                     </tr>
                                 </React.Fragment>
                             ))}
@@ -118,7 +103,6 @@ const Caja = () => {
                     </table>
                 </section>
             </div>
-            <ModalCaja verDetalle={verDetalle} cajaDetalle={cajaDetalle} showModal={showModal} handleClose={handleClose}></ModalCaja>
 
         </section>
     );
