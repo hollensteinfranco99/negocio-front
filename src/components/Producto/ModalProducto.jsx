@@ -13,6 +13,8 @@ const ModalProducto = (props) => {
     const [nombre, setNombre] = useState('');
     const [marca, setMarca] = useState('');
     const [precioVenta, setPrecioVenta] = useState('');
+    const [stock, setStock] = useState('');
+
     const [imageSrc, setImageSrc] = useState('');
     const [error, setError] = useState(false);
     const btnImage = useRef(null);
@@ -34,11 +36,11 @@ const ModalProducto = (props) => {
         if (ultimoProd) {
             // Si hay productos en la lista, obtener el último código y agregar +1
             const ultimoCodigo = parseInt(ultimoProd.codigo, 10);
-            const nuevoCodigo = (ultimoCodigo + 1).toString().padStart(7, '0');
+            const nuevoCodigo = (ultimoCodigo + 1).toString();
             setCodigo(nuevoCodigo);
         } else {
             // Si la lista está vacía, generar el primer código
-            setCodigo('0000001');
+            setCodigo('1');
         }
     };
 
@@ -49,6 +51,7 @@ const ModalProducto = (props) => {
         setMarca(() => props.productoEditar.marca);
         setTipoProducto(() => props.productoEditar.tipoProducto);
         setPrecioVenta(() => props.productoEditar.precioVenta);
+        setStock(() => props.productoEditar.stock);
         setImageSrc(() => props.productoEditar.imagen);
     }
     const borrarImagen = (e) => {
@@ -82,7 +85,7 @@ const ModalProducto = (props) => {
         // validar campos
 
         if (campoRequerido(nombre) === false || campoRequerido(marca) === false ||
-            rangoPrecio(precioVenta) === false) {
+            rangoPrecio(precioVenta) === false || rangoPrecio(stock) === false) {
             // alerta de error
             console.log("error");
 
@@ -90,21 +93,23 @@ const ModalProducto = (props) => {
             return;
         } else {
             setError(false);
-            // enviar datos a la API
-
-            const productoData = {
-                nombre: nombre,
-                codigo: codigo,
-                marca: marca,
-                tipoProducto: tipoProducto,
-                precioVenta: precioVenta,
-                imagen: imageSrc
-            };
+            // Enviar datos a la API
 
             try {
                 let respuesta;
 
+                // DATOS
+                const productoData = {
+                    nombre: nombre,
+                    codigo: codigo,
+                    marca: marca,
+                    tipoProducto: tipoProducto,
+                    precioVenta: precioVenta,
+                    imagen: imageSrc,
+                    stock: stock
+                };
                 if (props.agregarOeditar === 'agregar') {
+
                     // AGREGAR
                     respuesta = await fetch(`${URL}/producto`, {
                         method: "POST",
@@ -161,19 +166,24 @@ const ModalProducto = (props) => {
 
         setNombre('');
         setMarca('');
+        setStock(0);
         setTipoProducto('');
         setPrecioVenta(0);
         setImageSrc('');
     };
-    const verificarPrecio = (e) => {
-        const precioInput = e.target.value;
+    const verificarNumeric = (e) => {
+        const numeroInput = e.target.value;
         const formatoNumero = /^\d+(\.\d{0,2})?$/;
 
-        if (!formatoNumero.test(precioInput) || parseFloat(precioInput) <= 0 || parseFloat(precioInput) >= 999999) {
+        if (!formatoNumero.test(numeroInput) || parseFloat(numeroInput) <= 0 || parseFloat(numeroInput) >= 999999) {
             e.target.classList.add("is-invalid");
         } else {
             e.target.classList.remove("is-invalid");
-            setPrecioVenta(parseFloat(precioInput));
+            if (e.target.name === 'precio-venta') {
+                setPrecioVenta(parseFloat(numeroInput));
+            } else {
+                setStock(parseFloat(numeroInput));
+            }
         }
     };
 
@@ -234,7 +244,14 @@ const ModalProducto = (props) => {
                         <article className='row'>
                             <div className='form-group col-6'>
                                 <label className='mt-1'>Precio venta *</label>
-                                <input value={precioVenta} onBlur={verificarPrecio} onChange={(e) => { setPrecioVenta(e.target.value) }} className='mt-2 form-control' type='text' placeholder='0.00' />
+                                <input name='precio-venta' value={precioVenta} onBlur={verificarNumeric} onChange={(e) => { setPrecioVenta(e.target.value) }} className='mt-2 form-control' type='text' placeholder='0.00' />
+                                <div className='invalid-feedback'>
+                                    Ingresar un numero mayor a "0" y menor a "999999"
+                                </div>
+                            </div>
+                            <div className='form-group col-6'>
+                                <label className='mt-1'>Stock *</label>
+                                <input name='stock' value={stock} onBlur={verificarNumeric} onChange={(e) => { setStock(e.target.value) }} className='mt-2 form-control' type='text' placeholder='0' />
                                 <div className='invalid-feedback'>
                                     Ingresar un numero mayor a "0" y menor a "999999"
                                 </div>

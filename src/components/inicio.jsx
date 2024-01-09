@@ -19,18 +19,8 @@ const Inicio = () => {
     }, [showModal]);
 
     const handleClose = () => setShowModal(false);
-
-    const hacerPedido = () => {
-        if (estadoCaja === false) {
-            Swal.fire({
-                title: "No es posible completar su solicitud",
-                text: "Por favor, abra la caja para poder continuar",
-                icon: "warning"
-            });
-        } else {
-            navigate('/compra-pedido');
-        }
-    }
+    const hacerPedido = () => {navigate('/compra-pedido')}
+    
     const abrirCaja = () => {
         setAbrirCajaState(estadoCaja === false ? 'abrir' : 'cerrar');
         setShowModal(true);
@@ -61,11 +51,9 @@ const Inicio = () => {
                 }
             } else {
                 console.log('Error al obtener el estado de la caja');
-                // Manejar el error según sea necesario
             }
         } catch (error) {
             console.error('Error en la consulta:', error);
-            // Manejar el error según sea necesario
         }
     }
 

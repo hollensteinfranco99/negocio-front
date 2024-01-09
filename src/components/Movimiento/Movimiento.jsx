@@ -1,15 +1,18 @@
-import React, { useEffect, useReducer, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import '../../css/consulta.css';
 import ModalMovimiento from '../Movimiento/ModalMovimiento';
 import Swal from 'sweetalert2';
 
-const Movimiento = () => {
+const Movimiento = (props) => {
     const URL = process.env.REACT_APP_API_URL;
     const [movimiento, setMovimiento] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedOption, setSelectedOption] = useState('');
     const [movimientoEditar, setMovimientoEditar] = useState(null);
     const [agregarOeditar, setAgregarOeditar] = useState('');
+    const [pedidoId, setPedidoId] = useState(null);
+
     const opciones = [
         { value: '', label: 'Selecciona un movimiento' },
         { value: 'CompraMercaderia', label: 'Compra de mercancía para el stock del kiosko' },
@@ -19,6 +22,16 @@ const Movimiento = () => {
         { value: 'Venta', label: 'VENTA' },
     ];
     const rdbTodoRef = useRef(null);
+    const pedidoParametro = useLocation();
+
+    useEffect(() => {
+        if (pedidoParametro.state) {
+            console.log("id :" + pedidoParametro.state.id)
+            setPedidoId(pedidoParametro.state.id);
+            abrirAgregar();
+        }
+    }, [pedidoParametro.state]);
+
 
     useEffect(() => {
         consultarMovimientos();
@@ -50,6 +63,7 @@ const Movimiento = () => {
                 url = `${URL}/movimiento`;
             } else {
                 url = `${URL}/movimiento?tipoMovimiento_like=${searchInput}`;
+                setSelectedOption('Todos');
             }
             const res = await fetch(url);
 
@@ -68,29 +82,64 @@ const Movimiento = () => {
         consultarMovimientos(e.target.value);
 
     };
-    const abrirAgregar = () => {
-        setAgregarOeditar('agregar');
-        setShowModal(true)
+    const verificarCajaAbierta = async () => {
+        try {
+            const response = await fetch(`${URL}/caja`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.status === 200) {
+                const data = await response.json();
+                const cajasAbiertas = data.filter(caja => caja.estado_caja === 'ABIERTA');
+
+                // Verificar si hay al menos una caja abierta
+                if (cajasAbiertas.length > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                console.log('Error al obtener el estado de la caja');
+                return false;
+            }
+        } catch (error) {
+            console.error('Error en la consulta:', error);
+            return false;
+        }
+    }
+    const abrirAgregar = async () => {
+        if (await verificarCajaAbierta() === true) {
+            setAgregarOeditar('agregar');
+            setShowModal(true)
+        } else {
+            Swal.fire({
+                title: 'La caja no se encuentra abierta',
+                text: 'Para poder realizar su solicitud necesita que la caja se encuentre abierta',
+                icon: 'error',
+            })
+        }
     };
-    const obtenerPorIdEditar = async (id) => {
+    const obtenerPorIdEliminar = async (id) => {
         try {
             const urlEditar = `${URL}/movimiento/${id}`;
 
             const res = await fetch(urlEditar);
 
             if (res.status === 200) {
-                const producto = await res.json();
+                const mov = await res.json();
                 setMovimientoEditar(() => {
                     setAgregarOeditar('editar');
                     setShowModal(true);
-                    return producto;
+                    return mov;
                 });
             }
         } catch (error) {
             console.log(error);
         }
     }
-
     const eliminar = (id) => {
         Swal.fire({
             title: "¿Estas seguro de eliminar el movimiento?",
@@ -188,11 +237,11 @@ const Movimiento = () => {
                     <table className="table table-striped table-hover">
                         <thead className="table-dark">
                             <tr>
+                                <th>Nro</th>
                                 <th>Fecha</th>
                                 <th>Detalle</th>
                                 <th>Movimiento</th>
                                 <th>Monto</th>
-                                <th className='text-end'>Editar</th>
                                 <th>Eliminar</th>
                             </tr>
                         </thead>
@@ -203,18 +252,16 @@ const Movimiento = () => {
                                 return (
                                     <React.Fragment key={index}>
                                         <tr>
-                                            <th>{mov.fechaRegistro}</th>
-                                            <th>{opcionEncontrada ? opcionEncontrada.label : mov.descripcion}</th>
-                                            <th className={mov.tipoMovimiento === 'INGRESO' ? 'ingreso' : 'egreso'}>{mov.tipoMovimiento}</th>
-                                            <th>{new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(parseFloat(mov.monto))}</th>
-                                            <th className='text-end'>
-                                                <button onClick={() => { obtenerPorIdEditar(mov.id) }} className={`${mov.descripcion === 'Venta' ? 'd-none' : ''} btn btn-warning`}>Editar</button>
-                                            </th>
-                                            <th>
-                                                <button onClick={() => eliminar(mov.id)} className={`${mov.descripcion === 'Venta' ? 'd-none' : ''} btn btn-danger`}>
+                                            <td>{mov.nro_movimiento}</td>
+                                            <td>{mov.fechaRegistro}</td>
+                                            <td>{opcionEncontrada ? opcionEncontrada.label : mov.descripcion}</td>
+                                            <td className={mov.tipoMovimiento === 'INGRESO' ? 'ingreso' : 'egreso'}>{mov.tipoMovimiento}</td>
+                                            <td>{new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(parseFloat(mov.monto))}</td>
+                                            <td>
+                                                <button onClick={() => obtenerPorIdEliminar(mov.id)} className={`${mov.descripcion === 'Venta' || mov.estado === 'CANCELADO' ? 'd-none' : ''} btn btn-danger`}>
                                                     Eliminar
                                                 </button>
-                                            </th>
+                                            </td>
                                         </tr>
                                     </React.Fragment>
                                 );
@@ -225,9 +272,11 @@ const Movimiento = () => {
             </div>
 
             <ModalMovimiento
+                pedidoId={pedidoId}
+                setPedidoId={setPedidoId}
                 movimientoEditar={movimientoEditar}
                 agregarOeditar={agregarOeditar}
-                consultarProducto={consultarMovimientos}
+                consultarMovimientos={consultarMovimientos}
                 showModal={showModal}
                 handleClose={handleClose}>
             </ModalMovimiento>

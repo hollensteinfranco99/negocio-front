@@ -5,6 +5,9 @@
     margin: 10px;
     overflow-x: auto;
 }
+.tabla-pedido{
+    height: 20rem;
+}
 h2{
     font-family: 'fuente-1';
 }

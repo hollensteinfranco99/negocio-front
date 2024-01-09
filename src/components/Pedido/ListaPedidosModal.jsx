@@ -1,21 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../css/consulta.css';
 import { useNavigate } from 'react-router-dom';
 
-const Pedido = (props) => {
-    const [pedidos, setPedidos] = useState([]);
+
+const ListaPedidosModal = () => {
     const URL = process.env.REACT_APP_API_URL;
+    const [pedidos, setPedidos] = useState([]);
+
     const navigate = useNavigate();
 
     useEffect(() => {
         consultarPedidos();
     }, []);
 
-    const consultarPedidos = async (input) => {
+
+    const consultarPedidos = async (searchInput) => {
         try {
-            const url = input
-            ? `${URL}/compra-pedido?q=${input}`
-            : `${URL}/compra-pedido`;
+            const url = searchInput
+            ? `${URL}/compra-pedido?q=${searchInput}&estado=${encodeURIComponent('EN PROCESO')}`
+            : `${URL}/compra-pedido?estado=${encodeURIComponent('EN PROCESO')}`;
+
             const res = await fetch(url);
 
             if (res.status === 200) {
@@ -26,25 +30,26 @@ const Pedido = (props) => {
             console.log(error);
         }
     }
-    const handleAgregarClick = () => {
-        navigate('/compra-pedido');
-    };
+    const obtenerPedidoId = (id) => {
+        navigate(`/movimiento`, { state: { id: id } });
+    }
     const handleChange = (e) => {
         consultarPedidos(e.target.value);
     }
+
+
     return (
         <section className='w-100 mt-3'>
             <div className='m-5 text-center'>
-                <h1>Pedidos</h1>
+                <h1>Productos</h1>
             </div>
             <div className='contenedor-buscar'>
-                <section className=' mt-5 d-flex justify-content-center align-items-center'>
+            <section className=' mt-5 d-flex justify-content-center align-items-center'>
                     <form>
                         <div className='form-group d-flex me-1'>
                             <input onChange={(e) => handleChange(e)} className='form-control me-1' type="search" placeholder='Buscar' />
                         </div>
                     </form>
-                    <button disabled={props.verDetalle ? true : false} onClick={handleAgregarClick} className='btn btn-success my-1'>Agregar</button>
                 </section>
                 <section className='my-5 contenedor-tabla'>
                     <table className="table table-striped table-hover">
@@ -61,16 +66,17 @@ const Pedido = (props) => {
                         <tbody>
                             {
                                 pedidos.map((ped, index) => {
-                                    return <tr key={index}>
+                                    return <tr key={index} onTouchStart={() => obtenerPedidoId(ped.id)} onDoubleClick={() => obtenerPedidoId(ped.id)}>
                                         <td>{ped.fecha_registro}</td>
-                                        <td>{ped.proveedor}</td>
-                                        <td>{ped.nro_factura}</td>
+                                        <th>{ped.proveedor}</th>
+                                        <th>{ped.nro_factura}</th>
                                         <td>{ped.total}</td>
-                                        <td>{ped.estado}</td>
-                                        <td><button className='btn btn-warning'>Ver</button></td>
+                                        <th>{ped.estado}</th>
+                                        <th><button className='btn btn-warning'>Ver</button></th>
                                     </tr>
                                 })
                             }
+
                         </tbody>
                     </table>
                 </section>
@@ -79,4 +85,4 @@ const Pedido = (props) => {
     );
 };
 
-export default Pedido;
+export default ListaPedidosModal;

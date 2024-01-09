@@ -1,234 +1,448 @@
 {
   "producto": [
     {
-      "nombre": "Pepsi-Cola",
-      "codigo": "12",
-      "marca": "Pepsi",
-      "tipoProducto": "Panaderia",
-      "precioVenta": "800",
-      "imagen": "",
-      "id": "1"
-    },
-    {
-      "nombre": "Gaseosa Coca-Cola",
-      "codigo": "10",
-      "tipoProducto": "Bebida",
-      "precioVenta": "1800",
-      "imagen": "",
-      "marca": "Coca-Cola",
-      "id": "2"
-    },
-    {
-      "nombre": "fran",
-      "codigo": 33,
-      "marca": "lacoste",
-      "tipoProducto": "Papeleria",
-      "precioVenta": 12,
-      "imagen": "",
-      "id": "EvvbJC9"
-    },
-    {
-      "nombre": "1",
-      "codigo": "033",
-      "marca": "3",
+      "nombre": "Papas Fritas",
+      "codigo": "1",
+      "marca": "Lays",
       "tipoProducto": "Snacks",
-      "precioVenta": 12,
+      "precioVenta": 800,
       "imagen": "",
-      "id": "MSEc2um"
+      "stock": 1066,
+      "id": 1
     },
     {
-      "nombre": "f",
-      "codigo": "0000034",
-      "marca": "f",
-      "tipoProducto": "Snacks",
-      "precioVenta": 312,
+      "nombre": "Cariñosas",
+      "codigo": "2",
+      "marca": "Elegant",
+      "tipoProducto": "CuidadoPersonalLimpieza",
+      "precioVenta": 1000,
       "imagen": "",
-      "id": "qfS35H5"
-    },
-    {
-      "nombre": "312dsa",
-      "codigo": "0000035",
-      "marca": "dsa",
-      "tipoProducto": "Panaderia",
-      "precioVenta": 312,
-      "imagen": "",
-      "id": "feB4H6A"
-    },
-    {
-      "nombre": "321",
-      "codigo": "0000036",
-      "marca": "edasd",
-      "tipoProducto": "Panaderia",
-      "precioVenta": 312,
-      "imagen": "",
-      "id": "flQqe4s"
-    },
-    {
-      "nombre": "312",
-      "codigo": "0000037",
-      "marca": "312",
-      "tipoProducto": "Bebidas",
-      "precioVenta": 312,
-      "imagen": "",
-      "id": "hu8fFtI"
-    },
-    {
-      "nombre": "fsa",
-      "codigo": "0000038",
-      "marca": "fsa",
-      "tipoProducto": "Snacks",
-      "precioVenta": 321,
-      "imagen": "",
-      "id": "0IRWpUh"
-    },
-    {
-      "nombre": "432",
-      "codigo": "0000039",
-      "marca": "rwq",
-      "tipoProducto": "Bebidas",
-      "precioVenta": 312,
-      "imagen": "",
-      "id": "MwigdIj"
-    },
-    {
-      "nombre": "dfas",
-      "codigo": "0000040",
-      "marca": "231",
-      "tipoProducto": "Bebidas",
-      "precioVenta": 31,
-      "imagen": "",
-      "id": "tAF2PAI"
-    },
-    {
-      "nombre": "312",
-      "codigo": "0000041",
-      "marca": "dw",
-      "tipoProducto": "Snacks",
-      "precioVenta": 312,
-      "imagen": "",
-      "id": "5nXz0Ld"
-    },
-    {
-      "nombre": "74",
-      "codigo": "0000042",
-      "marca": "765",
-      "tipoProducto": "Snacks",
-      "precioVenta": 75,
-      "imagen": "",
-      "id": "IbvFpBp"
-    },
-    {
-      "nombre": "edw",
-      "codigo": "0000043",
-      "marca": "1312",
-      "tipoProducto": "Snacks",
-      "precioVenta": 312,
-      "imagen": "",
-      "id": "X-rR9u_"
-    },
-    {
-      "nombre": "312",
-      "codigo": "0000043",
-      "marca": "rewa",
-      "tipoProducto": "",
-      "precioVenta": 312,
-      "imagen": "",
-      "id": "C4fdDi7"
-    },
-    {
-      "nombre": "dsa",
-      "codigo": "0000044",
-      "marca": "123",
-      "tipoProducto": "",
-      "precioVenta": 123,
-      "imagen": "",
-      "id": "KG111LS"
+      "stock": 56,
+      "id": 2
     }
   ],
   "movimiento": [
     {
-      "descripcion": "PagoServicio",
-      "monto": 1223,
-      "fechaRegistro": "03/01/24 01:13",
+      "descripcion": "GastoLimpieza",
+      "monto": 14500,
+      "fechaRegistro": "08/01/24 22:10",
       "tipoMovimiento": "EGRESO",
+      "caja_id": 4,
+      "nro_movimiento": "NRO-MOV-0000001",
+      "estado": "CANCELADO",
       "id": 1
     },
     {
-      "descripcion": "CompraMercaderia",
-      "monto": 4512,
-      "fechaRegistro": "03/01/24 01:13",
+      "descripcion": "PagoSalario",
+      "monto": 80000,
+      "fechaRegistro": "08/01/24 22:11",
       "tipoMovimiento": "EGRESO",
+      "caja_id": 4,
+      "nro_movimiento": "NRO-MOV-0000002",
+      "estado": "ACTIVO",
       "id": 2
     },
     {
-      "descripcion": "PagoSalario",
-      "monto": 5442,
-      "fechaRegistro": "03/01/24 01:13",
-      "tipoMovimiento": "EGRESO",
+      "descripcion": "Ingreso efectivo",
+      "monto": 150000,
+      "fechaRegistro": "08/01/24 22:11",
+      "tipoMovimiento": "INGRESO",
+      "caja_id": 4,
+      "nro_movimiento": "NRO-MOV-0000003",
+      "estado": "ACTIVO",
       "id": 3
     },
     {
-      "descripcion": "Venta",
-      "monto": 12424,
-      "fechaRegistro": "03/01/24 01:14",
-      "tipoMovimiento": "INGRESO",
+      "descripcion": "PagoSalario",
+      "monto": 1400,
+      "fechaRegistro": "08/01/24 22:12",
+      "tipoMovimiento": "EGRESO",
+      "caja_id": 4,
+      "nro_movimiento": "NRO-MOV-0000004",
+      "estado": "ACTIVO",
       "id": 4
     },
     {
-      "descripcion": "Venta",
-      "monto": 31231,
-      "fechaRegistro": "03/01/24 01:14",
+      "descripcion": "PagoSalario",
+      "monto": 50,
+      "fechaRegistro": "08/01/24 22:13",
       "tipoMovimiento": "INGRESO",
+      "caja_id": 4,
+      "nro_movimiento": "NRO-MOV-0000005",
+      "estado": "CANCELADO",
       "id": 5
     },
     {
-      "descripcion": "fas",
-      "monto": 33,
-      "fechaRegistro": "03/01/24 08:07",
+      "descripcion": "PagoSalario",
+      "monto": 789,
+      "fechaRegistro": "08/01/24 22:14",
       "tipoMovimiento": "EGRESO",
+      "caja_id": 4,
+      "nro_movimiento": "NRO-MOV-0000006",
+      "estado": "CANCELADO",
       "id": 6
     },
     {
-      "descripcion": "dasda",
-      "monto": 111,
-      "fechaRegistro": "03/01/24 08:07",
+      "descripcion": "GastoLimpieza",
+      "monto": 50,
+      "fechaRegistro": "08/01/24 22:14",
       "tipoMovimiento": "INGRESO",
+      "caja_id": 4,
+      "nro_movimiento": "NRO-MOV-0000007",
+      "estado": "ACTIVO",
       "id": 7
+    },
+    {
+      "descripcion": "CANCELACION DE MOVIMIENTO NRO - NRO-MOV-0000001",
+      "monto": 14500,
+      "fechaRegistro": "08/01/24 22:14",
+      "tipoMovimiento": "INGRESO",
+      "caja_id": 4,
+      "nro_movimiento": "NRO-MOV-0000008",
+      "estado": "CANCELADO",
+      "id": 8
+    },
+    {
+      "descripcion": "CANCELACION DE MOVIMIENTO NRO - NRO-MOV-0000005",
+      "monto": 50,
+      "fechaRegistro": "08/01/24 22:14",
+      "tipoMovimiento": "EGRESO",
+      "caja_id": 4,
+      "nro_movimiento": "NRO-MOV-0000009",
+      "estado": "CANCELADO",
+      "id": 9
+    },
+    {
+      "descripcion": "PagoSalario",
+      "monto": 40,
+      "fechaRegistro": "08/01/24 22:15",
+      "tipoMovimiento": "INGRESO",
+      "caja_id": 4,
+      "nro_movimiento": "MOV-0000010",
+      "estado": "ACTIVO",
+      "id": 10
+    },
+    {
+      "descripcion": "PagoSalario",
+      "monto": 50,
+      "fechaRegistro": "08/01/24 22:15",
+      "tipoMovimiento": "INGRESO",
+      "caja_id": 4,
+      "nro_movimiento": "MOV-0000011",
+      "estado": "CANCELADO",
+      "id": 11
+    },
+    {
+      "descripcion": "CANCELACION DE MOVIMIENTO NRO - MOV-0000011",
+      "monto": 50,
+      "fechaRegistro": "08/01/24 22:15",
+      "tipoMovimiento": "EGRESO",
+      "caja_id": 4,
+      "nro_movimiento": "MOV-0000012",
+      "estado": "CANCELADO",
+      "id": 12
+    },
+    {
+      "descripcion": "PagoSalario",
+      "monto": 30,
+      "fechaRegistro": "08/01/24 22:16",
+      "tipoMovimiento": "EGRESO",
+      "caja_id": 4,
+      "nro_movimiento": "MOV-0000013",
+      "estado": "ACTIVO",
+      "id": 13
+    },
+    {
+      "descripcion": "PagoServicio",
+      "monto": 60,
+      "fechaRegistro": "08/01/24 22:18",
+      "tipoMovimiento": "EGRESO",
+      "caja_id": 4,
+      "nro_movimiento": "MOV-0000014",
+      "estado": "ACTIVO",
+      "id": 14
+    },
+    {
+      "descripcion": "PagoSalario",
+      "monto": 30,
+      "fechaRegistro": "08/01/24 22:18",
+      "tipoMovimiento": "INGRESO",
+      "caja_id": 4,
+      "nro_movimiento": "MOV-0000015",
+      "estado": "ACTIVO",
+      "id": 15
+    },
+    {
+      "descripcion": "PagoSalario",
+      "monto": 50,
+      "fechaRegistro": "08/01/24 22:19",
+      "tipoMovimiento": "INGRESO",
+      "caja_id": 5,
+      "nro_movimiento": "MOV-0000016",
+      "estado": "ACTIVO",
+      "id": 16
+    },
+    {
+      "descripcion": "PagoServicio",
+      "monto": 600,
+      "fechaRegistro": "08/01/24 22:19",
+      "tipoMovimiento": "INGRESO",
+      "caja_id": 5,
+      "nro_movimiento": "MOV-0000017",
+      "estado": "CANCELADO",
+      "id": 17
+    },
+    {
+      "descripcion": "fra",
+      "monto": 23,
+      "fechaRegistro": "08/01/24 22:19",
+      "tipoMovimiento": "EGRESO",
+      "caja_id": 5,
+      "nro_movimiento": "MOV-0000018",
+      "estado": "CANCELADO",
+      "id": 18
+    },
+    {
+      "descripcion": "CANCELACION DE MOVIMIENTO NRO - MOV-0000018",
+      "monto": 23,
+      "fechaRegistro": "08/01/24 22:20",
+      "tipoMovimiento": "INGRESO",
+      "caja_id": 5,
+      "nro_movimiento": "MOV-0000019",
+      "estado": "CANCELADO",
+      "id": 19
+    },
+    {
+      "descripcion": "CANCELACION DE MOVIMIENTO NRO - NRO-MOV-0000006",
+      "monto": 789,
+      "fechaRegistro": "08/01/24 22:26",
+      "tipoMovimiento": "INGRESO",
+      "caja_id": 5,
+      "nro_movimiento": "MOV-0000020",
+      "estado": "CANCELADO",
+      "id": 20
+    },
+    {
+      "descripcion": "CANCELACION DE MOVIMIENTO NRO - MOV-0000017",
+      "monto": 600,
+      "fechaRegistro": "08/01/24 22:26",
+      "tipoMovimiento": "EGRESO",
+      "caja_id": 5,
+      "nro_movimiento": "MOV-0000021",
+      "estado": "CANCELADO",
+      "id": 21
     }
   ],
   "caja": [
     {
-      "fecha_apertura": "04/01/24 00:41",
-      "fecha_cierre": "04/01/24 00:42",
-      "monto_cierre": "3444",
-      "monto_apertura": "400",
-      "monto_total": "400",
-      "diferencia": 3044,
+      "fecha_apertura": "08/01/24 05:12",
+      "fecha_cierre": "08/01/24 05:20",
+      "monto_cierre": 0,
+      "monto_apertura": "",
+      "monto_total": "",
+      "diferencia": null,
       "nro_caja": "0000001",
       "estado_caja": "CERRADA",
       "id": 1
     },
     {
-      "fecha_apertura": "04/01/24 00:42",
-      "fecha_cierre": "04/01/24 00:42",
-      "monto_cierre": "15",
-      "monto_apertura": "456",
-      "monto_total": "456",
-      "diferencia": -441,
+      "fecha_apertura": "08/01/24 05:20",
+      "fecha_cierre": "08/01/24 05:21",
+      "monto_cierre": 0,
+      "monto_apertura": 0,
+      "monto_total": 0,
+      "diferencia": null,
       "nro_caja": "0000002",
       "estado_caja": "CERRADA",
       "id": 2
     },
     {
-      "fecha_apertura": "04/01/24 00:42",
-      "fecha_cierre": "04/01/24 00:42",
-      "monto_cierre": "78",
-      "monto_apertura": "66",
-      "monto_total": "66",
-      "diferencia": 12,
+      "fecha_apertura": "08/01/24 05:21",
+      "fecha_cierre": "08/01/24 05:21",
+      "monto_cierre": 0,
+      "monto_apertura": 0,
+      "monto_total": 0,
+      "diferencia": 0,
       "nro_caja": "0000003",
       "estado_caja": "CERRADA",
       "id": 3
+    },
+    {
+      "fecha_apertura": "08/01/24 21:52",
+      "fecha_cierre": "08/01/24 22:19",
+      "monto_cierre": 0,
+      "monto_apertura": "500",
+      "monto_total": "500",
+      "diferencia": 121591,
+      "nro_caja": "0000004",
+      "estado_caja": "CERRADA",
+      "id": 4
+    },
+    {
+      "fecha_apertura": "08/01/24 22:19",
+      "fecha_cierre": "08/01/24 22:27",
+      "monto_cierre": 0,
+      "monto_apertura": 0,
+      "monto_total": 0,
+      "diferencia": 235,
+      "nro_caja": "0000005",
+      "estado_caja": "CERRADA",
+      "id": 5
+    }
+  ],
+  "compra-pedido": [
+    {
+      "proveedor": "FANACOA",
+      "fecha_estimada": "10/10/23 00:00",
+      "nro_factura": "FACT-NRO-0000001",
+      "subtotal": 675,
+      "descuento": 5,
+      "total": 641,
+      "estado": "PAGADO - RECIBIDO",
+      "id": 1
+    },
+    {
+      "proveedor": "",
+      "fecha_estimada": "Invalid date",
+      "nro_factura": "FACT-NRO-0000002",
+      "fecha_registro": "08/01/24 04:43",
+      "subtotal": 0,
+      "descuento": 0,
+      "total": 0,
+      "estado": "EN PROCESO",
+      "id": 2
+    },
+    {
+      "proveedor": "fas",
+      "fecha_estimada": "16/01/24",
+      "nro_factura": "FACT-NRO-0000003",
+      "fecha_registro": "08/01/24 04:43",
+      "subtotal": 9,
+      "descuento": 0,
+      "total": 9,
+      "estado": "EN PROCESO",
+      "id": 3
+    },
+    {
+      "proveedor": "fasdasd",
+      "fecha_estimada": "01/10/80",
+      "nro_factura": "FACT-NRO-0000004",
+      "fecha_registro": "08/01/24 04:43",
+      "subtotal": 0,
+      "descuento": 0,
+      "total": 0,
+      "estado": "EN PROCESO",
+      "id": 4
+    },
+    {
+      "proveedor": "fasdasd",
+      "fecha_estimada": "01/10/80",
+      "nro_factura": "FACT-NRO-0000005",
+      "fecha_registro": "08/01/24 04:43",
+      "subtotal": 6,
+      "descuento": 0,
+      "total": 6,
+      "estado": "EN PROCESO",
+      "id": 5
+    },
+    {
+      "proveedor": "",
+      "fecha_estimada": "Invalid date",
+      "nro_factura": "FACT-NRO-0000006",
+      "fecha_registro": "08/01/24 05:00",
+      "subtotal": 0,
+      "descuento": 0,
+      "total": 0,
+      "estado": "EN PROCESO",
+      "id": 6
+    },
+    {
+      "proveedor": "",
+      "fecha_estimada": "Invalid date",
+      "nro_factura": "FACT-NRO-0000007",
+      "fecha_registro": "08/01/24 05:00",
+      "subtotal": 0,
+      "descuento": 0,
+      "total": 0,
+      "estado": "EN PROCESO",
+      "id": 7
+    },
+    {
+      "proveedor": "",
+      "fecha_estimada": "Invalid date",
+      "nro_factura": "FACT-NRO-0000008",
+      "fecha_registro": "08/01/24 05:00",
+      "subtotal": 0,
+      "descuento": 0,
+      "total": 0,
+      "estado": "EN PROCESO",
+      "id": 8
+    },
+    {
+      "proveedor": "fas",
+      "fecha_estimada": "12/03/23",
+      "nro_factura": "FACT-NRO-0000009",
+      "subtotal": 3,
+      "descuento": 0,
+      "total": 3,
+      "estado": "PAGADO - RECIBIDO",
+      "id": 9
+    }
+  ],
+  "detalle-comprobante-compra": [
+    {
+      "producto_id": 1,
+      "pedido_id": 1,
+      "nombre_producto": "Papas Fritas",
+      "cantidad": "5",
+      "precio_unitario": "100",
+      "subtotal": "500.00",
+      "id": 1
+    },
+    {
+      "producto_id": 2,
+      "pedido_id": 1,
+      "nombre_producto": "Cariñosas",
+      "cantidad": "3",
+      "precio_unitario": "35",
+      "subtotal": "105.00",
+      "id": 2
+    },
+    {
+      "producto_id": 1,
+      "pedido_id": 1,
+      "nombre_producto": "Papas Fritas",
+      "cantidad": "5",
+      "precio_unitario": "14",
+      "subtotal": "70.00",
+      "id": 3
+    },
+    {
+      "producto_id": 1,
+      "pedido_id": 3,
+      "nombre_producto": "Papas Fritas",
+      "cantidad": "3",
+      "precio_unitario": "3",
+      "subtotal": "9.00",
+      "id": 4
+    },
+    {
+      "producto_id": 1,
+      "pedido_id": 5,
+      "nombre_producto": "Papas Fritas",
+      "cantidad": "2",
+      "precio_unitario": "3",
+      "subtotal": "6.00",
+      "id": 5
+    },
+    {
+      "producto_id": 1,
+      "pedido_id": 9,
+      "nombre_producto": "Papas Fritas",
+      "cantidad": "1",
+      "precio_unitario": "3",
+      "subtotal": "3.00",
+      "id": 6
     }
   ]
 }

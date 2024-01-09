@@ -17,7 +17,6 @@ const ModalCaja = (props) => {
 
     useEffect(() => {
         cargarDetalle();
-        console.log("fas")
     }, [props.showModal && props.verDetalle === true]);
 
     useEffect(() => {
@@ -39,7 +38,6 @@ const ModalCaja = (props) => {
         }
     }
     const cargarDetalle = () => {
-        console.log(props.cajaDetalle)
         if (props.cajaDetalle) {
             setNroCaja(props.cajaDetalle.nro_caja || '');
             setDiferencia(props.cajaDetalle.diferencia || '');
@@ -108,7 +106,7 @@ const ModalCaja = (props) => {
 
         try {
             let resultado_diferencia;
-            resultado_diferencia = parseFloat(monto_cierre) - parseFloat(monto_apertura);
+            resultado_diferencia = parseFloat(monto_cierre) - parseFloat(monto_total);
             const etiquetaResultado = resultado_diferencia > 0
                 ? 'SOBRANTE'
                 : resultado_diferencia < 0
@@ -117,11 +115,11 @@ const ModalCaja = (props) => {
 
             const cajaAbrirData = {
                 fecha_apertura: fecha_apertura,
-                monto_apertura: monto_apertura,
+                monto_apertura: monto_apertura || 0,
                 nro_caja: nro_caja,
                 estado_caja: 'ABIERTA',
                 monto_cierre: 0,
-                monto_total: monto_apertura,
+                monto_total: monto_apertura || 0,
                 diferencia: resultado_diferencia
             };
             props.setMontoTotal(monto_apertura);

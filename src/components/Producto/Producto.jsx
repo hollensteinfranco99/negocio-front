@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../css/consulta.css';
 import ModalProducto from './ModalProducto';
 import Swal from 'sweetalert2';
@@ -8,17 +8,15 @@ const Producto = () => {
     const [productos, setProductos] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [productoEditar, setProductoEditar] = useState(null);
-    const [agregarOeditar,setAgregarOeditar] = useState('');
+    const [agregarOeditar, setAgregarOeditar] = useState('');
     useEffect(() => {
-            consultarProducto();
+        consultarProducto();
     }, []);
 
-    
-    const consultarProducto = async (searchInput) => {
+
+    const consultarProducto = async (codigo, nombre) => {
         try {
-            const url = searchInput
-            ? `${URL}/producto?${isNaN(searchInput) ? 'nombre_like' : 'codigo_like'}=${searchInput}`
-                : `${URL}/producto`;
+            const url = `${URL}/producto${codigo ? '?codigo_like=' + codigo : ''}${nombre ? '?nombre_like=' + nombre : ''}`;
 
             const res = await fetch(url);
 
@@ -30,9 +28,9 @@ const Producto = () => {
             console.log(error);
         }
     }
-    const obtenerPorIdEditar = async (id) =>{
+    const obtenerPorIdEditar = async (id) => {
         try {
-            const urlEditar =`${URL}/producto/${id}`;
+            const urlEditar = `${URL}/producto/${id}`;
 
             const res = await fetch(urlEditar);
 
@@ -42,12 +40,13 @@ const Producto = () => {
                     setAgregarOeditar('editar');
                     setShowModal(true);
                     return producto;
-                });            }
+                });
+            }
         } catch (error) {
             console.log(error);
         }
     }
-    const eliminar = (id) =>{
+    const eliminar = (id) => {
         Swal.fire({
             title: "¿Estas seguro de eliminar el producto?",
             text: "Se eliminara de forma permanente",
@@ -57,23 +56,23 @@ const Producto = () => {
             cancelButtonColor: "#DC4C64",
             confirmButtonText: "Si, estoy seguro",
             cancelButtonText: "Cancelar"
-        }).then(async (result) =>{
-            if(result.isConfirmed) {
+        }).then(async (result) => {
+            if (result.isConfirmed) {
                 // Eliminar producto
                 try {
                     const urlEliminar = `${URL}/producto/${id}`;
                     console.log(id);
-                    const respuesta = await fetch(urlEliminar,{
-                        method:'DELETE',
-                        headers:{'Content-Type':'application/json'},
+                    const respuesta = await fetch(urlEliminar, {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' },
                     });
-                    if(respuesta.status === 200){
+                    if (respuesta.status === 200) {
                         Swal.fire({
                             title: 'Eliminado',
-                            text:'El producto ha sido eliminado',
+                            text: 'El producto ha sido eliminado',
                             icon: 'success',
                             confirmButtonColor: "#14A44D",
-                    })
+                        })
                         consultarProducto();
                     }
                 } catch (error) {
@@ -87,9 +86,17 @@ const Producto = () => {
             }
         });
     }
+    const buscarPorCodigo = (event) =>{
+        event.preventDefault();
+        const codigo = event.target.value;
+        const nombre = ''; 
+        consultarProducto(codigo, nombre); 
+    }
     const handleInputChange = (event) => {
         event.preventDefault();
-        consultarProducto(event.target.value);
+        const codigo = '';
+        const nombre = event.target.value;
+        consultarProducto(codigo, nombre);
     };
     const abrirAgregar = () => {
         setAgregarOeditar('agregar');
@@ -105,10 +112,16 @@ const Producto = () => {
             <div className='contenedor-buscar'>
                 <section className=' mt-5 d-flex justify-content-center align-items-center'>
                     <form>
-                        <div className='form-group d-flex me-1'>
-                            <input onChange={handleInputChange}
-                            className='form-control me-1' type="search" placeholder='Buscar' />
-                        </div>
+                        <article className='row'>
+                            <div className='col-3 form-group d-flex'>
+                                <input onChange={(e)=>buscarPorCodigo(e)}
+                                    className='form-control' type="number" placeholder='Codigo' />
+                            </div>
+                            <div className='col-9 form-group d-flex'>
+                                <input onChange={(e)=>handleInputChange(e)}
+                                    className='form-control me-1' type="search" placeholder='Buscar producto' />
+                            </div>
+                        </article>
                     </form>
                     <button className='btn btn-success my-1' onClick={abrirAgregar}>Agregar</button>
                 </section>
@@ -125,30 +138,29 @@ const Producto = () => {
                         </thead>
                         <tbody>
                             {
-                                productos.map((prod, index)=>{
+                                productos.map((prod, index) => {
                                     return <tr key={index}>
-                                    <th>{prod.codigo}</th>
-                                    <th>{prod.nombre}</th>
-                                    <th>{new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(parseFloat(prod.precioVenta))}</th>
-                                    <th className='text-end'>
-                                    <button onClick={()=>{obtenerPorIdEditar(prod.id)}} className='btn btn-warning'>Editar</button></th>
-                                    <th><button onClick={()=>{eliminar(prod.id)}} className='btn btn-danger'>Eliminar</button></th>
-                                </tr>
+                                        <td>{prod.codigo}</td>
+                                        <td>{prod.nombre}</td>
+                                        <td>{new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(parseFloat(prod.precioVenta))}</td>
+                                        <td className='text-end'>
+                                            <button onClick={() => { obtenerPorIdEditar(prod.id) }} className='btn btn-warning'>Editar</button></td>
+                                        <td><button onClick={() => { eliminar(prod.id) }} className='btn btn-danger'>Eliminar</button></td>
+                                    </tr>
                                 })
                             }
-                            
                         </tbody>
                     </table>
                 </section>
             </div>
 
             <ModalProducto
-            productoEditar={productoEditar} 
-            agregarOeditar={agregarOeditar}
-            consultarProducto={consultarProducto} 
-            productosLista= {productos}
-            showModal={showModal} 
-            handleClose={handleClose}>
+                productoEditar={productoEditar}
+                agregarOeditar={agregarOeditar}
+                consultarProducto={consultarProducto}
+                productosLista={productos}
+                showModal={showModal}
+                handleClose={handleClose}>
 
             </ModalProducto>
         </section>

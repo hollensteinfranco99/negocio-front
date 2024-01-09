@@ -103,14 +103,14 @@ const Caja = () => {
                             {cajas.map((caj, index) => (
                                 <React.Fragment key={index}>
                                     <tr>
-                                        <th>{caj.fecha_apertura}</th>
-                                        <th>{caj.fecha_cierre}</th>
-                                        <th>{caj.nro_caja}</th>
-                                        <th>
+                                        <td>{caj.fecha_apertura}</td>
+                                        <td>{caj.fecha_cierre}</td>
+                                        <td>{caj.nro_caja}</td>
+                                        <td>
                                             {new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(caj.monto_total)}
-                                        </th>
-                                        <th>{caj.estado_caja}</th>
-                                        <th><button onClick={()=>obtenerCajaPorId(caj.id)} className='btn btn-warning'>Ver</button></th>
+                                        </td>
+                                        <td>{caj.estado_caja}</td>
+                                        <td><button onClick={()=>obtenerCajaPorId(caj.id)} className='btn btn-warning'>Ver</button></td>
                                     </tr>
                                 </React.Fragment>
                             ))}
