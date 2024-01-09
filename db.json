@@ -352,12 +352,79 @@
     },
     {
       "fecha_apertura": "09/01/24 03:11",
+      "fecha_cierre": "2024-01-09",
       "monto_cierre": 0,
       "monto_apertura": 0,
-      "monto_total": 201,
+      "monto_total": 0,
+      "diferencia": -201,
       "nro_caja": "0000007",
-      "estado_caja": "ABIERTA",
+      "estado_caja": "CERRADA",
       "id": 7
+    },
+    {
+      "fecha_apertura": "2024-01-09",
+      "fecha_cierre": "2024-01-09",
+      "monto_cierre": 0,
+      "monto_apertura": 0,
+      "monto_total": 0,
+      "diferencia": 0,
+      "nro_caja": "0000008",
+      "estado_caja": "CERRADA",
+      "id": 8
+    },
+    {
+      "fecha_apertura": "2024-01-09",
+      "fecha_cierre": "2024-01-09",
+      "monto_cierre": 0,
+      "monto_apertura": 0,
+      "monto_total": 0,
+      "diferencia": 0,
+      "nro_caja": "0000009",
+      "estado_caja": "CERRADA",
+      "id": 9
+    },
+    {
+      "fecha_apertura": "2024-01-09",
+      "fecha_cierre": "2024-01-09",
+      "monto_cierre": 0,
+      "monto_apertura": 0,
+      "monto_total": 0,
+      "diferencia": 0,
+      "nro_caja": "0000010",
+      "estado_caja": "CERRADA",
+      "id": 10
+    },
+    {
+      "fecha_apertura": "09/01/24 03:44",
+      "fecha_cierre": "09/01/24 03:44",
+      "monto_cierre": 0,
+      "monto_apertura": 0,
+      "monto_total": 0,
+      "diferencia": 0,
+      "nro_caja": "0000011",
+      "estado_caja": "CERRADA",
+      "id": 11
+    },
+    {
+      "fecha_apertura": "09/01/24 03:46",
+      "fecha_cierre": "09/01/24 03:46",
+      "monto_cierre": 0,
+      "monto_apertura": 0,
+      "monto_total": 0,
+      "diferencia": 0,
+      "nro_caja": "0000012",
+      "estado_caja": "CERRADA",
+      "id": 12
+    },
+    {
+      "fecha_apertura": "09/01/24 03:51",
+      "monto_apertura": 0,
+      "nro_caja": "0000013",
+      "estado_caja": "ABIERTA",
+      "monto_cierre": 0,
+      "monto_total": 0,
+      "diferencia": null,
+      "id": 13
     }
   ],
   "compra-pedido": [

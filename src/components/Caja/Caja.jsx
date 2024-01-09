@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '../../css/consulta.css';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 const Caja = () => {
     const URL = process.env.REACT_APP_API_URL;
-    // fecha para buscar
-    const fechaDesdeRef = useRef(null);
-    const fechaHastaRef = useRef(null);
+
     // ==================
     const [cajas, setCajas] = useState([]);
     const navigate = useNavigate();
@@ -18,18 +17,12 @@ const Caja = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        consultarCajas(fechaDesdeRef.current.value, fechaHastaRef.current.value);
+        consultarCajas();
     }
-    const consultarCajas = async (fechaDesde, fechaHasta) => {
+    const consultarCajas = async () => {
         try {
-            let url;
-            if (fechaDesde && fechaHasta) {
-                // Si se proporcionan ambas fechas, incluir en la URL
-                url = `${URL}/caja?fecha_gte=${fechaDesde}&fecha_lte=${fechaHasta}`;
-            } else {
-                // Si no se proporcionan ambas fechas, obtener todas las cajas
-                url = `${URL}/caja`;
-            }
+            let url = `${URL}/caja?_sort=id&_order=desc`;
+
             const res = await fetch(url);
 
             if (res.status === 200) {
@@ -49,29 +42,6 @@ const Caja = () => {
                 <h1>Historial Cajas</h1>
             </div>
             <div className='contenedor-buscar'>
-                <section className=' mt-5 d-flex justify-content-center align-items-center'>
-                    <form onSubmit={handleSubmit}>
-                        <div className='form-group d-flex justify-content-end align-items-end'>
-
-                            <article className='d-flex flex-wrap justify-content-around'>
-                                <div>
-                                    <div className="form-group me-1 mt-3">
-                                        <label>Fecha desde: </label>
-                                        <input ref={fechaDesdeRef} className='form-control' type='date' />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="form-group me-1 mt-3">
-                                        <label>Fecha hasta: </label>
-                                        <input ref={fechaHastaRef} className='form-control' type='date' />
-                                    </div>
-                                </div>
-                            </article>
-
-                            <button type='submit' className='btn btn-dark'>Buscar</button>
-                        </div>
-                    </form>
-                </section>
                 <section className='my-5 contenedor-tabla'>
                     <table className="table table-striped table-hover">
                         <thead className="table-dark">

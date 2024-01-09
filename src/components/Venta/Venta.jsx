@@ -449,7 +449,7 @@ const Venta = () => {
                 const ventaData = {
                     tipo_comprobante: tipoComprobante,
                     nro_factura: nroFacturaRef.current.value,
-                    fecha_registro: moment().format('DD/MM/YY HH:mm'),
+                    fecha_registro: moment().format('YYYY-MM-DD'),
                     subtotal: parseFloat(subTotalRef.current.value.match(/\d+/)) || 0,
                     descuento: parseFloat(descuentoTotalRef.current.value.match(/\d+/)) || 0,
                     total: parseFloat(totalRef.current.value.match(/\d+/)) || 0,
