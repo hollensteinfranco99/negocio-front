@@ -197,6 +197,7 @@ const ModalMovimiento = (props) => {
             }
         } catch (error) {
             console.log(error);
+            return false;
         }
     }
     const actualizarStockProd = async () => {
@@ -221,7 +222,6 @@ const ModalMovimiento = (props) => {
 
                 if (productoResponse.status === 200) {
                     const prodEncontrado = await productoResponse.json();
-                    console.log(prodEncontrado);
 
                     const productoData = {
                         nombre: prodEncontrado.nombre,

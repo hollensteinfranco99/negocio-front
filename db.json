@@ -7,7 +7,7 @@
       "tipoProducto": "Snacks",
       "precioVenta": 800,
       "imagen": "",
-      "stock": 1066,
+      "stock": 1050,
       "id": 1
     },
     {
@@ -17,7 +17,7 @@
       "tipoProducto": "CuidadoPersonalLimpieza",
       "precioVenta": 1000,
       "imagen": "",
-      "stock": 56,
+      "stock": 46,
       "id": 2
     }
   ],
@@ -231,6 +231,56 @@
       "nro_movimiento": "MOV-0000021",
       "estado": "CANCELADO",
       "id": 21
+    },
+    {
+      "descripcion": "VENTA REALIZADA - FACT-NRO-0000002",
+      "monto": 111,
+      "fechaRegistro": "09/01/24 03:11",
+      "tipoMovimiento": "INGRESO",
+      "caja_id": 7,
+      "nro_movimiento": "MOV-0000022",
+      "estado": "ACTIVO",
+      "id": 22
+    },
+    {
+      "descripcion": "VENTA REALIZADA - FACT-NRO-0000002",
+      "monto": 111,
+      "fechaRegistro": "09/01/24 03:11",
+      "tipoMovimiento": "INGRESO",
+      "caja_id": 7,
+      "nro_movimiento": "MOV-0000023",
+      "estado": "ACTIVO",
+      "id": 23
+    },
+    {
+      "descripcion": "VENTA REALIZADA - FACT-NRO-0000002",
+      "monto": 111,
+      "fechaRegistro": "09/01/24 03:11",
+      "tipoMovimiento": "INGRESO",
+      "caja_id": 7,
+      "nro_movimiento": "MOV-0000024",
+      "estado": "ACTIVO",
+      "id": 24
+    },
+    {
+      "descripcion": "VENTA REALIZADA - FACT-NRO-0000003",
+      "monto": 46,
+      "fechaRegistro": "09/01/24 03:16",
+      "tipoMovimiento": "INGRESO",
+      "caja_id": 7,
+      "nro_movimiento": "MOV-0000025",
+      "estado": "ACTIVO",
+      "id": 25
+    },
+    {
+      "descripcion": "VENTA REALIZADA - FACT-NRO-0000004",
+      "monto": 44,
+      "fechaRegistro": "09/01/24 03:17",
+      "tipoMovimiento": "INGRESO",
+      "caja_id": 7,
+      "nro_movimiento": "MOV-0000026",
+      "estado": "ACTIVO",
+      "id": 26
     }
   ],
   "caja": [
@@ -299,6 +349,15 @@
       "nro_caja": "0000006",
       "estado_caja": "CERRADA",
       "id": 6
+    },
+    {
+      "fecha_apertura": "09/01/24 03:11",
+      "monto_cierre": 0,
+      "monto_apertura": 0,
+      "monto_total": 201,
+      "nro_caja": "0000007",
+      "estado_caja": "ABIERTA",
+      "id": 7
     }
   ],
   "compra-pedido": [
@@ -454,6 +513,95 @@
       "precio_unitario": "3",
       "subtotal": "3.00",
       "id": 6
+    }
+  ],
+  "venta": [
+    {
+      "tipo_comprobante": "X",
+      "fecha_registro": "10/10/23 00:00",
+      "nro_factura": "FACT-NRO-0000001",
+      "subtotal": 675,
+      "descuento": 5,
+      "total": 641,
+      "estado": "FINALIZADO",
+      "id": 1
+    },
+    {
+      "tipo_comprobante": "",
+      "nro_factura": "FACT-NRO-0000002",
+      "fecha_registro": "09/01/24 03:11",
+      "subtotal": 114,
+      "descuento": 2,
+      "total": 111,
+      "estado": "FINALIZADO",
+      "id": 2
+    },
+    {
+      "tipo_comprobante": "",
+      "nro_factura": "FACT-NRO-0000003",
+      "fecha_registro": "09/01/24 03:16",
+      "subtotal": 46,
+      "descuento": 0,
+      "total": 46,
+      "estado": "FINALIZADO",
+      "id": 3
+    },
+    {
+      "tipo_comprobante": "",
+      "nro_factura": "FACT-NRO-0000004",
+      "fecha_registro": "09/01/24 03:17",
+      "subtotal": 44,
+      "descuento": 0,
+      "total": 44,
+      "estado": "FINALIZADO",
+      "id": 4
+    }
+  ],
+  "detalle-comprobante-venta": [
+    {
+      "producto_id": 1,
+      "venta_id": 2,
+      "nombre_producto": "Papas Fritas",
+      "cantidad": "4",
+      "precio_unitario": "5",
+      "subtotal": "20.00",
+      "id": 1
+    },
+    {
+      "producto_id": 1,
+      "venta_id": 2,
+      "nombre_producto": "Papas Fritas",
+      "cantidad": "2",
+      "precio_unitario": "2",
+      "subtotal": "4.00",
+      "id": 2
+    },
+    {
+      "producto_id": 2,
+      "venta_id": 2,
+      "nombre_producto": "Cariñosas",
+      "cantidad": "6",
+      "precio_unitario": "15",
+      "subtotal": "90.00",
+      "id": 3
+    },
+    {
+      "producto_id": 2,
+      "venta_id": 3,
+      "nombre_producto": "Cariñosas",
+      "cantidad": "2",
+      "precio_unitario": "23",
+      "subtotal": "46.00",
+      "id": 4
+    },
+    {
+      "producto_id": 2,
+      "venta_id": 4,
+      "nombre_producto": "Cariñosas",
+      "cantidad": "2",
+      "precio_unitario": "22",
+      "subtotal": "44.00",
+      "id": 5
     }
   ]
 }

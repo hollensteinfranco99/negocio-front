@@ -31,7 +31,6 @@ function App() {
       <Route exact path='/' element={<Inicio></Inicio>}></Route>
       <Route exact path='/caja' element={<Caja></Caja>}></Route>
       <Route exact path='/historial-caja/:id' element={<CajaMovimientos></CajaMovimientos>}></Route>
-
       <Route exact path='/pedido' element={<Pedido></Pedido>}></Route>
       <Route exact path='/lista-pedidos' element={<ListaPedidosModal></ListaPedidosModal>}></Route>
       <Route exact path='/producto' element={<Producto></Producto>}></Route>
@@ -39,9 +38,10 @@ function App() {
       <Route exact path='/compra-pedido' element={<CompraPedido></CompraPedido>}></Route>
       <Route path='/compra-pedido/:id' element={<CompraPedido></CompraPedido>}></Route>
       <Route exact path='/venta' element={<Venta></Venta>}></Route>
+      <Route exact path='/venta/:id' element={<Venta></Venta>}></Route>
       <Route exact path='/venta-realizada' element={<VentaRealizada></VentaRealizada>}></Route>
       <Route exact path='/detalle-comprobante' element={<DetalleComprobante></DetalleComprobante>}></Route>
-      <Route exact path='/listaProducto' element={<ListaProductoModal></ListaProductoModal>}></Route>
+      <Route exact path='/listaProducto/:id' element={<ListaProductoModal></ListaProductoModal>}></Route>
       </Routes>
       </Router>
     </div>

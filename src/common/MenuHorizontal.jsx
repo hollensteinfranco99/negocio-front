@@ -22,7 +22,7 @@ const MenuHorizontal = () => {
         }
     }
     return (
-        <div className='position-fixed bg-dark w-100 d-flex justify-content-between'>
+        <div className='position-fixed bg-dark w-100 d-flex justify-content-between menu-horizontal'>
             <article className='cont-btn-abrir'>
                     <button className='btn-abrir-menu'>
                         <FontAwesomeIcon className='me-1' icon={faBars} />

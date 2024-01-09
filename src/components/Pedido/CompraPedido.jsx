@@ -118,7 +118,7 @@ const CompraPedido = () => {
 
         console.log(e.type);
         if (e.key === 'Enter' || (e.type === 'click' && e.target.tagName === 'BUTTON')) {
-            navigate(`/listaProducto`);
+            navigate(`/listaProducto/2`);
         }
     }
     const borrarTodo = (e) => {
@@ -146,7 +146,6 @@ const CompraPedido = () => {
 
         setNombreProd('');
         setDescuento('');
-        setNombreProd('');
         setFechaEstimada('');
         setDatos([]);
         totalRef.current.value = '';
