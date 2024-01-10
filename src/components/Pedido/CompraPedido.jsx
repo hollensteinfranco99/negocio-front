@@ -179,9 +179,9 @@ const CompraPedido = () => {
                     fecha_estimada: moment(fechaEstimada).format('DD/MM/YY'),
                     nro_factura: nroFactura,
                     fecha_registro: moment().format('DD/MM/YY HH:mm'),
-                    subtotal: parseFloat(subTotalRef.current.value.match(/\d+/)) || 0,
+                    subtotal: parseFloat(subTotalRef.current.value.replace(/[^\d,]/g, '').replace(',', '.')) || 0,
                     descuento: parseFloat(descuentoTotalRef.current.value.match(/\d+/)) || 0,
-                    total: parseFloat(totalRef.current.value.match(/\d+/)) || 0,
+                    total: parseFloat(totalRef.current.value.replace(/[^\d,]/g, '').replace(',', '.')) || 0,
                     estado: 'EN PROCESO'
                 };
                 const respuestaPedido = await fetch(`${URL}/compra-pedido`, {

@@ -144,9 +144,9 @@ const Producto = () => {
                                         <td>{prod.codigo}</td>
                                         <td>{prod.nombre}</td>
                                         <td>{new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(parseFloat(prod.precioVenta))}</td>
-                                        <td className='text-end'>
                                         <td>{prod.stock}</td>
-                                            <button onClick={() => { obtenerPorIdEditar(prod.id) }} className='btn btn-warning'>Editar</button></td>
+                                        <td className='text-end'>
+                                        <button onClick={() => { obtenerPorIdEditar(prod.id) }} className='btn btn-warning'>Editar</button></td>
                                         <td><button onClick={() => { eliminar(prod.id) }} className='btn btn-danger'>Eliminar</button></td>
                                     </tr>
                                 })

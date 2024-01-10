@@ -8,9 +8,6 @@ import { useNavigate } from 'react-router-dom';
 
 const CajaMovimientos = () => {
     const URL = process.env.REACT_APP_API_URL;
-    // fecha para buscar
-    const fechaDesdeRef = useRef(null);
-    const fechaHastaRef = useRef(null);
     // datos mostrar
     const fechaAperturaRef = useRef(null);
     const fechaCierreRef = useRef(null);
@@ -145,24 +142,6 @@ const CajaMovimientos = () => {
                             </div>
                         </article>
                         <hr />
-                        <div className='form-group d-flex justify-content-end align-items-end'>
-                            <article className='d-flex flex-wrap'>
-                                <div>
-                                    <div className="form-group me-1 mt-3">
-                                        <label>Fecha desde: </label>
-                                        <input ref={fechaDesdeRef} className='form-control' type='date' />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="form-group me-1 mt-3">
-                                        <label>Fecha hasta: </label>
-                                        <input ref={fechaHastaRef} className='form-control' type='date' />
-                                    </div>
-                                </div>
-                            </article>
-
-                            <button type='submit' className='btn btn-dark'>Buscar</button>
-                        </div>
                     </form>
                 </section>
                 <section className='my-5 contenedor-tabla'>

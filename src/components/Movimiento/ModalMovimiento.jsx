@@ -358,6 +358,14 @@ const ModalMovimiento = (props) => {
             setError(true);
             return;
         }
+        if(!cajaAbierta){
+            Swal.fire({
+                title: 'La caja no se encuentra abierta',
+                text: 'Para poder realizar su solicitud necesita que la caja se encuentre abierta',
+                icon: 'error',
+            });
+            return;
+        }
         if (descripcion === 'Otro') {
             // obtener el valor del input descripcion
             desc = descripcionInput;

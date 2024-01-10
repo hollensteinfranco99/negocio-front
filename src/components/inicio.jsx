@@ -1,7 +1,8 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import ModalCaja from './Caja/ModalCaja';
 import { useNavigate } from 'react-router-dom';
 import '../css/inicio.css';
+import moment from 'moment';
 
 const Inicio = () => {
     const URL = process.env.REACT_APP_API_URL;
@@ -9,17 +10,20 @@ const Inicio = () => {
     const [showModal, setShowModal] = useState(false);
     const [cajaEditar, setCajaEditar] = useState(null);
     const [abrirCajaState, setAbrirCajaState] = useState('');
-    const [montoTotal,setMontoTotal] = useState('');
-    
+    const [montoTotal, setMontoTotal] = useState('');
     const navigate = useNavigate();
+    const montoTotalMesRef = useRef(null);
 
     useEffect(() => {
         consultarEstadoCaja();
     }, [showModal]);
+    useEffect(() => {
+        consultarVentaMes();
+    }, []);
 
     const handleClose = () => setShowModal(false);
-    const hacerPedido = () => {navigate('/compra-pedido')}
-    
+    const hacerPedido = () => { navigate('/compra-pedido') }
+
     const abrirCaja = () => {
         setAbrirCajaState(estadoCaja === false ? 'abrir' : 'cerrar');
         setShowModal(true);
@@ -40,12 +44,12 @@ const Inicio = () => {
 
                 // Verificar si hay al menos una caja abierta
                 if (cajasAbiertas.length > 0) {
-                    
+
                     setEstadoCaja(true);
                     setCajaEditar(cajasAbiertas[0]);
                     setMontoTotal(cajasAbiertas[0].monto_total);
                 } else {
-                    
+
                     setEstadoCaja(false);
                 }
             } else {
@@ -55,7 +59,42 @@ const Inicio = () => {
             console.error('Error en la consulta:', error);
         }
     }
+    const consultarVentaMes = async () => {
+        try {
+            const response = await fetch(`${URL}/venta`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
+            if (response.status === 200) {
+                const ventas = await response.json();
+
+                // Obtén la fecha actual
+                const fechaActual = moment();
+
+                // Filtra las ventas del mes actual
+                const ventasMesActual = ventas.filter(venta => {
+                    const fechaVenta = moment(venta.fecha_registro, 'DD/MM/YY HH:mm');
+                    return (venta.estado === 'FINALIZADO' &&
+                        fechaVenta.month() === fechaActual.month() &&
+                        fechaVenta.year() === fechaActual.year()
+                    );
+                });
+                console.log(ventasMesActual);
+
+                // Suma los totales de las ventas filtradas
+                const totalVentasMesActual = ventasMesActual.reduce((total, venta) => total + venta.total, 0);
+                montoTotalMesRef.current.innerText = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(parseFloat(totalVentasMesActual)) ;
+                console.log(totalVentasMesActual);
+            } else {
+                console.log('Error en la consulta');
+            }
+        } catch (error) {
+            console.error('Error en la consulta:', error);
+        }
+    }
     return (
         <Fragment>
             <section className='contenedor-inicio'>
@@ -70,7 +109,7 @@ const Inicio = () => {
                                 <p className='me-2'>Total: </p>
                                 <p>{estadoCaja === false ? "$0.00" : `${new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(parseFloat(montoTotal))}`}</p>
                             </div>
-                            
+
                             <div className='mt-auto mb-2 d-flex justify-content-center'>
                                 <button onClick={() => { abrirCaja() }} className='btn btn-dark'>{estadoCaja == false ? "Abrir caja" : "Cerrar caja"}</button>
                             </div>
@@ -98,7 +137,7 @@ const Inicio = () => {
                             </div>
                             <div className='mt-auto d-flex justify-content-center align-items-center'>
                                 <p className='me-2'>Total: </p>
-                                <p>$250.00</p>
+                                <p ref={montoTotalMesRef}></p>
                             </div>
                         </div>
                     </article>

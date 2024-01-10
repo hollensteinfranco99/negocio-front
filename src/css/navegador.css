@@ -4,6 +4,7 @@
     flex-direction: column;
     color: white;
     z-index: 100 !important;
+    height: auto;
 }
 .menu-horizontal{
     z-index: 100 !important;

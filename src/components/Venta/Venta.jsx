@@ -16,6 +16,7 @@ const Venta = () => {
     const nroFacturaRef = useRef(null);
     const descuentoTotalRef = useRef(null);
     const codigoRef = useRef(null);
+    const precioVentaRef = useRef(null);
     const subTotalRef = useRef(null);
     const totalRef = useRef(null);
     const myFormRef = useRef(null);
@@ -39,12 +40,12 @@ const Venta = () => {
         generarFacturaUnica();
         // Al cargar el componente, intenta recuperar los datos del localStorage
         const datosGuardados = JSON.parse(localStorage.getItem('datos-venta'));
-        const descuentosGuardados = JSON.parse(localStorage.getItem('descuentos-venta')) || [];
+        const descuentosGuardados = JSON.parse(localStorage.getItem('descuentos-venta')) || ['0'];
 
         if (datosGuardados) {
             setDatos(datosGuardados);
             setDescuento(descuentosGuardados);
-            descuentoTotalRef.current.value = parseFloat(descuentosGuardados).toFixed(2) + " %";
+            descuentoTotalRef.current.value = parseFloat(descuentosGuardados || 0).toFixed(2) + " %";
             actualizarTotal(descuentosGuardados);
 
             // Calcular el subtotal total al cargar el componente
@@ -93,6 +94,7 @@ const Venta = () => {
                 const producto = await res.json();
                 // no se si sacar esos 2 todavia
                 codigoRef.current.value = producto.codigo;
+                precioVentaRef.current.value = producto.precioVenta;
                 setNombreProd(producto.nombre);
                 obtenerDatos(producto);
             }
@@ -109,6 +111,7 @@ const Venta = () => {
                 const producto = await res.json();
 
                 if (producto.length > 0) {
+                    precioVentaRef.current.value = producto[0].precioVenta;
                     setNombreProd(producto[0].nombre);
                     obtenerDatos(producto[0]);
                 } else {
@@ -154,7 +157,7 @@ const Venta = () => {
         setDatos([]);
         totalRef.current.value = '';
         subTotalRef.current.value = '';
-        descuentoTotalRef.current.value = '';
+        descuentoTotalRef.current.value = '0';
         codigoRef.current.value = '';
         generarFacturaUnica();
 
@@ -171,7 +174,7 @@ const Venta = () => {
     }
     const agregarDescuento = () => {
         localStorage.setItem('descuentos-venta', JSON.stringify([descuento]));
-        descuentoTotalRef.current.value = parseFloat(descuento).toFixed(2) + " %";
+        descuentoTotalRef.current.value = parseFloat(descuento || 0).toFixed(2) + " %";
         actualizarTotal();
     }
     // detalle
@@ -179,9 +182,7 @@ const Venta = () => {
         if (valueOrEvent.target) {
             // Si es un evento (proviene de onChange, por ejemplo)
             const { name, value } = valueOrEvent.target;
-            if (valueOrEvent.target.name === "precio" && valueOrEvent.target.value.trim() === '') {
-                valueOrEvent.target.value = "0"
-            }
+            
             setNuevoDato((prevNuevoDato) => ({
                 ...prevNuevoDato,
                 [name]: value,
@@ -191,7 +192,8 @@ const Venta = () => {
             setNuevoDato((prevNuevoDato) => ({
                 ...prevNuevoDato,
                 nombreProducto: valueOrEvent.nombre,
-                producto_id: valueOrEvent.id
+                producto_id: valueOrEvent.id,
+                precio: valueOrEvent.precioVenta
             }));
         }
     };
@@ -225,7 +227,7 @@ const Venta = () => {
     };
     const agregarDatos = () => {
         // Validar
-        if (nuevoDato.nombreProducto.trim() !== '' && nuevoDato.cantidad.trim() !== '' && nuevoDato.precio.trim() !== '') {
+        if (nuevoDato.nombreProducto.trim() !== '' && nuevoDato.cantidad.trim() !== '') {
             // Calcular el subtotal
             const subtotal = parseFloat(nuevoDato.precio) * parseFloat(nuevoDato.cantidad);
 
@@ -247,6 +249,7 @@ const Venta = () => {
             setNuevoDato({ nombreProducto: '', precio: '', cantidad: '', subtotal: '' });
             setNombreProd('');
             codigoRef.current.value = '';
+            precioVentaRef.current.value = '';
         }
     };
     const eliminarDato = (id) => {
@@ -320,7 +323,7 @@ const Venta = () => {
         try {
             const movimientoData = {
                 descripcion: 'VENTA REALIZADA - ' + nroFacturaRef.current.value,
-                monto: parseFloat(totalRef.current.value.match(/\d+/)) || 0,
+                monto: parseFloat(totalRef.current.value.replace(/[^\d,]/g, '').replace(',', '.')) || 0,
                 fechaRegistro: moment().format('DD/MM/YY HH:mm'),
                 tipoMovimiento: 'INGRESO',
                 caja_id: cajaAbierta.id,
@@ -334,14 +337,9 @@ const Venta = () => {
                 },
                 body: JSON.stringify(movimientoData)
             });
-            if (respuesta.status === 201) {
-                return true;
-            } else {
-                return false;
-            }
+            return respuesta;
         } catch (error) {
             console.log(error);
-            return false;
         }
     }
     const editarCaja = async () => {
@@ -416,9 +414,9 @@ const Venta = () => {
                         },
                         body: JSON.stringify(productoData)
                     });
-                    if(respuesta.status === 200){
+                    if (respuesta.status === 200) {
                         return true;
-                    }else{
+                    } else {
                         return false;
                     }
                 }
@@ -434,6 +432,14 @@ const Venta = () => {
         const datosGuardados = localStorage.getItem('datos-venta');
 
         // Validar
+        if(!cajaAbierta){
+            Swal.fire({
+                title: 'La caja no se encuentra abierta',
+                text: 'Para poder realizar su solicitud necesita que la caja se encuentre abierta',
+                icon: 'error',
+            });
+            return;
+        }
         if (!datosGuardados) {
             // Sweet alert de error
             Swal.fire({
@@ -444,16 +450,21 @@ const Venta = () => {
             return;
         } else {
             try {
+                // ALTA MOVIMIENTO
+                let respuestaMovimiento = await altaMovimiento();
                 // Alta de venta/comprobante
+                if(respuestaMovimiento.status === 201){
+                const idMovimiento = (await respuestaMovimiento.json()).id;
 
                 const ventaData = {
                     tipo_comprobante: tipoComprobante,
                     nro_factura: nroFacturaRef.current.value,
-                    fecha_registro: moment().format('YYYY-MM-DD'),
-                    subtotal: parseFloat(subTotalRef.current.value.match(/\d+/)) || 0,
+                    fecha_registro: moment().format('DD/MM/YY HH:mm'),
+                    subtotal: parseFloat(subTotalRef.current.value.replace(/[^\d,]/g, '').replace(',', '.')) || 0,
                     descuento: parseFloat(descuentoTotalRef.current.value.match(/\d+/)) || 0,
-                    total: parseFloat(totalRef.current.value.match(/\d+/)) || 0,
-                    estado: 'FINALIZADO'
+                    total: parseFloat(totalRef.current.value.replace(/[^\d,]/g, '').replace(',', '.')) || 0,
+                    estado: 'FINALIZADO',
+                    movimiento_id: idMovimiento
                 };
                 const respuestaVenta = await fetch(`${URL}/venta`, {
                     method: 'POST',
@@ -488,14 +499,13 @@ const Venta = () => {
                         });
 
                         if (respuestaDetalleVenta.status === 201) {
-                            // ALTA MOVIMIENTO
-                            let mov = await altaMovimiento();
+
                             // EDITAR CAJA
                             let caja = await editarCaja();
                             // EDITAR PRODUCTO
                             let prodActualizar = await actualizarStockProd(idVentaGenerada);
 
-                            if (mov === true && caja === true && prodActualizar === true) {
+                            if (caja === true && prodActualizar === true) {
                                 // MENSAJE DE EXITO
                                 Swal.fire({
                                     title: 'Venta realizada',
@@ -515,6 +525,7 @@ const Venta = () => {
                     }
                     limpiarForm();
                 }
+            }
             } catch (error) {
                 console.log(error);
             }
@@ -566,7 +577,7 @@ const Venta = () => {
                             </div>
                             <div className='form-group col-6 col-lg-3 mt-2'>
                                 <label>Precio unitario</label>
-                                <input name='precio' value={nuevoDato.precio} onChange={(e) => obtenerDatos(e)} placeholder='0.00' step='0.1' className='form-control' type="number" />
+                                <input ref={precioVentaRef} name='precio' disabled placeholder='0.00' step='0.1' className='form-control' type="number" />
                             </div>
                             <div className='form-group col-6 col-lg-3 mt-2'>
                                 <label>Descuento</label>
@@ -586,7 +597,7 @@ const Venta = () => {
                             </article>
                         </article>
                         {/* Tabla */}
-                        <article className='mt-4 mb-2 contenedor-tabla'>
+                        <article className='mt-4 mb-2 contenedor-tabla tabla-pedido'>
                             <table className="table table-striped table-hover">
                                 <thead className="table-dark">
                                     <tr>
