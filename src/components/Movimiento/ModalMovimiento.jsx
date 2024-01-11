@@ -37,7 +37,7 @@ const ModalMovimiento = (props) => {
         } else {
             limpiarForm();
             if (props.pedidoId) {
-                obtenerPedidoPorId();
+                obtenerPedidoPorId(props.pedidoId);
             }
         }
     }, [props.showModal]);
@@ -112,9 +112,9 @@ const ModalMovimiento = (props) => {
             console.error('Error en la consulta:', error);
         }
     }
-    const obtenerPedidoPorId = async () => {
+    const obtenerPedidoPorId = async (id) => {
         try {
-            const urlPedido = `${URL}/compra-pedido/${props.pedidoId}`;
+            const urlPedido = `${URL}/compra-pedido/${id}`;
 
             const res = await fetch(urlPedido);
 
@@ -138,16 +138,23 @@ const ModalMovimiento = (props) => {
         }
     }
     const pagarPedido = async () => {
+        // EDITAR PEDIDO - PAGADO O CANCELADO
+        if (props.agregarOeditar !== 'agregar') {
+            await obtenerPedidoPorId(props.movimientoEditar.pedido_id);
+        }
+
+        const pedidoEditar = {
+            proveedor: pedido.proveedor,
+            fecha_estimada: pedido.fecha_estimada,
+            nro_factura: pedido.nro_factura,
+            subtotal: pedido.subtotal,
+            descuento: pedido.descuento,
+            fecha_registro: pedido.fecha_registro,
+            total: pedido.total,
+            estado: props.agregarOeditar === 'agregar' ? "PAGADO - RECIBIDO" : "CANCELADO"
+        };
         try {
-            const pedidoEditar = {
-                proveedor: pedido.proveedor,
-                fecha_estimada: pedido.fecha_estimada,
-                nro_factura: pedido.nro_factura,
-                subtotal: pedido.subtotal,
-                descuento: pedido.descuento,
-                total: pedido.total,
-                estado: props.agregarOeditar === 'agregar' ? "PAGADO - RECIBIDO" : "EN PROCESO"
-            };
+
             let respuesta;
             // EDITAR
             respuesta = await fetch(`${URL}/compra-pedido/${pedido.id}`, {
@@ -275,16 +282,18 @@ const ModalMovimiento = (props) => {
     };
     const eliminarMovimiento = async () => {
         // Enviar datos a la API
-        // Obtener nro de movimiento generado
+
+        // ALTA DE CANCELACION MOVIMIENTO
         let nro_mov = await generarNumeroMov();
         const movimientoData = {
-            descripcion: 'CANCELACION DE MOVIMIENTO NRO - ' + props.movimientoEditar.nro_movimiento,
+            descripcion: props.movimientoEditar.descripcion === 'CompraMercaderia' ? 'CANCELACION DE PAGO POR PEDIDO NRO - ' + pedido.nro_factura : 'CANCELACION DE MOVIMIENTO NRO - ' + props.movimientoEditar.nro_movimiento,
             monto: props.movimientoEditar.monto,
             fechaRegistro: moment().format('DD/MM/YY HH:mm'),
             tipoMovimiento: props.movimientoEditar.tipoMovimiento === 'EGRESO' ? 'INGRESO' : 'EGRESO',
             caja_id: cajaAbierta.id,
             nro_movimiento: nro_mov,
-            estado: 'CANCELADO'
+            estado: 'CANCELADO',
+            pedido_id: props.movimientoEditar.pedido_id
         };
         // Editar movimiento que se cancelo, para que no lo vuelvan a cancelar nuevamente
         const movimientoEditarData = {
@@ -294,7 +303,8 @@ const ModalMovimiento = (props) => {
             tipoMovimiento: props.movimientoEditar.tipoMovimiento,
             caja_id: props.movimientoEditar.caja_id,
             nro_movimiento: props.movimientoEditar.nro_movimiento,
-            estado: 'CANCELADO'
+            estado: 'CANCELADO',
+            pedido_id: props.movimientoEditar.pedido_id
         };
         try {
             let respuesta;
@@ -350,7 +360,6 @@ const ModalMovimiento = (props) => {
             }
         }
         // ALTA DE MOVIMIENTO - AGREGAR
-        console.log(descripcion+"  -  "+descripcionInput)
 
         // Validar campos 
         if (descripcion === 'Otro' && campoRequerido(descripcionInput) === false) {
@@ -358,7 +367,7 @@ const ModalMovimiento = (props) => {
             setError(true);
             return;
         }
-        if(!cajaAbierta){
+        if (!cajaAbierta) {
             Swal.fire({
                 title: 'La caja no se encuentra abierta',
                 text: 'Para poder realizar su solicitud necesita que la caja se encuentre abierta',
@@ -390,7 +399,8 @@ const ModalMovimiento = (props) => {
                 tipoMovimiento: tipoMovimiento,
                 caja_id: cajaAbierta.id,
                 nro_movimiento: nro_mov,
-                estado: 'ACTIVO'
+                estado: 'ACTIVO',
+                pedido_id: pedido?.id || null
             };
 
             try {

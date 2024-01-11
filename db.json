@@ -1,103 +1,53 @@
 {
   "producto": [
     {
-      "nombre": "Papas Fritas",
+      "nombre": "Gaseosa Pritty",
       "codigo": "1",
-      "marca": "Lays",
-      "tipoProducto": "Snacks",
-      "precioVenta": 800,
+      "marca": "Pritty",
+      "tipoProducto": "Bebidas",
+      "precioVenta": 1150,
       "imagen": "",
-      "stock": 1005,
+      "stock": 43,
       "id": 1
     },
     {
-      "nombre": "Cariñosas",
+      "nombre": "fasfas",
       "codigo": "2",
-      "marca": "Elegant",
-      "tipoProducto": "CuidadoPersonalLimpieza",
-      "precioVenta": 1000,
+      "marca": "2",
+      "tipoProducto": "",
+      "precioVenta": 3,
       "imagen": "",
-      "stock": 822,
-      "id": 2
-    }
-  ],
-  "movimiento": [
-    {
-      "descripcion": "VENTA REALIZADA - FACT-NRO-0000001",
-      "monto": 1452,
-      "fechaRegistro": "10/01/24 05:33",
-      "tipoMovimiento": "INGRESO",
-      "caja_id": 1,
-      "nro_movimiento": "MOV-0000001",
-      "estado": "CANCELADO",
-      "id": 1
-    },
-    {
-      "descripcion": "CANCELACION DE VENTA NRO - FACT-NRO-0000001",
-      "monto": 1452,
-      "fechaRegistro": "10/01/24 05:33",
-      "tipoMovimiento": "EGRESO",
-      "caja_id": 1,
-      "nro_movimiento": "MOV-0000002",
-      "estado": "CANCELADO",
+      "stock": 44,
       "id": 2
     },
     {
-      "descripcion": "VENTA REALIZADA - FACT-NRO-0000002",
-      "monto": 66,
-      "fechaRegistro": "10/01/24 05:56",
-      "tipoMovimiento": "INGRESO",
-      "caja_id": 3,
-      "nro_movimiento": "MOV-0000003",
-      "estado": "CANCELADO",
+      "nombre": "33",
+      "codigo": "3",
+      "marca": "2",
+      "tipoProducto": "",
+      "precioVenta": 2,
+      "imagen": "",
+      "stock": 33,
+      "permitirStockNegativo": true,
       "id": 3
-    },
-    {
-      "descripcion": "CANCELACION DE VENTA NRO - FACT-NRO-0000002",
-      "monto": 66,
-      "fechaRegistro": "10/01/24 06:00",
-      "tipoMovimiento": "EGRESO",
-      "caja_id": 4,
-      "nro_movimiento": "MOV-0000004",
-      "estado": "CANCELADO",
-      "id": 4
-    },
-    {
-      "descripcion": "VENTA REALIZADA - FACT-NRO-0000003",
-      "monto": 2948,
-      "fechaRegistro": "10/01/24 06:01",
-      "tipoMovimiento": "INGRESO",
-      "caja_id": 4,
-      "nro_movimiento": "MOV-0000005",
-      "estado": "ACTIVO",
-      "id": 5
-    },
-    {
-      "descripcion": "VENTA REALIZADA - FACT-NRO-0000004",
-      "monto": 1645.6,
-      "fechaRegistro": "10/01/24 06:02",
-      "tipoMovimiento": "INGRESO",
-      "caja_id": 4,
-      "nro_movimiento": "MOV-0000006",
-      "estado": "ACTIVO",
-      "id": 6
     }
   ],
+  "movimiento": [],
   "caja": [
     {
-      "fecha_apertura": "09/01/24 17:16",
-      "fecha_cierre": "10/01/24 05:49",
+      "fecha_apertura": "10/01/24 18:26",
+      "fecha_cierre": "10/01/24 21:26",
       "monto_cierre": 0,
-      "monto_apertura": "244",
-      "monto_total": "244",
-      "diferencia": 447,
+      "monto_apertura": "500",
+      "monto_total": "500",
+      "diferencia": -500,
       "nro_caja": "0000001",
       "estado_caja": "CERRADA",
       "id": 1
     },
     {
-      "fecha_apertura": "10/01/24 05:49",
-      "fecha_cierre": "10/01/24 05:55",
+      "fecha_apertura": "10/01/24 21:26",
+      "fecha_cierre": "10/01/24 21:26",
       "monto_cierre": 0,
       "monto_apertura": 0,
       "monto_total": 0,
@@ -107,110 +57,220 @@
       "id": 2
     },
     {
-      "fecha_apertura": "10/01/24 05:56",
-      "fecha_cierre": "10/01/24 05:56",
-      "monto_cierre": 0,
+      "fecha_apertura": "10/01/24 21:28",
       "monto_apertura": 0,
-      "monto_total": 0,
-      "diferencia": -66,
       "nro_caja": "0000003",
-      "estado_caja": "CERRADA",
-      "id": 3
-    },
-    {
-      "fecha_apertura": "10/01/24 06:00",
-      "monto_cierre": 0,
-      "monto_apertura": 0,
-      "monto_total": -63,
-      "nro_caja": "0000004",
       "estado_caja": "ABIERTA",
-      "id": 4
+      "monto_cierre": 0,
+      "monto_total": 0,
+      "diferencia": null,
+      "id": 3
     }
   ],
-  "compra-pedido": [],
-  "detalle-comprobante-compra": [],
-  "venta": [
+  "compra-pedido": [
     {
-      "tipo_comprobante": "",
+      "proveedor": "fra",
+      "fecha_estimada": "09/01/24",
       "nro_factura": "FACT-NRO-0000001",
-      "fecha_registro": "10/01/24 05:33",
-      "subtotal": 1452,
-      "descuento": 0,
-      "total": 1452,
-      "estado": "CANCELADO",
-      "movimiento_id": 1,
-      "id": 1
-    },
-    {
-      "tipo_comprobante": "",
-      "nro_factura": "FACT-NRO-0000002",
-      "fecha_registro": "10/01/24 05:56",
+      "fecha_registro": "10/01/24 21:05",
       "subtotal": 66,
       "descuento": 0,
       "total": 66,
-      "estado": "CANCELADO",
-      "movimiento_id": 3,
+      "estado": "EN PROCESO",
+      "id": 1
+    },
+    {
+      "proveedor": "fra",
+      "fecha_estimada": "09/01/24",
+      "nro_factura": "FACT-NRO-0000002",
+      "fecha_registro": "10/01/24 21:06",
+      "subtotal": 66,
+      "descuento": 0,
+      "total": 66,
+      "estado": "EN PROCESO",
       "id": 2
     },
     {
-      "tipo_comprobante": "",
+      "proveedor": "fra",
+      "fecha_estimada": "12/01/24",
       "nro_factura": "FACT-NRO-0000003",
-      "fecha_registro": "10/01/24 06:01",
-      "subtotal": 2948,
+      "fecha_registro": "10/01/24 21:10",
+      "subtotal": 66,
       "descuento": 0,
-      "total": 2948,
-      "estado": "FINALIZADO",
-      "movimiento_id": 5,
+      "total": 66,
+      "estado": "EN PROCESO",
       "id": 3
     },
     {
-      "tipo_comprobante": "",
+      "proveedor": "fra",
+      "fecha_estimada": "11/01/24",
       "nro_factura": "FACT-NRO-0000004",
-      "fecha_registro": "10/01/24 06:02",
-      "subtotal": 1936,
-      "descuento": 1500,
-      "total": 1645.6,
-      "estado": "FINALIZADO",
-      "movimiento_id": 6,
+      "fecha_registro": "10/01/24 21:12",
+      "subtotal": 1,
+      "descuento": 0,
+      "total": 1,
+      "estado": "EN PROCESO",
       "id": 4
+    },
+    {
+      "proveedor": "1das",
+      "fecha_estimada": "11/01/24",
+      "nro_factura": "FACT-NRO-0000005",
+      "fecha_registro": "10/01/24 21:15",
+      "subtotal": 484,
+      "descuento": 0,
+      "total": 484,
+      "estado": "EN PROCESO",
+      "id": 5
+    },
+    {
+      "proveedor": "fasras",
+      "fecha_estimada": "12/12/23",
+      "nro_factura": "FACT-NRO-0000006",
+      "fecha_registro": "10/01/24 21:15",
+      "subtotal": 484,
+      "descuento": 0,
+      "total": 484,
+      "estado": "EN PROCESO",
+      "id": 6
+    },
+    {
+      "proveedor": "dasd",
+      "fecha_estimada": "12/12/22",
+      "nro_factura": "FACT-NRO-0000007",
+      "fecha_registro": "10/01/24 21:15",
+      "subtotal": 484,
+      "descuento": 0,
+      "total": 484,
+      "estado": "EN PROCESO",
+      "id": 7
+    },
+    {
+      "proveedor": "dffsa",
+      "fecha_estimada": "12/02/22",
+      "nro_factura": "FACT-NRO-0000008",
+      "fecha_registro": "10/01/24 21:24",
+      "subtotal": 44,
+      "descuento": 0,
+      "total": 44,
+      "estado": "EN PROCESO",
+      "id": 8
+    },
+    {
+      "proveedor": "fsa",
+      "fecha_estimada": "12/12/22",
+      "nro_factura": "FACT-NRO-0000009",
+      "fecha_registro": "10/01/24 21:25",
+      "subtotal": 11,
+      "descuento": 0,
+      "total": 11,
+      "estado": "EN PROCESO",
+      "id": 9
+    },
+    {
+      "proveedor": "sad",
+      "fecha_estimada": "12/02/33",
+      "nro_factura": "FACT-NRO-0000010",
+      "fecha_registro": "10/01/24 21:26",
+      "subtotal": 44,
+      "descuento": 0,
+      "total": 44,
+      "estado": "EN PROCESO",
+      "id": 10
     }
   ],
-  "detalle-comprobante-venta": [
+  "detalle-comprobante-compra": [
     {
-      "producto_id": 2,
-      "venta_id": 1,
-      "nombre_producto": "Cariñosas",
-      "cantidad": "33",
-      "precio_unitario": "44",
-      "subtotal": "1452.00",
+      "producto_id": 1,
+      "pedido_id": 1,
+      "nombre_producto": "Gaseosa Pritty",
+      "cantidad": "2",
+      "precio_unitario": "33",
+      "subtotal": "66.00",
       "id": 1
     },
     {
       "producto_id": 1,
-      "venta_id": 2,
-      "nombre_producto": "Papas Fritas",
+      "pedido_id": 2,
+      "nombre_producto": "Gaseosa Pritty",
       "cantidad": "2",
       "precio_unitario": "33",
       "subtotal": "66.00",
       "id": 2
     },
     {
-      "producto_id": 2,
-      "venta_id": 3,
-      "nombre_producto": "Cariñosas",
-      "cantidad": "134",
-      "precio_unitario": "22",
-      "subtotal": "2948.00",
+      "producto_id": 1,
+      "pedido_id": 3,
+      "nombre_producto": "Gaseosa Pritty",
+      "cantidad": "2",
+      "precio_unitario": "33",
+      "subtotal": "66.00",
       "id": 3
     },
     {
-      "producto_id": 2,
-      "venta_id": 4,
-      "nombre_producto": "Cariñosas",
-      "cantidad": "44",
-      "precio_unitario": "44",
-      "subtotal": "1936.00",
+      "producto_id": 1,
+      "pedido_id": 4,
+      "nombre_producto": "Gaseosa Pritty",
+      "cantidad": "1",
+      "precio_unitario": "1",
+      "subtotal": "1.00",
       "id": 4
+    },
+    {
+      "producto_id": 1,
+      "pedido_id": 5,
+      "nombre_producto": "Gaseosa Pritty",
+      "cantidad": "22",
+      "precio_unitario": "22",
+      "subtotal": "484.00",
+      "id": 5
+    },
+    {
+      "producto_id": 2,
+      "pedido_id": 6,
+      "nombre_producto": "fasfas",
+      "cantidad": "22",
+      "precio_unitario": "22",
+      "subtotal": "484.00",
+      "id": 6
+    },
+    {
+      "producto_id": 2,
+      "pedido_id": 7,
+      "nombre_producto": "fasfas",
+      "cantidad": "22",
+      "precio_unitario": "22",
+      "subtotal": "484.00",
+      "id": 7
+    },
+    {
+      "producto_id": 1,
+      "pedido_id": 8,
+      "nombre_producto": "Gaseosa Pritty",
+      "cantidad": "22",
+      "precio_unitario": "2",
+      "subtotal": "44.00",
+      "id": 8
+    },
+    {
+      "producto_id": 1,
+      "pedido_id": 9,
+      "nombre_producto": "Gaseosa Pritty",
+      "cantidad": "11",
+      "precio_unitario": "1",
+      "subtotal": "11.00",
+      "id": 9
+    },
+    {
+      "producto_id": 2,
+      "pedido_id": 10,
+      "nombre_producto": "fasfas",
+      "cantidad": "2",
+      "precio_unitario": "22",
+      "subtotal": "44.00",
+      "id": 10
     }
-  ]
+  ],
+  "venta": [],
+  "detalle-comprobante-venta": []
 }

@@ -159,8 +159,8 @@ const CompraPedido = () => {
         e.preventDefault();
 
         const datosGuardados = localStorage.getItem('datos');
-
         // Validar
+        
         if (campoRequerido(proveedor) === false || campoRequerido(fechaEstimada) === false || !datosGuardados) {
             // Sweet alert de error
             Swal.fire({
@@ -182,7 +182,7 @@ const CompraPedido = () => {
                     subtotal: parseFloat(subTotalRef.current.value.replace(/[^\d,]/g, '').replace(',', '.')) || 0,
                     descuento: parseFloat(descuentoTotalRef.current.value.match(/\d+/)) || 0,
                     total: parseFloat(totalRef.current.value.replace(/[^\d,]/g, '').replace(',', '.')) || 0,
-                    estado: 'EN PROCESO'
+                    estado: 'EN PROCESO',
                 };
                 const respuestaPedido = await fetch(`${URL}/compra-pedido`, {
                     method: 'POST',
@@ -366,7 +366,7 @@ const CompraPedido = () => {
                             </div>
                             <div className='form-group col-lg-6 col-sm-12 mt-2'>
                                 <label>Fecha estimada</label>
-                                <input value={fechaEstimada} onChange={(e) => setFechaEstimada(e.target.value)} className='form-control' type='date' />
+                                <input data-toggle="tooltip" data-placement="bottom" title="Fecha mayor o igual al dia de hoy"  value={fechaEstimada} onChange={(e) => setFechaEstimada(e.target.value)} className='form-control' type='date' />
                             </div>
                         </article>
                         {/* Segunda fila */}

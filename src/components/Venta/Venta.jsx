@@ -12,6 +12,8 @@ const Venta = () => {
     const [nombreProd, setNombreProd] = useState('');
     const [descuento, setDescuento] = useState('');
     const [cajaAbierta, setCajaAbierta] = useState(null);
+    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+
     // Ref
     const nroFacturaRef = useRef(null);
     const descuentoTotalRef = useRef(null);
@@ -96,6 +98,7 @@ const Venta = () => {
                 codigoRef.current.value = producto.codigo;
                 precioVentaRef.current.value = producto.precioVenta;
                 setNombreProd(producto.nombre);
+                setProductoSeleccionado(producto);
                 obtenerDatos(producto);
             }
         } catch (error) {
@@ -113,6 +116,7 @@ const Venta = () => {
                 if (producto.length > 0) {
                     precioVentaRef.current.value = producto[0].precioVenta;
                     setNombreProd(producto[0].nombre);
+                    setProductoSeleccionado(producto[0]);
                     obtenerDatos(producto[0]);
                 } else {
                     setNombreProd('');
@@ -182,7 +186,7 @@ const Venta = () => {
         if (valueOrEvent.target) {
             // Si es un evento (proviene de onChange, por ejemplo)
             const { name, value } = valueOrEvent.target;
-            
+
             setNuevoDato((prevNuevoDato) => ({
                 ...prevNuevoDato,
                 [name]: value,
@@ -225,31 +229,52 @@ const Venta = () => {
         // Actualizar el valor de subTotalRef con el nuevo subtotal total
         subTotalRef.current.value = nuevoSubtotalFormateado;
     };
+    const sumarCantidadPorProducto = (producto_id) => {
+        const datosEnLocalStorage = JSON.parse(localStorage.getItem('datos-venta')) || [];
+        const cantidadTotal = datosEnLocalStorage.reduce((total, dato) => {
+            if (dato.producto_id === producto_id) {
+                return total + parseFloat(dato.cantidad);
+            }
+            return total;
+        }, 0);
+        return cantidadTotal;
+    };
     const agregarDatos = () => {
-        // Validar
-        if (nuevoDato.nombreProducto.trim() !== '' && nuevoDato.cantidad.trim() !== '') {
-            // Calcular el subtotal
-            const subtotal = parseFloat(nuevoDato.precio) * parseFloat(nuevoDato.cantidad);
+        const cantidadTotal = sumarCantidadPorProducto(productoSeleccionado.id);
+        if (productoSeleccionado.stock < cantidadTotal || productoSeleccionado.stock < nuevoDato.cantidad && productoSeleccionado.permitirStockNegativo === false) {
+            Swal.fire({
+                title: 'No tiene stock suficiente',
+                text: 'Para poder agregarlo, modifique el producto para permitir stock negativo',
+                icon: 'error',
+            });
+            return;
+        } else {
+            console.log("false");
+            // Validar
+            if (nuevoDato.nombreProducto.trim() !== '' && nuevoDato.cantidad.trim() !== '') {
+                // Calcular el subtotal
+                const subtotal = parseFloat(nuevoDato.precio) * parseFloat(nuevoDato.cantidad);
 
-            // Guardar datos
-            const nuevoDatoConId = {
-                id: datos.length + 1,
-                ...nuevoDato,
-                subtotal: subtotal.toFixed(2),
-            };
-            // Actualizar estado y localStorage
-            setDatos((prevDatos) => [...prevDatos, nuevoDatoConId]);
-            localStorage.setItem('datos-venta', JSON.stringify([...datos, nuevoDatoConId]));
+                // Guardar datos
+                const nuevoDatoConId = {
+                    id: datos.length + 1,
+                    ...nuevoDato,
+                    subtotal: subtotal.toFixed(2),
+                };
+                // Actualizar estado y localStorage
+                setDatos((prevDatos) => [...prevDatos, nuevoDatoConId]);
+                localStorage.setItem('datos-venta', JSON.stringify([...datos, nuevoDatoConId]));
 
-            // Actualizar subtotal total
-            actualizarSubtotal();
-            actualizarTotal();
+                // Actualizar subtotal total
+                actualizarSubtotal();
+                actualizarTotal();
 
-            // Restablecer valores
-            setNuevoDato({ nombreProducto: '', precio: '', cantidad: '', subtotal: '' });
-            setNombreProd('');
-            codigoRef.current.value = '';
-            precioVentaRef.current.value = '';
+                // Restablecer valores
+                setNuevoDato({ nombreProducto: '', precio: '', cantidad: '', subtotal: '' });
+                setNombreProd('');
+                codigoRef.current.value = '';
+                precioVentaRef.current.value = '';
+            }
         }
     };
     const eliminarDato = (id) => {
@@ -328,7 +353,8 @@ const Venta = () => {
                 tipoMovimiento: 'INGRESO',
                 caja_id: cajaAbierta.id,
                 nro_movimiento: nro_mov,
-                estado: 'ACTIVO'
+                estado: 'ACTIVO',
+                pedido_id:null
             };
             let respuesta = await fetch(`${URL}/movimiento`, {
                 method: "POST",
@@ -432,7 +458,7 @@ const Venta = () => {
         const datosGuardados = localStorage.getItem('datos-venta');
 
         // Validar
-        if(!cajaAbierta){
+        if (!cajaAbierta) {
             Swal.fire({
                 title: 'La caja no se encuentra abierta',
                 text: 'Para poder realizar su solicitud necesita que la caja se encuentre abierta',
@@ -453,79 +479,79 @@ const Venta = () => {
                 // ALTA MOVIMIENTO
                 let respuestaMovimiento = await altaMovimiento();
                 // Alta de venta/comprobante
-                if(respuestaMovimiento.status === 201){
-                const idMovimiento = (await respuestaMovimiento.json()).id;
+                if (respuestaMovimiento.status === 201) {
+                    const idMovimiento = (await respuestaMovimiento.json()).id;
 
-                const ventaData = {
-                    tipo_comprobante: tipoComprobante,
-                    nro_factura: nroFacturaRef.current.value,
-                    fecha_registro: moment().format('DD/MM/YY HH:mm'),
-                    subtotal: parseFloat(subTotalRef.current.value.replace(/[^\d,]/g, '').replace(',', '.')) || 0,
-                    descuento: parseFloat(descuentoTotalRef.current.value.match(/\d+/)) || 0,
-                    total: parseFloat(totalRef.current.value.replace(/[^\d,]/g, '').replace(',', '.')) || 0,
-                    estado: 'FINALIZADO',
-                    movimiento_id: idMovimiento
-                };
-                const respuestaVenta = await fetch(`${URL}/venta`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(ventaData)
-                });
+                    const ventaData = {
+                        tipo_comprobante: tipoComprobante,
+                        nro_factura: nroFacturaRef.current.value,
+                        fecha_registro: moment().format('DD/MM/YY HH:mm'),
+                        subtotal: parseFloat(subTotalRef.current.value.replace(/[^\d,]/g, '').replace(',', '.')) || 0,
+                        descuento: parseFloat(descuentoTotalRef.current.value.match(/\d+/)) || 0,
+                        total: parseFloat(totalRef.current.value.replace(/[^\d,]/g, '').replace(',', '.')) || 0,
+                        estado: 'FINALIZADO',
+                        movimiento_id: idMovimiento
+                    };
+                    const respuestaVenta = await fetch(`${URL}/venta`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(ventaData)
+                    });
 
-                if (respuestaVenta.status === 201) {
-                    const idVentaGenerada = (await respuestaVenta.json()).id;
-                    const datosGuardados = JSON.parse(localStorage.getItem('datos-venta'));
+                    if (respuestaVenta.status === 201) {
+                        const idVentaGenerada = (await respuestaVenta.json()).id;
+                        const datosGuardados = JSON.parse(localStorage.getItem('datos-venta'));
 
-                    // Alta de detalle comprobante venta
-                    for (const dato of datosGuardados) {
-                        const detalleVenta = {
-                            producto_id: dato.producto_id,
-                            venta_id: idVentaGenerada,
-                            nombre_producto: dato.nombreProducto,
-                            cantidad: dato.cantidad,
-                            precio_unitario: dato.precio,
-                            subtotal: dato.subtotal
-                        };
+                        // Alta de detalle comprobante venta
+                        for (const dato of datosGuardados) {
+                            const detalleVenta = {
+                                producto_id: dato.producto_id,
+                                venta_id: idVentaGenerada,
+                                nombre_producto: dato.nombreProducto,
+                                cantidad: dato.cantidad,
+                                precio_unitario: dato.precio,
+                                subtotal: dato.subtotal
+                            };
 
-                        // Alta de detalle comprobante venta para cada elemento del array
-                        const respuestaDetalleVenta = await fetch(`${URL}/detalle-comprobante-venta`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(detalleVenta)
-                        });
+                            // Alta de detalle comprobante venta para cada elemento del array
+                            const respuestaDetalleVenta = await fetch(`${URL}/detalle-comprobante-venta`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(detalleVenta)
+                            });
 
-                        if (respuestaDetalleVenta.status === 201) {
+                            if (respuestaDetalleVenta.status === 201) {
 
-                            // EDITAR CAJA
-                            let caja = await editarCaja();
-                            // EDITAR PRODUCTO
-                            let prodActualizar = await actualizarStockProd(idVentaGenerada);
+                                // EDITAR CAJA
+                                let caja = await editarCaja();
+                                // EDITAR PRODUCTO
+                                let prodActualizar = await actualizarStockProd(idVentaGenerada);
 
-                            if (caja === true && prodActualizar === true) {
-                                // MENSAJE DE EXITO
-                                Swal.fire({
-                                    title: 'Venta realizada',
-                                    text: 'Se realizó la operación correctamente',
-                                    icon: 'success'
-                                });
+                                if (caja === true && prodActualizar === true) {
+                                    // MENSAJE DE EXITO
+                                    Swal.fire({
+                                        title: 'Venta realizada',
+                                        text: 'Se realizó la operación correctamente',
+                                        icon: 'success'
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: 'Error al realizar la venta',
+                                        text: 'Hubo un problema en la solicitud',
+                                        icon: 'error'
+                                    });
+                                }
                             } else {
-                                Swal.fire({
-                                    title: 'Error al realizar la venta',
-                                    text: 'Hubo un problema en la solicitud',
-                                    icon: 'error'
-                                });
+                                console.error('Error al crear detalle de comprobante:', respuestaDetalleVenta.statusText);
                             }
-                        } else {
-                            console.error('Error al crear detalle de comprobante:', respuestaDetalleVenta.statusText);
                         }
+                        limpiarForm();
                     }
-                    limpiarForm();
                 }
-            }
             } catch (error) {
                 console.log(error);
             }

@@ -14,6 +14,7 @@ const ModalProducto = (props) => {
     const [marca, setMarca] = useState('');
     const [precioVenta, setPrecioVenta] = useState('');
     const [stock, setStock] = useState('');
+    const [stockNegativo,setStockNegativo] = useState(true);
 
     const [imageSrc, setImageSrc] = useState('');
     const [error, setError] = useState(false);
@@ -53,6 +54,7 @@ const ModalProducto = (props) => {
         setPrecioVenta(() => props.productoEditar.precioVenta);
         setStock(() => props.productoEditar.stock);
         setImageSrc(() => props.productoEditar.imagen);
+        setStockNegativo(() => props.productoEditar.permitirStockNegativo);
     }
     const borrarImagen = (e) => {
         e.preventDefault();
@@ -106,7 +108,8 @@ const ModalProducto = (props) => {
                     tipoProducto: tipoProducto,
                     precioVenta: precioVenta,
                     imagen: imageSrc,
-                    stock: stock
+                    stock: stock,
+                    permitirStockNegativo: stockNegativo
                 };
                 if (props.agregarOeditar === 'agregar') {
 
@@ -260,12 +263,18 @@ const ModalProducto = (props) => {
                         <div className='form-group'>
                             <label className='mt-1'>Añadir imagen</label>
                             <input ref={inputImgRef} onChange={obtenerImagen} className='mt-2 form-control' type="file" accept="image/*" />
-                            <div className='cont-img mt-3'>
+                            <section className='d-flex'>
+                            <article className='cont-img mt-3'>
                                 <button ref={btnImage} onClick={(e) => borrarImagen(e)} className={`btn-img-eliminar ${!imageSrc && 'd-none'}`}>
                                     <FontAwesomeIcon className='fa-xs' icon={faXmark} />
                                 </button>
                                 <img src={imageSrc || imagen} alt="imagen-producto" />
-                            </div>
+                            </article>
+                            <article className='form-check ms-3 mt-4'>
+                                <label className='form-check-label'>Permitir stock negativo</label>
+                                <input checked={stockNegativo} onChange={(e)=>setStockNegativo(e.target.checked)} className='form-check-input' type="checkbox" name="stock-negativo" id="" />
+                            </article>
+                            </section>
                         </div>
                         <button type="submit" className='mt-4 btn btn-success'>Guardar</button>
                         {error ? <Alert className='mt-1' variant='warning'>Todos los campos (*) son obligatorios</Alert> : null}

@@ -15,7 +15,7 @@ import DetalleComprobante from './components/Venta/DetalleComprobante';
 import ListaProductoModal from './components/Producto/ListaProductoModal';
 import ListaPedidosModal from './components/Pedido/ListaPedidosModal';
 import CajaMovimientos from './components/Caja/CajaMovimientos';
-
+import DetalleComprobanteCompra from './components/Pedido/DetalleComprobanteCompra';
 
 
 
@@ -38,7 +38,7 @@ function App() {
       <Route exact path='/compra-pedido' element={<CompraPedido></CompraPedido>}></Route>
       <Route path='/compra-pedido/:id' element={<CompraPedido></CompraPedido>}></Route>
 
-      <Route exact path='/detalle-comprobante-compra/:id' element={<DetalleComprobante></DetalleComprobante>}></Route>
+      <Route exact path='/detalle-comprobante-compra/:id' element={<DetalleComprobanteCompra></DetalleComprobanteCompra>}></Route>
       <Route exact path='/venta' element={<Venta></Venta>}></Route>
       
       <Route exact path='/venta/:id' element={<Venta></Venta>}></Route>

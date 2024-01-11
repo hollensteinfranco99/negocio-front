@@ -101,6 +101,7 @@ const Producto = () => {
     const abrirAgregar = () => {
         setAgregarOeditar('agregar');
         setShowModal(true);
+        localStorage.clear();
     };
     const handleClose = () => setShowModal(false);
 

@@ -159,8 +159,7 @@ const ModalCaja = (props) => {
                                     "Monto caja fisica : " + new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(parseFloat(monto_cierre)) + "<br>" +
                                     "Monto total registrado : " + new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(parseFloat(monto_total)) + "<br>" +
                                     "Diferencia : " + new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(parseFloat(resultado_diferencia)) + "<br>" +
-                                    etiquetaResultado,
-
+                                    etiquetaResultado
                             });
                         }
                     })

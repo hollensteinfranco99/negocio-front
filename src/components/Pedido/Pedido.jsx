@@ -26,6 +26,9 @@ const Pedido = (props) => {
             console.log(error);
         }
     }
+    const verDetalle = (id) => {
+        navigate('/detalle-comprobante-compra/' + id);
+    }
     const handleAgregarClick = () => {
         navigate('/compra-pedido');
     };
@@ -67,7 +70,7 @@ const Pedido = (props) => {
                                         <td>{ped.nro_factura}</td>
                                         <td>{ped.total}</td>
                                         <td>{ped.estado}</td>
-                                        <td><button className='btn btn-warning'>Ver</button></td>
+                                        <td><button onClick={() => verDetalle(ped.id)}  className='btn btn-warning'>Ver</button></td>
                                     </tr>
                                 })
                             }
