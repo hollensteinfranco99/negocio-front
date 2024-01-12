@@ -14,8 +14,8 @@ const Pedido = (props) => {
     const consultarPedidos = async (input) => {
         try {
             const url = input
-            ? `${URL}/compra-pedido?q=${input}`
-            : `${URL}/compra-pedido`;
+            ? `${URL}/compraPedido?q=${input}`
+            : `${URL}/compraPedido`;
             const res = await fetch(url);
 
             if (res.status === 200) {

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '../../css/consulta.css';
 import { useNavigate } from 'react-router-dom';
-import moment from 'moment';
 
 const Caja = () => {
     const URL = process.env.REACT_APP_API_URL;
@@ -15,13 +14,9 @@ const Caja = () => {
     }, []);
 
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        consultarCajas();
-    }
     const consultarCajas = async () => {
         try {
-            let url = `${URL}/caja?_sort=id&_order=desc`;
+            let url = `${URL}/caja`;
 
             const res = await fetch(url);
 

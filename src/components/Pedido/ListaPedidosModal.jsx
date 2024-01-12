@@ -17,8 +17,8 @@ const ListaPedidosModal = () => {
     const consultarPedidos = async (searchInput) => {
         try {
             const url = searchInput
-            ? `${URL}/compra-pedido?q=${searchInput}&estado=${encodeURIComponent('EN PROCESO')}`
-            : `${URL}/compra-pedido?estado=${encodeURIComponent('EN PROCESO')}`;
+            ? `${URL}/compraPedidoPorEstado?q=${searchInput}&estado=${encodeURIComponent('EN PROCESO')}`
+            : `${URL}/compraPedidoPorEstado?estado=${encodeURIComponent('EN PROCESO')}`;
 
             const res = await fetch(url);
 

@@ -43,7 +43,7 @@ const Movimiento = (props) => {
             if (searchInput === "Todos" || searchInput === undefined || searchInput === '') {
                 url = `${URL}/movimiento`;
             } else {
-                url = `${URL}/movimiento?descripcion_like=${searchInput}`;
+                url = `${URL}/movimientoDescripcion?descripcion_like=${searchInput}`;
             }
             const res = await fetch(url);
 
@@ -62,7 +62,7 @@ const Movimiento = (props) => {
             if (searchInput === "todos") {
                 url = `${URL}/movimiento`;
             } else {
-                url = `${URL}/movimiento?tipoMovimiento_like=${searchInput}`;
+                url = `${URL}/movimientoTipo?tipoMovimiento_like=${searchInput}`;
                 setSelectedOption('Todos');
             }
             const res = await fetch(url);

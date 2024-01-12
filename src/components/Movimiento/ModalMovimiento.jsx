@@ -114,7 +114,7 @@ const ModalMovimiento = (props) => {
     }
     const obtenerPedidoPorId = async (id) => {
         try {
-            const urlPedido = `${URL}/compra-pedido/${id}`;
+            const urlPedido = `${URL}/compraPedido/${id}`;
 
             const res = await fetch(urlPedido);
 
@@ -157,7 +157,7 @@ const ModalMovimiento = (props) => {
 
             let respuesta;
             // EDITAR
-            respuesta = await fetch(`${URL}/compra-pedido/${pedido.id}`, {
+            respuesta = await fetch(`${URL}/compraPedido/${pedido.id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -211,7 +211,7 @@ const ModalMovimiento = (props) => {
         try {
             let productosPedidos = [];
             try {
-                const response = await fetch(`${URL}/detalle-comprobante-compra?pedido_id=${pedido.id}`);
+                const response = await fetch(`${URL}/detalleComprobanteCompra?pedido_id=${pedido.id}`);
 
                 if (response.status === 200) {
                     const detallesComprobante = await response.json();

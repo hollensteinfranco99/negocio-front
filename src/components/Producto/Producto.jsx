@@ -61,7 +61,6 @@ const Producto = () => {
                 // Eliminar producto
                 try {
                     const urlEliminar = `${URL}/producto/${id}`;
-                    console.log(id);
                     const respuesta = await fetch(urlEliminar, {
                         method: 'DELETE',
                         headers: { 'Content-Type': 'application/json' },

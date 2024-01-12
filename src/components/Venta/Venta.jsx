@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import moment from 'moment';
 
 const Venta = () => {
-    const [tipoComprobante, setTipoComprobante] = useState('');
+    const [tipoComprobante, setTipoComprobante] = useState('X');
     const URL = process.env.REACT_APP_API_URL;
     // State
     const [nombreProd, setNombreProd] = useState('');
@@ -164,7 +164,6 @@ const Venta = () => {
         descuentoTotalRef.current.value = '0';
         codigoRef.current.value = '';
         generarFacturaUnica();
-
         localStorage.clear();
     }
     const handleProducto = (e) => {
@@ -404,7 +403,7 @@ const Venta = () => {
         try {
             let productosVender = [];
             try {
-                const response = await fetch(`${URL}/detalle-comprobante-venta?venta_id=${idVenta}`);
+                const response = await fetch(`${URL}/detalleComprobanteVenta?venta_id=${idVenta}`);
 
                 if (response.status === 200) {
                     const detallesComprobante = await response.json();
@@ -516,7 +515,7 @@ const Venta = () => {
                             };
 
                             // Alta de detalle comprobante venta para cada elemento del array
-                            const respuestaDetalleVenta = await fetch(`${URL}/detalle-comprobante-venta`, {
+                            const respuestaDetalleVenta = await fetch(`${URL}/detalleComprobanteVenta`, {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json'

@@ -24,7 +24,7 @@ const DetalleComprobante = () => {
 
     const consultarDetalle = async (id) => {
         try {
-            let url = `${URL}/detalle-comprobante-venta?venta_id=${id}`;
+            let url = `${URL}/detalleComprobanteVenta?venta_id=${id}`;
 
             const res = await fetch(url);
 

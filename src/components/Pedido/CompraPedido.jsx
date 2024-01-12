@@ -56,7 +56,7 @@ const CompraPedido = () => {
     }, []);
     const generarFacturaUnica = async () => {
         try {
-            const url = `${URL}/compra-pedido`;
+            const url = `${URL}/compraPedido`;
             const res = await fetch(url);
 
             if (res.status === 200) {
@@ -184,7 +184,7 @@ const CompraPedido = () => {
                     total: parseFloat(totalRef.current.value.replace(/[^\d,]/g, '').replace(',', '.')) || 0,
                     estado: 'EN PROCESO',
                 };
-                const respuestaPedido = await fetch(`${URL}/compra-pedido`, {
+                const respuestaPedido = await fetch(`${URL}/compraPedido`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -209,7 +209,7 @@ const CompraPedido = () => {
                         };
 
                         // Alta de detalle comprobante compra para cada elemento del array
-                        const respuestaDetalleCompra = await fetch(`${URL}/detalle-comprobante-compra`, {
+                        const respuestaDetalleCompra = await fetch(`${URL}/detalleComprobanteCompra`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'

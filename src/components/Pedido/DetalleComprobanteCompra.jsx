@@ -21,7 +21,7 @@ const DetalleComprobanteCompra = () => {
 
     const consultarDetalle = async (id) => {
         try {
-            let url = `${URL}/detalle-comprobante-compra?pedido_id=${id}`;
+            let url = `${URL}/detalleComprobanteCompra?pedido_id=${id}`;
 
             const res = await fetch(url);
 
@@ -35,7 +35,7 @@ const DetalleComprobanteCompra = () => {
     }
     const consultarFactura = async (id) => {
         try {
-            let url = `${URL}/compra-pedido/${id}`;
+            let url = `${URL}/compraPedido/${props.productoEditar.id}`;
 
             const res = await fetch(url);
 

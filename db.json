@@ -17,7 +17,7 @@
       "tipoProducto": "",
       "precioVenta": 3,
       "imagen": "",
-      "stock": 44,
+      "stock": 40,
       "id": 2
     },
     {
@@ -32,7 +32,30 @@
       "id": 3
     }
   ],
-  "movimiento": [],
+  "movimiento": [
+    {
+      "descripcion": "VENTA REALIZADA - FACT-NRO-0000001",
+      "monto": 10.8,
+      "fechaRegistro": "10/01/24 21:48",
+      "tipoMovimiento": "INGRESO",
+      "caja_id": 3,
+      "nro_movimiento": "MOV-0000001",
+      "estado": "ACTIVO",
+      "pedido_id": null,
+      "id": 1
+    },
+    {
+      "descripcion": "PagoServicio",
+      "monto": 22,
+      "fechaRegistro": "10/01/24 21:49",
+      "tipoMovimiento": "EGRESO",
+      "caja_id": 3,
+      "nro_movimiento": "MOV-0000002",
+      "estado": "ACTIVO",
+      "pedido_id": null,
+      "id": 2
+    }
+  ],
   "caja": [
     {
       "fecha_apertura": "10/01/24 18:26",
@@ -58,16 +81,15 @@
     },
     {
       "fecha_apertura": "10/01/24 21:28",
+      "monto_cierre": 0,
       "monto_apertura": 0,
+      "monto_total": -12,
       "nro_caja": "0000003",
       "estado_caja": "ABIERTA",
-      "monto_cierre": 0,
-      "monto_total": 0,
-      "diferencia": null,
       "id": 3
     }
   ],
-  "compra-pedido": [
+  "compraPedido": [
     {
       "proveedor": "fra",
       "fecha_estimada": "09/01/24",
@@ -177,9 +199,20 @@
       "total": 44,
       "estado": "EN PROCESO",
       "id": 10
+    },
+    {
+      "proveedor": "MACROPHARMA",
+      "fecha_estimada": "10/02/23",
+      "nro_factura": "FACT-NRO-0000011",
+      "fecha_registro": "10/01/24 21:49",
+      "subtotal": 6600,
+      "descuento": 20,
+      "total": 5280,
+      "estado": "EN PROCESO",
+      "id": 11
     }
   ],
-  "detalle-comprobante-compra": [
+  "detalleComprobanteCompra": [
     {
       "producto_id": 1,
       "pedido_id": 1,
@@ -269,8 +302,39 @@
       "precio_unitario": "22",
       "subtotal": "44.00",
       "id": 10
+    },
+    {
+      "producto_id": 1,
+      "pedido_id": 11,
+      "nombre_producto": "Gaseosa Pritty",
+      "cantidad": "22",
+      "precio_unitario": "300",
+      "subtotal": "6600.00",
+      "id": 11
     }
   ],
-  "venta": [],
-  "detalle-comprobante-venta": []
+  "venta": [
+    {
+      "tipo_comprobante": "",
+      "nro_factura": "FACT-NRO-0000001",
+      "fecha_registro": "10/01/24 21:48",
+      "subtotal": 12,
+      "descuento": 10,
+      "total": 10.8,
+      "estado": "FINALIZADO",
+      "movimiento_id": 1,
+      "id": 1
+    }
+  ],
+  "detalleComprobanteVenta": [
+    {
+      "producto_id": 2,
+      "venta_id": 1,
+      "nombre_producto": "fasfas",
+      "cantidad": "4",
+      "precio_unitario": 3,
+      "subtotal": "12.00",
+      "id": 1
+    }
+  ]
 }
