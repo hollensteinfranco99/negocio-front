@@ -70,7 +70,7 @@ const ListaProductoModal = () => {
                         <tbody>
                             {
                                 productos.map((prod, index) => {
-                                    return <tr key={index} onTouchStart={() => obtenerProductoId(prod.id)} onDoubleClick={() => obtenerProductoId(prod.id)}>
+                                    return <tr key={index} onTouchStart={() => obtenerProductoId(prod._id)} onDoubleClick={() => obtenerProductoId(prod._id)}>
                                         <td>{prod.codigo}</td>
                                         <td>{prod.nombre}</td>
                                         <td>{new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(parseFloat(prod.precioVenta))}</td>

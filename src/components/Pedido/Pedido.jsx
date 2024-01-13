@@ -70,7 +70,7 @@ const Pedido = (props) => {
                                         <td>{ped.nro_factura}</td>
                                         <td>{ped.total}</td>
                                         <td>{ped.estado}</td>
-                                        <td><button onClick={() => verDetalle(ped.id)}  className='btn btn-warning'>Ver</button></td>
+                                        <td><button onClick={() => verDetalle(ped._id)}  className='btn btn-warning'>Ver</button></td>
                                     </tr>
                                 })
                             }

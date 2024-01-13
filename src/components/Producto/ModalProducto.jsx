@@ -1,9 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import imagen from '../../img/imagenNoDisponible.png';
 import { campoRequerido, rangoPrecio } from '../../common/helpers'
 import Swal from 'sweetalert2';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Modal, Alert } from 'react-bootstrap';
 
 const ModalProducto = (props) => {
@@ -16,10 +13,7 @@ const ModalProducto = (props) => {
     const [stock, setStock] = useState('');
     const [stockNegativo,setStockNegativo] = useState(true);
 
-    const [imageSrc, setImageSrc] = useState('');
     const [error, setError] = useState(false);
-    const btnImage = useRef(null);
-    const inputImgRef = useRef(null);
     const myFormRef = useRef(null);
 
     useEffect(() => {
@@ -53,33 +47,8 @@ const ModalProducto = (props) => {
         setTipoProducto(() => props.productoEditar.tipoProducto);
         setPrecioVenta(() => props.productoEditar.precioVenta);
         setStock(() => props.productoEditar.stock);
-        setImageSrc(() => props.productoEditar.imagen);
         setStockNegativo(() => props.productoEditar.permitirStockNegativo);
     }
-    const borrarImagen = (e) => {
-        e.preventDefault();
-        setImageSrc('');
-        setTimeout(() => {
-            btnImage.current.classList.add('d-none');
-        }, 0);
-        inputImgRef.current.value = '';
-    }
-    const obtenerImagen = (event) => {
-        const file = event.target.files[0];
-
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                setImageSrc(reader.result);
-                setTimeout(() => {
-                    btnImage.current.classList.remove('d-none');
-                }, 0);
-            };
-            reader.readAsDataURL(file);
-        } else {
-            setImageSrc(imagen);
-        }
-    };
     const handleSubmit = async (e) => {
         e.preventDefault();
         // generar número de código
@@ -107,7 +76,6 @@ const ModalProducto = (props) => {
                     marca: marca,
                     tipoProducto: tipoProducto,
                     precioVenta: precioVenta,
-                    imagen: imageSrc,
                     stock: stock,
                     permitirStockNegativo: stockNegativo
                 };
@@ -134,7 +102,7 @@ const ModalProducto = (props) => {
                     }
                 } else {
                     // EDITAR
-                    respuesta = await fetch(`${URL}/producto/${props.productoEditar.id}`, {
+                    respuesta = await fetch(`${URL}/producto/${props.productoEditar._id}`, {
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/json"
@@ -172,7 +140,6 @@ const ModalProducto = (props) => {
         setStock(0);
         setTipoProducto('');
         setPrecioVenta(0);
-        setImageSrc('');
     };
     const verificarNumeric = (e) => {
         const numeroInput = e.target.value;
@@ -261,16 +228,9 @@ const ModalProducto = (props) => {
                             </div>
                         </article>
                         <div className='form-group'>
-                            <label className='mt-1'>Añadir imagen</label>
-                            <input ref={inputImgRef} onChange={obtenerImagen} className='mt-2 form-control' type="file" accept="image/*" />
+
                             <section className='d-flex'>
-                            <article className='cont-img mt-3'>
-                                <button ref={btnImage} onClick={(e) => borrarImagen(e)} className={`btn-img-eliminar ${!imageSrc && 'd-none'}`}>
-                                    <FontAwesomeIcon className='fa-xs' icon={faXmark} />
-                                </button>
-                                <img src={imageSrc || imagen} alt="imagen-producto" />
-                            </article>
-                            <article className='form-check ms-3 mt-4'>
+                            <article className='form-check mt-4'>
                                 <label className='form-check-label'>Permitir stock negativo</label>
                                 <input checked={stockNegativo} onChange={(e)=>setStockNegativo(e.target.checked)} className='form-check-input' type="checkbox" name="stock-negativo" id="" />
                             </article>

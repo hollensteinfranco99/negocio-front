@@ -157,7 +157,7 @@ const ModalMovimiento = (props) => {
 
             let respuesta;
             // EDITAR
-            respuesta = await fetch(`${URL}/compraPedido/${pedido.id}`, {
+            respuesta = await fetch(`${URL}/compraPedido/${pedido._id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -190,7 +190,7 @@ const ModalMovimiento = (props) => {
             };
             let respuesta;
             // EDITAR
-            respuesta = await fetch(`${URL}/caja/${cajaAbierta.id}`, {
+            respuesta = await fetch(`${URL}/caja/${cajaAbierta._id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -208,10 +208,12 @@ const ModalMovimiento = (props) => {
         }
     }
     const actualizarStockProd = async () => {
+        let respuesta;
+
         try {
             let productosPedidos = [];
             try {
-                const response = await fetch(`${URL}/detalleComprobanteCompra?pedido_id=${pedido.id}`);
+                const response = await fetch(`${URL}/detalleComprobanteCompra?pedido_id=${pedido._id}`);
 
                 if (response.status === 200) {
                     const detallesComprobante = await response.json();
@@ -221,7 +223,6 @@ const ModalMovimiento = (props) => {
                 console.error('Error en la solicitud:', error);
             }
 
-            let respuesta;
 
             for (const item of productosPedidos) {
                 // Obtener información del producto según el productoId
@@ -286,11 +287,11 @@ const ModalMovimiento = (props) => {
         // ALTA DE CANCELACION MOVIMIENTO
         let nro_mov = await generarNumeroMov();
         const movimientoData = {
-            descripcion: props.movimientoEditar.descripcion === 'CompraMercaderia' ? 'CANCELACION DE PAGO POR PEDIDO NRO - ' + pedido.nro_factura : 'CANCELACION DE MOVIMIENTO NRO - ' + props.movimientoEditar.nro_movimiento,
+            descripcion: props.movimientoEditar.descripcion === 'CompraMercaderia' ? 'CANCELACION DE PAGO POR PEDIDO NRO - ' + pedido?.nro_factura : 'CANCELACION DE MOVIMIENTO NRO - ' + props.movimientoEditar.nro_movimiento,
             monto: props.movimientoEditar.monto,
             fechaRegistro: moment().format('DD/MM/YY HH:mm'),
             tipoMovimiento: props.movimientoEditar.tipoMovimiento === 'EGRESO' ? 'INGRESO' : 'EGRESO',
-            caja_id: cajaAbierta.id,
+            caja_id: cajaAbierta._id,
             nro_movimiento: nro_mov,
             estado: 'CANCELADO',
             pedido_id: props.movimientoEditar.pedido_id
@@ -319,7 +320,7 @@ const ModalMovimiento = (props) => {
                 body: JSON.stringify(movimientoData)
             });
             // EDITAR MOVIMIENTO ANTERIOR
-            let respuestaMovEditar = await fetch(`${URL}/movimiento/${props.movimientoEditar.id}`, {
+            let respuestaMovEditar = await fetch(`${URL}/movimiento/${props.movimientoEditar._id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -397,10 +398,10 @@ const ModalMovimiento = (props) => {
                 monto: monto,
                 fechaRegistro: moment().format('DD/MM/YY HH:mm'),
                 tipoMovimiento: tipoMovimiento,
-                caja_id: cajaAbierta.id,
+                caja_id: cajaAbierta._id,
                 nro_movimiento: nro_mov,
                 estado: 'ACTIVO',
-                pedido_id: pedido?.id || null
+                pedido_id: pedido?._id || null
             };
 
             try {

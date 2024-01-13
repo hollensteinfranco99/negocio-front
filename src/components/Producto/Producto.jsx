@@ -17,7 +17,6 @@ const Producto = () => {
     const consultarProducto = async (codigo, nombre) => {
         try {
             const url = `${URL}/producto${codigo ? '?codigo_like=' + codigo : ''}${nombre ? '?nombre_like=' + nombre : ''}`;
-
             const res = await fetch(url);
 
             if (res.status === 200) {
@@ -142,12 +141,12 @@ const Producto = () => {
                                 productos.map((prod, index) => {
                                     return <tr key={index}>
                                         <td>{prod.codigo}</td>
-                                        <td>{prod.nombre}</td>
+                                        <td>{`${prod.nombre.charAt(0).toUpperCase()}${prod.nombre.slice(1).toLowerCase()}`}</td>
                                         <td>{new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(parseFloat(prod.precioVenta))}</td>
                                         <td>{prod.stock}</td>
                                         <td className='text-end'>
-                                        <button onClick={() => { obtenerPorIdEditar(prod.id) }} className='btn btn-warning'>Editar</button></td>
-                                        <td><button onClick={() => { eliminar(prod.id) }} className='btn btn-danger'>Eliminar</button></td>
+                                        <button onClick={() => { obtenerPorIdEditar(prod._id) }} className='btn btn-warning'>Editar</button></td>
+                                        <td><button onClick={() => { eliminar(prod._id) }} className='btn btn-danger'>Eliminar</button></td>
                                     </tr>
                                 })
                             }

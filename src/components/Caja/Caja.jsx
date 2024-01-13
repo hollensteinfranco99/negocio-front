@@ -60,7 +60,7 @@ const Caja = () => {
                                             {new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(caj.monto_total)}
                                         </td>
                                         <td>{caj.estado_caja}</td>
-                                        <td><button onClick={() => abrirDetalle(caj.id)} className='btn btn-warning'>Ver</button></td>
+                                        <td><button onClick={() => abrirDetalle(caj._id)} className='btn btn-warning'>Ver</button></td>
                                     </tr>
                                 </React.Fragment>
                             ))}

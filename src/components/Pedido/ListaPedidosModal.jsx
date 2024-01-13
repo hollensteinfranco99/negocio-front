@@ -66,7 +66,7 @@ const ListaPedidosModal = () => {
                         <tbody>
                             {
                                 pedidos.map((ped, index) => {
-                                    return <tr key={index} onTouchStart={() => obtenerPedidoId(ped.id)} onDoubleClick={() => obtenerPedidoId(ped.id)}>
+                                    return <tr key={index} onTouchStart={() => obtenerPedidoId(ped._id)} onDoubleClick={() => obtenerPedidoId(ped._id)}>
                                         <td>{ped.fecha_registro}</td>
                                         <th>{ped.proveedor}</th>
                                         <th>{ped.nro_factura}</th>

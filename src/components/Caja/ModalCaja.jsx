@@ -134,7 +134,7 @@ const ModalCaja = (props) => {
                 };
                 props.setMontoTotal(resultado_diferencia);
                 // EDITAR
-                respuesta = await fetch(`${URL}/caja/${props.cajaEditar.id}`, {
+                respuesta = await fetch(`${URL}/caja/${props.cajaEditar._id}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json"

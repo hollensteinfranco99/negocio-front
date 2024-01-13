@@ -107,17 +107,18 @@ const Venta = () => {
     }
     const cargarProductoPorCodigo = async (codigo) => {
         try {
-            const urlProd = `${URL}/producto?codigo=${codigo}`;
+            const urlProd = `${URL}/productoPorCodigo?codigo=${codigo}`;
             const res = await fetch(urlProd);
+            console.log(res.status);
 
             if (res.status === 200) {
+                
                 const producto = await res.json();
-
-                if (producto.length > 0) {
-                    precioVentaRef.current.value = producto[0].precioVenta;
-                    setNombreProd(producto[0].nombre);
-                    setProductoSeleccionado(producto[0]);
-                    obtenerDatos(producto[0]);
+                if (producto) {
+                    precioVentaRef.current.value = producto.precioVenta;
+                    setNombreProd(producto.nombre);
+                    setProductoSeleccionado(producto);
+                    obtenerDatos(producto);
                 } else {
                     setNombreProd('');
                 }
@@ -195,7 +196,7 @@ const Venta = () => {
             setNuevoDato((prevNuevoDato) => ({
                 ...prevNuevoDato,
                 nombreProducto: valueOrEvent.nombre,
-                producto_id: valueOrEvent.id,
+                producto_id: valueOrEvent._id,
                 precio: valueOrEvent.precioVenta
             }));
         }
@@ -213,7 +214,6 @@ const Venta = () => {
         }
         // Formatear el nuevo total como una cadena con formato de moneda
         const nuevoTotal = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(total);
-
         totalRef.current.value = nuevoTotal;
 
     }
@@ -239,7 +239,7 @@ const Venta = () => {
         return cantidadTotal;
     };
     const agregarDatos = () => {
-        const cantidadTotal = sumarCantidadPorProducto(productoSeleccionado.id);
+        const cantidadTotal = sumarCantidadPorProducto(productoSeleccionado._id);
         if (productoSeleccionado.stock < cantidadTotal || productoSeleccionado.stock < nuevoDato.cantidad && productoSeleccionado.permitirStockNegativo === false) {
             Swal.fire({
                 title: 'No tiene stock suficiente',
@@ -248,7 +248,6 @@ const Venta = () => {
             });
             return;
         } else {
-            console.log("false");
             // Validar
             if (nuevoDato.nombreProducto.trim() !== '' && nuevoDato.cantidad.trim() !== '') {
                 // Calcular el subtotal
@@ -350,10 +349,10 @@ const Venta = () => {
                 monto: parseFloat(totalRef.current.value.replace(/[^\d,]/g, '').replace(',', '.')) || 0,
                 fechaRegistro: moment().format('DD/MM/YY HH:mm'),
                 tipoMovimiento: 'INGRESO',
-                caja_id: cajaAbierta.id,
+                caja_id: cajaAbierta._id,
                 nro_movimiento: nro_mov,
                 estado: 'ACTIVO',
-                pedido_id:null
+                pedido_id: null
             };
             let respuesta = await fetch(`${URL}/movimiento`, {
                 method: "POST",
@@ -381,7 +380,7 @@ const Venta = () => {
             };
             let respuesta;
             // EDITAR
-            respuesta = await fetch(`${URL}/caja/${cajaAbierta.id}`, {
+            respuesta = await fetch(`${URL}/caja/${cajaAbierta._id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -500,7 +499,8 @@ const Venta = () => {
                     });
 
                     if (respuestaVenta.status === 201) {
-                        const idVentaGenerada = (await respuestaVenta.json()).id;
+                        const ventaCreada = await respuestaVenta.json();
+                        const idVentaGenerada = ventaCreada.venta._id;
                         const datosGuardados = JSON.parse(localStorage.getItem('datos-venta'));
 
                         // Alta de detalle comprobante venta

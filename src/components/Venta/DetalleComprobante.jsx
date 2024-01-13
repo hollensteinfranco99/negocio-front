@@ -92,7 +92,7 @@ const DetalleComprobante = () => {
             };
             let respuesta;
             // EDITAR
-            respuesta = await fetch(`${URL}/caja/${cajaAbierta.id}`, {
+            respuesta = await fetch(`${URL}/caja/${cajaAbierta._id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -143,7 +143,7 @@ const DetalleComprobante = () => {
                 monto: venta.total,
                 fechaRegistro: moment().format('DD/MM/YY HH:mm'),
                 tipoMovimiento: 'EGRESO',
-                caja_id: cajaAbierta.id,
+                caja_id: cajaAbierta._id,
                 nro_movimiento: nro_mov,
                 estado: 'CANCELADO'
             };
@@ -265,7 +265,7 @@ const DetalleComprobante = () => {
             });
 
             if (respuestaVenta.status === 200) {
-                const idVentaGenerada = (await respuestaVenta.json()).id;
+                const idVentaGenerada = (await respuestaVenta.json())._id;
 
                 // ALTA MOVIMIENTO
                 let mov = await altaMovimiento();

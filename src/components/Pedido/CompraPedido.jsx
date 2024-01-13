@@ -96,15 +96,13 @@ const CompraPedido = () => {
     }
     const cargarProductoPorCodigo = async (codigo) => {
         try {
-            const urlProd = `${URL}/producto?codigo=${codigo}`;
+            const urlProd = `${URL}/productoPorCodigo?codigo=${codigo}`;
             const res = await fetch(urlProd);
-
             if (res.status === 200) {
                 const producto = await res.json();
-
-                if (producto.length > 0) {
-                    setNombreProd(producto[0].nombre);
-                    obtenerDatos(producto[0]);
+                if (producto) {
+                    setNombreProd(producto.nombre);
+                    obtenerDatos(producto);
                 } else {
                     setNombreProd('');
                 }
@@ -116,7 +114,6 @@ const CompraPedido = () => {
     const abrirListaProducto = (e) => {
         e.preventDefault();
 
-        console.log(e.type);
         if (e.key === 'Enter' || (e.type === 'click' && e.target.tagName === 'BUTTON')) {
             navigate(`/listaProducto/2`);
         }
@@ -193,7 +190,8 @@ const CompraPedido = () => {
                 });
 
                 if (respuestaPedido.status === 201) {
-                    const idPedidoGenerado = (await respuestaPedido.json()).id;
+                    const pedidoCreado = await respuestaPedido.json();
+                    const idPedidoGenerado = pedidoCreado.pedido._id;
                     const datosGuardados = JSON.parse(localStorage.getItem('datos'));
                     let resOk = true; // Inicializar en true
 
@@ -277,7 +275,7 @@ const CompraPedido = () => {
             setNuevoDato((prevNuevoDato) => ({
                 ...prevNuevoDato,
                 nombreProducto: valueOrEvent.nombre,
-                producto_id: valueOrEvent.id
+                producto_id: valueOrEvent._id
             }));
         }
     };

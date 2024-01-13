@@ -26,7 +26,6 @@ const Movimiento = (props) => {
 
     useEffect(() => {
         if (pedidoParametro.state) {
-            console.log("id :" + pedidoParametro.state.id)
             setPedidoId(pedidoParametro.state.id);
             abrirAgregar();
         }
@@ -219,7 +218,7 @@ const Movimiento = (props) => {
                                             <td className={mov.tipoMovimiento === 'INGRESO' ? 'ingreso' : 'egreso'}>{mov.tipoMovimiento}</td>
                                             <td>{new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(parseFloat(mov.monto))}</td>
                                             <td>
-                                                <button onClick={() => obtenerPorIdEliminar(mov.id)} className={`${mov.descripcion.includes('VENTA REALIZADA') || mov.estado === 'CANCELADO' ? 'd-none' : ''} btn btn-danger`}>
+                                                <button onClick={() => obtenerPorIdEliminar(mov._id)} className={`${mov.descripcion.includes('VENTA REALIZADA') || mov.estado === 'CANCELADO' ? 'd-none' : ''} btn btn-danger`}>
                                                     Eliminar
                                                 </button>
                                             </td>

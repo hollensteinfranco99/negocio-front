@@ -72,7 +72,7 @@ const VentaRealizada = () => {
                                         <td>{ven.nro_factura}</td>
                                         <td>{new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(parseFloat(ven.total))}</td>
                                         <td>{ven.estado}</td>
-                                        <td><button onClick={() => verDetalle(ven.id)} className='btn btn-warning'>Ver</button></td>
+                                        <td><button onClick={() => verDetalle(ven._id)} className='btn btn-warning'>Ver</button></td>
                                     </tr>
                                 ))}
                             </tbody>
