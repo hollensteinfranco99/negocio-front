@@ -56,6 +56,9 @@ const ModalMovimiento = (props) => {
         setDescripcionInput(() => props.movimientoEditar.descripcion);
         setTipoMovimiento(() => props.movimientoEditar.tipoMovimiento);
         setMonto(() => props.movimientoEditar.monto);
+        if(props.movimientoEditar.descripcion === 'CompraMercaderia'){
+            obtenerPedidoPorId(props.movimientoEditar.pedido_id)
+        }
     }
     const handleRadioChange = (e) => {
         setTipoMovimiento(e.target.value);
@@ -105,8 +108,6 @@ const ModalMovimiento = (props) => {
                     setCajaAbierta(cajasAbiertas[0]);
                     setMontoTotal(cajasAbiertas[0].monto_total);
                 }
-            } else {
-                console.log('Error al obtener el estado de la caja');
             }
         } catch (error) {
             console.error('Error en la consulta:', error);
@@ -498,8 +499,8 @@ const ModalMovimiento = (props) => {
                             <label className='my-1'>Pedido</label>
                             <div className='d-flex'>
                                 <input
-                                    value={pedidoFactura}
-                                    disabled={descripcion !== 'CompraMercaderia' || props.agregarOeditar === 'editar'}
+                                    defaultValue={pedidoFactura}
+                                    disabled
                                     className='form-control' placeholder='Buscar pedido' type="text" />
                                 <button onClick={(e) => buscarPedido(e)} disabled={descripcion !== 'CompraMercaderia' || props.agregarOeditar === 'editar'} className='btn btn-dark ms-1'>Buscar</button>
                             </div>

@@ -68,8 +68,7 @@ const Venta = () => {
             if (res.status === 200) {
                 const pedidosLista = await res.json();
 
-                const ultimoPedido = pedidosLista[pedidosLista.length - 1];
-                if (ultimoPedido) {
+                if (pedidosLista) {
                     // Si hay productos en la lista, obtener el último código y agregar +1
                     const nuevoCodigo = (pedidosLista.length + 1).toString().padStart(7, '0');
                     nroFacturaRef.current.value = 'FACT-NRO-' + nuevoCodigo
@@ -367,13 +366,16 @@ const Venta = () => {
         }
     }
     const editarCaja = async () => {
+        console.log(totalRef.current.value.replace(/[^\d.-]/g, ''));
         try {
             const cajaEditarData = {
                 fecha_apertura: cajaAbierta.fecha_apertura,
                 fecha_cierre: cajaAbierta.fecha_cierre,
                 monto_cierre: cajaAbierta.monto_cierre,
                 monto_apertura: cajaAbierta.monto_apertura,
-                monto_total: parseFloat(cajaAbierta.monto_total) + (parseFloat(totalRef.current.value.match(/\d+/)) || 0),
+                monto_total: parseFloat(cajaAbierta.monto_total) +
+                (parseFloat(totalRef.current.value.replace(/[^\d,]/g, '').replace(',', '.')) || 0),
+                
                 diferencia: cajaAbierta.resultado_diferencia,
                 nro_caja: cajaAbierta.nro_caja,
                 estado_caja: cajaAbierta.estado_caja,
@@ -478,7 +480,9 @@ const Venta = () => {
                 let respuestaMovimiento = await altaMovimiento();
                 // Alta de venta/comprobante
                 if (respuestaMovimiento.status === 201) {
-                    const idMovimiento = (await respuestaMovimiento.json()).id;
+                    const movimientoCreado = await respuestaMovimiento.json();
+                    const idMovimiento = movimientoCreado.movimiento._id;
+                    
 
                     const ventaData = {
                         tipo_comprobante: tipoComprobante,

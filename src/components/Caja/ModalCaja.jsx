@@ -66,11 +66,9 @@ const ModalCaja = (props) => {
     }
 
     const generarCodigoUnico = (cajasLista) => {
-        const ultimaCaja = cajasLista[cajasLista.length - 1];
-        if (ultimaCaja) {
+        if (cajasLista) {
             // Si hay productos en la lista, obtener el último código y agregar +1
-            const ultimoCodigo = parseInt(ultimaCaja.nro_caja, 10);
-            const nuevoCodigo = (ultimoCodigo + 1).toString().padStart(7, '0');
+            const nuevoCodigo = (cajasLista.length + 1).toString().padStart(7, '0');
             setNroCaja(nuevoCodigo);
         } else {
             // Si la lista está vacía, generar el primer código

@@ -82,10 +82,9 @@ const Inicio = () => {
                         fechaVenta.year() === fechaActual.year()
                     );
                 });
-
                 // Suma los totales de las ventas filtradas
                 const totalVentasMesActual = ventasMesActual.reduce((total, venta) => total + venta.total, 0);
-                montoTotalMesRef.current.innerText = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(parseFloat(totalVentasMesActual)) ;
+                montoTotalMesRef.current.innerText = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(totalVentasMesActual) ;
             } else {
                 console.log('Error en la consulta');
             }
