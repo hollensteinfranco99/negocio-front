@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '../../css/consulta.css';
 import { useParams } from 'react-router-dom';
-import moment from 'moment';
-import Swal from 'sweetalert2';
 
 const DetalleComprobanteCompra = () => {
     const URL = process.env.REACT_APP_API_URL;

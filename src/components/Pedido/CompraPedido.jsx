@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { campoRequerido } from '../../common/helpers';
 import Swal from 'sweetalert2';
 import moment from 'moment';
+import { ClipLoader } from 'react-spinners';
 
 const CompraPedido = () => {
     const URL = process.env.REACT_APP_API_URL;
@@ -12,6 +13,7 @@ const CompraPedido = () => {
     const [descuento, setDescuento] = useState('');
     const [proveedor, setProveedor] = useState('');
     const [fechaEstimada, setFechaEstimada] = useState('');
+    const [loading, setLoading] = useState(false);
 
     // Ref
     const descuentoTotalRef = useRef(null);
@@ -168,6 +170,7 @@ const CompraPedido = () => {
             return;
         } else {
             try {
+                setLoading(true);
                 // Alta de pedido/comprobante
                 const nroFactura = await generarFacturaUnica();
 
@@ -239,6 +242,7 @@ const CompraPedido = () => {
 
                     limpiarForm();
                 }
+                setLoading(false);
             } catch (error) {
                 console.log(error);
             }
@@ -462,7 +466,17 @@ const CompraPedido = () => {
                                 </div>
                             </article>
                             <article className='col-12 d-flex justify-content-end align-items-end my-3' aria-label='btn-pedido'>
-                                <button className='btn btn-lg btn-success'>Realizar pedido</button>
+                                <button disabled={loading} className='btn btn-lg btn-success'>
+                                {
+                                        loading ? <div className='d-flex align-items-center'>
+                                            <ClipLoader className='bg-transparent me-2' size={17} color="white" />
+                                            <span className='pe-4'>Realizar pedido</span>
+                                        </div>
+                                            : <div className='d-flex align-items-center'>
+                                                <span className='px-4'>Realizar pedido</span>
+                                            </div>
+                                }
+                                    </button>
                             </article>
                         </article>
                     </form>

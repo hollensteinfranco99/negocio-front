@@ -4,6 +4,7 @@ import { campoRequerido } from '../../common/helpers';
 import Swal from 'sweetalert2';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import { ClipLoader } from 'react-spinners';
 
 const ModalMovimiento = (props) => {
     const URL = process.env.REACT_APP_API_URL;
@@ -13,6 +14,7 @@ const ModalMovimiento = (props) => {
     const [montoTotal, setMontoTotal] = useState('');
     const [pedido, setPedido] = useState(null);
     const [pedidoFactura, setPedidoFactura] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const [tipoMovimiento, setTipoMovimiento] = useState(null);
     const [monto, setMonto] = useState('');
@@ -29,6 +31,7 @@ const ModalMovimiento = (props) => {
         { value: 'PagoSalario', label: 'Pago de salarios a empleados' },
         { value: 'Venta', label: 'VENTA' },
     ];
+
     useEffect(() => {
 
         obtenerCajaAbierta();
@@ -56,7 +59,7 @@ const ModalMovimiento = (props) => {
         setDescripcionInput(() => props.movimientoEditar.descripcion);
         setTipoMovimiento(() => props.movimientoEditar.tipoMovimiento);
         setMonto(() => props.movimientoEditar.monto);
-        if(props.movimientoEditar.descripcion === 'CompraMercaderia'){
+        if (props.movimientoEditar.descripcion === 'CompraMercaderia') {
             obtenerPedidoPorId(props.movimientoEditar.pedido_id)
         }
     }
@@ -175,14 +178,23 @@ const ModalMovimiento = (props) => {
             return false;
         }
     }
-    const editarCaja = async () => {
+    const editarCaja = async (tipoMov) => {
+
+        console.log(" ============= ")
+
+        console.log(!tipoMov && tipoMovimiento === 'EGRESO');
+
+        console.log(" ============= ")
+        
+        console.log(tipoMov && tipoMov === 'EGRESO')
+
         try {
             const cajaEditarData = {
                 fecha_apertura: cajaAbierta.fecha_apertura,
                 fecha_cierre: cajaAbierta.fecha_cierre,
                 monto_cierre: cajaAbierta.monto_cierre,
                 monto_apertura: cajaAbierta.monto_apertura,
-                monto_total: tipoMovimiento === 'EGRESO' || (props.movimientoEditar && props.movimientoEditar.tipoMovimiento === 'EGRESO') ?
+                monto_total: (!tipoMov && tipoMovimiento === 'EGRESO') || (tipoMov && tipoMov === 'EGRESO') ?
                     parseFloat(cajaAbierta.monto_total) - parseFloat(monto) :
                     parseFloat(cajaAbierta.monto_total) + parseFloat(monto),
                 diferencia: cajaAbierta.resultado_diferencia,
@@ -331,7 +343,8 @@ const ModalMovimiento = (props) => {
             // EDITAR CAJA
             if (respuesta.status === 201 && respuestaMovEditar.status === 200) {
                 let pagoRespuesta;
-                const cajaModificada = await editarCaja();
+                let tipo = props.movimientoEditar.tipoMovimiento === 'EGRESO' ? 'INGRESO' : 'EGRESO';
+                const cajaModificada = await editarCaja(tipo);
 
                 if (descripcion === 'CompraMercaderia') {
                     // PAGO DEL PEDIDO Y ACTUALIZAR STOCK
@@ -351,6 +364,7 @@ const ModalMovimiento = (props) => {
     }
     const handleSubmit = async (e) => {
         let desc;
+
         e.preventDefault();
         // PAGO DE MERCADERIA
         if (descripcion === 'CompraMercaderia') {
@@ -385,11 +399,18 @@ const ModalMovimiento = (props) => {
             desc = descripcion;
         }
 
+
+
         if (monto <= 0 || campoRequerido(tipoMovimiento) === false) {
             setError(true);
             return;
         } else {
             setError(false);
+            setLoading(true);
+
+            if(loading){
+                return;
+            }
             // ENVIAR DATOS A LA API
             // Obtener nro de movimiento generado
             let nro_mov = await generarNumeroMov();
@@ -435,6 +456,9 @@ const ModalMovimiento = (props) => {
                             });
                             props.consultarMovimientos();
                             limpiarForm();
+                            setLoading(false);                
+
+                            props.handleClose();
                         }
                     }
                 } else {
@@ -459,9 +483,13 @@ const ModalMovimiento = (props) => {
                             });
                             props.consultarMovimientos();
                             limpiarForm();
+                            setLoading(false);                
+
+                            props.handleClose();
                         }
                     });
                 }
+
             } catch (error) {
                 console.log(error);
                 Swal.fire({
@@ -559,9 +587,17 @@ const ModalMovimiento = (props) => {
                             </article>
                         </div>
                         {
-                            props.agregarOeditar === 'agregar' ?
-                                <button type="submit" className='mt-4 btn btn-success'>Guardar</button> :
-                                <button type="submit" className='mt-4 btn btn-danger'>Eliminar</button>
+                            <button disabled={loading} type="submit" className={`${props.agregarOeditar === 'agregar' ? 'btn-success' : 'btn-danger'} mt-4 btn`}>
+                                {
+                                    loading ? <div className='d-flex align-items-center'>
+                                        <ClipLoader className='bg-transparent me-2' size={17} color="white" />
+                                        <span className='pe-4'>{props.agregarOeditar === 'agregar' ? 'Guardar' : 'Eliminar'}</span>
+                                    </div>
+                                        : <div className='d-flex align-items-center'>
+                                            <span className='px-4'>{props.agregarOeditar === 'agregar' ? 'Guardar' : 'Eliminar'}</span>
+                                        </div>
+                                }
+                            </button>
                         }
 
                         {error ? <Alert className='mt-1' variant='warning'>Todos los campos (*) son obligatorios</Alert> : null}

@@ -13,6 +13,7 @@ const Inicio = () => {
     const [montoTotal, setMontoTotal] = useState('');
     const navigate = useNavigate();
     const montoTotalMesRef = useRef(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         consultarEstadoCaja();
@@ -29,8 +30,9 @@ const Inicio = () => {
         setShowModal(true);
     };
     const consultarEstadoCaja = async () => {
-        try {
+        setLoading(true);
 
+        try {
             const response = await fetch(`${URL}/caja`, {
                 method: 'GET',
                 headers: {
@@ -52,6 +54,7 @@ const Inicio = () => {
 
                     setEstadoCaja(false);
                 }
+                setLoading(false);
             } else {
                 console.log('Error al obtener el estado de la caja');
             }
@@ -108,7 +111,7 @@ const Inicio = () => {
                             </div>
 
                             <div className='mt-auto mb-2 d-flex justify-content-center'>
-                                <button onClick={() => { abrirCaja() }} className='btn btn-dark'>{estadoCaja == false ? "Abrir caja" : "Cerrar caja"}</button>
+                                <button disabled={loading} onClick={() => { abrirCaja() }} className='btn btn-dark'>{estadoCaja == false ? "Abrir caja" : "Cerrar caja"}</button>
                             </div>
                         </div>
                     </article>

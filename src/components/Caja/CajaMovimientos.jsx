@@ -55,7 +55,7 @@ const CajaMovimientos = () => {
                     : 'COINCIDE';
 
                 fechaAperturaRef.current.value = caja.fecha_apertura;
-                fechaCierreRef.current.value = caja.fecha_cierre;
+                fechaCierreRef.current.value = caja.fecha_cierre || " ";
                 nroCajaRef.current.value = caja.nro_caja;
                 montoAperturaRef.current.value = caja.monto_apertura;
                 montoCierreRef.current.value = caja.monto_cierre;

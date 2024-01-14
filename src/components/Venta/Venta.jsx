@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { campoRequerido } from '../../common/helpers';
 import Swal from 'sweetalert2';
 import moment from 'moment';
+import { ClipLoader } from 'react-spinners';
 
 const Venta = () => {
     const [tipoComprobante, setTipoComprobante] = useState('X');
@@ -13,6 +14,7 @@ const Venta = () => {
     const [descuento, setDescuento] = useState('');
     const [cajaAbierta, setCajaAbierta] = useState(null);
     const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     // Ref
     const nroFacturaRef = useRef(null);
@@ -110,7 +112,7 @@ const Venta = () => {
             const res = await fetch(urlProd);
 
             if (res.status === 200) {
-                
+
                 const producto = await res.json();
                 if (producto) {
                     precioVentaRef.current.value = producto.precioVenta;
@@ -238,7 +240,10 @@ const Venta = () => {
     };
     const agregarDatos = () => {
         const cantidadTotal = sumarCantidadPorProducto(productoSeleccionado._id);
-        if (productoSeleccionado.stock < cantidadTotal || productoSeleccionado.stock < nuevoDato.cantidad && productoSeleccionado.permitirStockNegativo === false) {
+        if(nuevoDato.cantidad <= 0){
+            return;
+        }
+        if (productoSeleccionado.permitirStockNegativo === false && (productoSeleccionado.stock < cantidadTotal || productoSeleccionado.stock < nuevoDato.cantidad)) {
             Swal.fire({
                 title: 'No tiene stock suficiente',
                 text: 'Para poder agregarlo, modifique el producto para permitir stock negativo',
@@ -372,8 +377,8 @@ const Venta = () => {
                 monto_cierre: cajaAbierta.monto_cierre,
                 monto_apertura: cajaAbierta.monto_apertura,
                 monto_total: parseFloat(cajaAbierta.monto_total) +
-                (parseFloat(totalRef.current.value.replace(/[^\d,]/g, '').replace(',', '.')) || 0),
-                
+                    (parseFloat(totalRef.current.value.replace(/[^\d,]/g, '').replace(',', '.')) || 0),
+
                 diferencia: cajaAbierta.resultado_diferencia,
                 nro_caja: cajaAbierta.nro_caja,
                 estado_caja: cajaAbierta.estado_caja,
@@ -452,7 +457,6 @@ const Venta = () => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const datosGuardados = localStorage.getItem('datos-venta');
 
         // Validar
@@ -474,13 +478,15 @@ const Venta = () => {
             return;
         } else {
             try {
+                setLoading(true);
+
                 // ALTA MOVIMIENTO
                 let respuestaMovimiento = await altaMovimiento();
                 // Alta de venta/comprobante
                 if (respuestaMovimiento.status === 201) {
                     const movimientoCreado = await respuestaMovimiento.json();
                     const idMovimiento = movimientoCreado.movimiento._id;
-                    
+
 
                     const ventaData = {
                         tipo_comprobante: tipoComprobante,
@@ -551,6 +557,7 @@ const Venta = () => {
                             }
                         }
                         limpiarForm();
+                        setLoading(false);
                     }
                 }
             } catch (error) {
@@ -676,7 +683,17 @@ const Venta = () => {
                                 </div>
                             </article>
                             <article className='col-12 d-flex justify-content-end align-items-end my-3' aria-label='btn-pedido'>
-                                <button className='btn btn-lg btn-success'>Realizar pedido</button>
+                                <button disabled={loading} className='btn btn-lg btn-success'>
+                                    {
+                                        loading ? <div className='d-flex align-items-center'>
+                                            <ClipLoader className='bg-transparent me-2' size={17} color="white" />
+                                            <span className='pe-4'>Realizar Pedido</span>
+                                        </div>
+                                            : <div className='d-flex align-items-center'>
+                                                <span className='px-4'>Realizar Pedido</span>
+                                            </div>
+                                    }
+                                </button>
                             </article>
                         </article>
                     </form>

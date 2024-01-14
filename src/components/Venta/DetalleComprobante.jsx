@@ -3,12 +3,14 @@ import '../../css/consulta.css';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import Swal from 'sweetalert2';
+import { ClipLoader } from 'react-spinners';
 
 const DetalleComprobante = () => {
     const URL = process.env.REACT_APP_API_URL;
     const [detalleVentas, setDetalleVentas] = useState(null);
     const [venta, setVenta] = useState(null);
     const [cajaAbierta, setCajaAbierta] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const botonCancelarRef = useRef(null);
     const ventaId = useParams();
@@ -244,7 +246,8 @@ const DetalleComprobante = () => {
             return;
         }
         try {
-            // Alta de venta/comprobante
+            setLoading(true);
+            // Editar venta/comprobante
 
             const ventaData = {
                 tipo_comprobante: venta.tipo_comprobante,
@@ -256,7 +259,7 @@ const DetalleComprobante = () => {
                 estado: 'CANCELADO',
                 movimiento_id: venta.movimiento_id
             };
-            const respuestaVenta = await fetch(`${URL}/venta/${venta.id}`, {
+            const respuestaVenta = await fetch(`${URL}/venta/${venta._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -265,14 +268,13 @@ const DetalleComprobante = () => {
             });
 
             if (respuestaVenta.status === 200) {
-                const idVentaGenerada = (await respuestaVenta.json())._id;
 
                 // ALTA MOVIMIENTO
                 let mov = await altaMovimiento();
                 // EDITAR CAJA
                 let caja = await editarCaja();
                 // EDITAR PRODUCTO
-                let prodActualizar = await actualizarStockProd(idVentaGenerada);
+                let prodActualizar = await actualizarStockProd(venta._id);
 
                 if (mov === true && caja === true && prodActualizar === true) {
                     // MENSAJE DE EXITO
@@ -289,6 +291,7 @@ const DetalleComprobante = () => {
                     });
                 }
             }
+            setLoading(false);
         } catch (error) {
             console.log(error);
         }
@@ -341,7 +344,17 @@ const DetalleComprobante = () => {
                         {/* Subtotal */}
                         <article className='row'>
                             <article className='col-6'>
-                                <button ref={botonCancelarRef} type='submit' className='btn btn-lg btn-danger'>Cancelar venta</button>
+                                <button disabled={loading || venta?.estado == "CANCELADO"} ref={botonCancelarRef} type='submit' className='btn btn-lg btn-danger'>
+                                {
+                                        loading ? <div className='d-flex align-items-center'>
+                                            <ClipLoader className='bg-transparent me-2' size={17} color="white" />
+                                            <span className='pe-4'>Cancelar venta</span>
+                                        </div>
+                                            : <div className='d-flex align-items-center'>
+                                                <span className='px-4'>Cancelar venta</span>
+                                            </div>
+                                }
+                                </button>
                             </article>
                             <div className='col-6 ms-auto' aria-label='subtotal'>
                                 <input className='mt-1 form-control text-end' value={new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(parseFloat(venta?.subtotal || 0))} disabled type='text'></input>

@@ -32,7 +32,7 @@ a,p,h3{
 
 /* Pantallas pequeñas (celulares) */
 @media screen and (max-width: 576px) {
-    a,p,span{
+    a,p{
         font-family: 'fuente-4';
         font-size: 1.2rem;
     }
@@ -46,7 +46,7 @@ a,p,h3{
     h1{
         font-size: 1.5rem !important;
     }
-    a,p,span{
+    a,p{
         font-family: 'fuente-4';
         font-size: 1.5rem;
     }

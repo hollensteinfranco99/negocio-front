@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { campoRequerido, rangoPrecio } from '../../common/helpers'
 import Swal from 'sweetalert2';
 import { Modal, Alert } from 'react-bootstrap';
+import { ClipLoader } from 'react-spinners';
 
 const ModalProducto = (props) => {
     const URL = process.env.REACT_APP_API_URL;
@@ -12,6 +13,7 @@ const ModalProducto = (props) => {
     const [precioVenta, setPrecioVenta] = useState('');
     const [stock, setStock] = useState('');
     const [stockNegativo,setStockNegativo] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const [error, setError] = useState(false);
     const myFormRef = useRef(null);
@@ -40,7 +42,7 @@ const ModalProducto = (props) => {
     };
 
     const cargarDatos = () => {
-
+        localStorage.clear();
         setCodigo(() => props.productoEditar.codigo);
         setNombre(() => props.productoEditar.nombre);
         setMarca(() => props.productoEditar.marca);
@@ -65,8 +67,9 @@ const ModalProducto = (props) => {
         } else {
             setError(false);
             // Enviar datos a la API
-
+            
             try {
+                setLoading(true);
                 let respuesta;
 
                 // DATOS
@@ -121,6 +124,7 @@ const ModalProducto = (props) => {
                         props.consultarProducto();
                     }
                 }
+                setLoading(false);
             } catch (error) {
                 console.log(error);
                 Swal.fire({
@@ -236,7 +240,17 @@ const ModalProducto = (props) => {
                             </article>
                             </section>
                         </div>
-                        <button type="submit" className='mt-4 btn btn-success'>Guardar</button>
+                        <button disabled={loading} type="submit" className='mt-4 btn btn-success'>
+                        {
+                                        loading ? <div className='d-flex align-items-center'>
+                                            <ClipLoader className='bg-transparent me-2' size={17} color="white" />
+                                            <span className='pe-4'>Guardar</span>
+                                        </div>
+                                            : <div className='d-flex align-items-center'>
+                                                <span className='px-4'>Guardar</span>
+                                            </div>
+                        }
+                        </button>
                         {error ? <Alert className='mt-1' variant='warning'>Todos los campos (*) son obligatorios</Alert> : null}
                     </form>
                 </Modal.Body>

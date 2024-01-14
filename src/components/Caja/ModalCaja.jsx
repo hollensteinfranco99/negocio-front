@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import moment from 'moment';
+import { ClipLoader } from 'react-spinners';
 
 const ModalCaja = (props) => {
     const URL = process.env.REACT_APP_API_URL;
@@ -14,6 +15,7 @@ const ModalCaja = (props) => {
     const [fecha_cierre, setFechaCierre] = useState('');
     const [diferencia, setDiferencia] = useState('');
     const [diferenciaTxt, setDiferenciaTxt] = useState('');
+    const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
@@ -79,6 +81,7 @@ const ModalCaja = (props) => {
         e.preventDefault();
 
         try {
+            setLoading(true);
             let resultado_diferencia;
             resultado_diferencia = parseFloat(monto_cierre) - parseFloat(monto_total);
             const etiquetaResultado = resultado_diferencia > 0
@@ -125,7 +128,7 @@ const ModalCaja = (props) => {
                     fecha_cierre: moment().format('DD/MM/YY HH:mm'),
                     monto_cierre: monto_cierre,
                     monto_apertura: monto_apertura,
-                    monto_total: monto_apertura, // apertura + venta
+                    monto_total: monto_total, // apertura + venta
                     diferencia: resultado_diferencia,
                     nro_caja: nro_caja,
                     estado_caja: 'CERRADA',
@@ -165,6 +168,7 @@ const ModalCaja = (props) => {
                     props.handleClose();
                 }
             }
+            setLoading(false);
         } catch (error) {
             console.log(error);
             Swal.fire({
@@ -199,7 +203,17 @@ const ModalCaja = (props) => {
                                 <label className='mt-1'>Monto de cierre</label>
                                 <input value={monto_cierre} onChange={(e) => setMontoCierre(e.target.value)} className='mt-2 form-control' disabled={props.abrirCajaState === 'abrir' ? true : false} type='number' placeholder='0.00' />
                             </div>
-                            <button onClick={handleSubmit} type="submit" className='mt-4 btn btn-success'>Guardar</button>
+                            <button disabled={loading} type="submit" className='mt-4 d-flex justify-content-center btn btn-success'>
+                                {
+                                    loading ? <div className='d-flex align-items-center'>
+                                        <ClipLoader className='bg-transparent me-2' size={17} color="white" />
+                                        <span className='pe-4'>Guardar</span>
+                                    </div>
+                                        : <div className='d-flex align-items-center'>
+                                            <span className='px-4'>Guardar</span>
+                                        </div>
+                                }
+                            </button>
                         </article>
                     </form>
                 </Modal.Body>
