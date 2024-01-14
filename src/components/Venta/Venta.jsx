@@ -108,7 +108,6 @@ const Venta = () => {
         try {
             const urlProd = `${URL}/productoPorCodigo?codigo=${codigo}`;
             const res = await fetch(urlProd);
-            console.log(res.status);
 
             if (res.status === 200) {
                 
@@ -366,7 +365,6 @@ const Venta = () => {
         }
     }
     const editarCaja = async () => {
-        console.log(totalRef.current.value.replace(/[^\d.-]/g, ''));
         try {
             const cajaEditarData = {
                 fecha_apertura: cajaAbierta.fecha_apertura,
