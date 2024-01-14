@@ -180,14 +180,6 @@ const ModalMovimiento = (props) => {
     }
     const editarCaja = async (tipoMov) => {
 
-        console.log(" ============= ")
-
-        console.log(!tipoMov && tipoMovimiento === 'EGRESO');
-
-        console.log(" ============= ")
-        
-        console.log(tipoMov && tipoMov === 'EGRESO')
-
         try {
             const cajaEditarData = {
                 fecha_apertura: cajaAbierta.fecha_apertura,
