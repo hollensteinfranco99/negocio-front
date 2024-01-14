@@ -29,6 +29,12 @@ const CompraPedido = () => {
     const [datos, setDatos] = useState([
     ]);
     const [nuevoDato, setNuevoDato] = useState({ producto_id: '', nombreProducto: '', precio: '', cantidad: '', subtotal: '' });
+    // Fecha validar
+    const today = new Date().toISOString().split('T')[0]; // Fecha actual en formato "YYYY-MM-DD"
+    const maxDate = new Date();
+    maxDate.setFullYear(maxDate.getFullYear() + 50);
+    const maxDateString = maxDate.toISOString().split('T')[0]; // Fecha actual + 50 años en formato "YYYY-MM-DD"
+
 
     useEffect(() => {
         if (productoId.id) {
@@ -248,6 +254,11 @@ const CompraPedido = () => {
             }
         }
     }
+    const validarFecha = (fecha) =>{
+        if (fecha >= today && fecha <= maxDateString){
+            setFechaEstimada(fecha);
+        }
+    }
     const handleProducto = (e) => {
         e.preventDefault();
         codigoRef.current.defaultValue = e.target.value;
@@ -258,9 +269,11 @@ const CompraPedido = () => {
         }
     }
     const agregarDescuento = () => {
-        localStorage.setItem('descuentos', JSON.stringify([descuento]));
-        descuentoTotalRef.current.value = parseFloat(descuento).toFixed(2) + " %";
-        actualizarTotal();
+        if(descuento <= 100 && descuento >= 0){
+            localStorage.setItem('descuentos', JSON.stringify([descuento]));
+            descuentoTotalRef.current.value = parseFloat(descuento).toFixed(2) + " %";
+            actualizarTotal();
+        }
     }
     // detalle
     const obtenerDatos = (valueOrEvent) => {
@@ -367,8 +380,8 @@ const CompraPedido = () => {
                                 <input value={proveedor} onChange={(e) => setProveedor(e.target.value)} className='form-control' placeholder='Nombre del proveedor' type="text" />
                             </div>
                             <div className='form-group col-lg-6 col-sm-12 mt-2'>
-                                <label>Fecha estimada</label>
-                                <input data-toggle="tooltip" data-placement="bottom" title="Fecha mayor o igual al dia de hoy"  value={fechaEstimada} onChange={(e) => setFechaEstimada(e.target.value)} className='form-control' type='date' />
+                                <label>Fecha estimada (mayor o igual a la fecha de hoy)</label>
+                                <input data-toggle="tooltip" data-placement="bottom" title="Fecha mayor o igual al dia de hoy"  value={fechaEstimada} onChange={(e) => validarFecha(e.target.value)} min={today} max={maxDateString} className='form-control' type='date' />
                             </div>
                         </article>
                         {/* Segunda fila */}
@@ -397,7 +410,7 @@ const CompraPedido = () => {
                             </div>
                             <div className='form-group col-6 col-lg-3 mt-2'>
                                 <label>Descuento</label>
-                                <input onChange={(e) => setDescuento(e.target.value)} placeholder='0.00' step='0.1' className='form-control' type="number" />
+                                <input min={0} max={100} onChange={(e) => setDescuento(e.target.value)} placeholder='0.00' step='0.1' className='form-control' type="number" />
                             </div>
 
                             <article className='container row col-6 col-lg-3'>

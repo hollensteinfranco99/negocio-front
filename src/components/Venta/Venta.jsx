@@ -177,9 +177,11 @@ const Venta = () => {
         }
     }
     const agregarDescuento = () => {
-        localStorage.setItem('descuentos-venta', JSON.stringify([descuento]));
-        descuentoTotalRef.current.value = parseFloat(descuento || 0).toFixed(2) + " %";
-        actualizarTotal();
+        if(descuento >= 0 && descuento <= 100){
+            localStorage.setItem('descuentos-venta', JSON.stringify([descuento]));
+            descuentoTotalRef.current.value = parseFloat(descuento || 0).toFixed(2) + " %";
+            actualizarTotal();
+        }
     }
     // detalle
     const obtenerDatos = (valueOrEvent) => {
@@ -615,7 +617,7 @@ const Venta = () => {
                             </div>
                             <div className='form-group col-6 col-lg-3 mt-2'>
                                 <label>Descuento</label>
-                                <input onChange={(e) => setDescuento(e.target.value)} placeholder='0.00' step='0.1' className='form-control' type="number" />                            </div>
+                                <input onChange={(e) => setDescuento(e.target.value)} min={0} max={100} placeholder='0.00' step='0.1' className='form-control' type="number" />                            </div>
                             <article className='container row col-6 col-lg-3'>
 
                                 {/* Botones */}
