@@ -57,19 +57,3 @@
     box-shadow: 0 3px 10px -2px rgba(0, 0, 0, 0.5);
     padding: 0.5rem;
 }
-
-/* Pantallas pequeñas (celulares) */
-@media screen and (max-width: 576px) {
-.app-contenedor {
-    width: 100%;
-    height: 18rem;
-}
-}
-
-/* Pantallas medianas (tabletas) */
-@media screen and (min-width: 577px) and (max-width: 992px) {
-.app-contenedor {
-    width: 100%;
-    height: 25rem;
-}
-}
